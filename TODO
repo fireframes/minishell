@@ -1,0 +1,18 @@
+0. extract envvar into array
+
+1. main loop running
+
+	- fork to execve
+	- test with std syst cmds (ls / grep / wc / cat / etc..)
+	- multipiping
+		{array of fds, }
+
+2. implement subject built-ins (8 funcs)
+
+3. lexer-parser-expander
+
+4. heredoc
+
+5. signals
+
+
