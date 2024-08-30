@@ -10,9 +10,9 @@ HEADERS		:=	-Iinclude
 #LIBS		:=	$(LIBFT) $(LIBFTPRINTF)
 
 SRCS_DIR	:=	./src/
-SRCS 		:=	minishell.c		\
-				util_path.c		\
-				util_split.c	\
+SRCS 		:=	minishell_tmp.c		\
+				util_path.c			\
+				util_split.c		\
 				util_strjoin.c
 
 SRCS		:=	$(addprefix $(SRCS_DIR), $(SRCS))
