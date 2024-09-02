@@ -11,14 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdbool.h>
-#include <sys/wait.h>
-
-typedef struct	s_command
-{
-	char **args;
-	char *cmd_path;
-}	t_command;
 
 int	error_check(int ret_val, const char *err_msg, int close_fd)
 {
@@ -59,7 +51,7 @@ void	free_commands(t_command *commands, int cmd_cnt)
 	commands = NULL;
 }
 
-void child_process(t_command cmd, int read_fd, int write_fd, char **envp)
+void	child_process(t_command cmd, int read_fd, int write_fd, char **envp)
 {
 	if (read_fd != STDIN_FILENO)
 	{
@@ -77,60 +69,57 @@ void child_process(t_command cmd, int read_fd, int write_fd, char **envp)
 	exit(EXIT_FAILURE);
 }
 
-bool execute_cmd(char *read_line, char **envp)
+void	execute_cmd(char *read_line, char **envp)
 {
 	char		**prompt_split;
-	int			cmd_cnt;
+	int			cmd_count;
 	t_command	*commands;
 
-	cmd_cnt = 0;
-
+	cmd_count = 0;
 	prompt_split = split_v2(read_line, '|');
-	if (!prompt_split)
-		return (false);
-
-	while (prompt_split[cmd_cnt])
-		cmd_cnt++;
-
-	commands = malloc(sizeof(t_command) * cmd_cnt);
+	// if (!prompt_split)
+	while (prompt_split[cmd_count])
+		cmd_count++;
+	commands = malloc(sizeof(t_command) * cmd_count);
 	if (!commands)
 	{
 		free_split(prompt_split);
-		return (false);
 	}
+	commands->total_commands = cmd_count;
 
+//	DIVIDE FUNCTION HERE
+ 
 	int i = 0;
-	while (i < cmd_cnt)
+	while (i < cmd_count)
 	{
 		commands[i].args = split_v2(prompt_split[i], ' ');
 		commands[i].cmd_path = find_command_path(commands[i].args[0], envp, &prompt_split[i]);
+		commands[i].command_index = i;
 		// TODO wrap into command_error()
 		if (!commands[i].cmd_path)
 		{
 			printf("command not found: %s\n", commands[i].args[0]);
-			free_commands(commands, cmd_cnt);
+			free_commands(commands, cmd_count);
 			free_split(prompt_split);
-			return (false);
 		}
 		i++;
 	}
 
 	int (*pipes)[2];
 
-	pipes = malloc(sizeof(*pipes) * (cmd_cnt - 1));
+	pipes = malloc(sizeof(*pipes) * (cmd_count - 1));
 	if (!pipes)
 	{
-		free_commands(commands, cmd_cnt);
-		return (false);
+		free_commands(commands, cmd_count);
 	}
 
 	i = 0;
-	while (i < cmd_cnt - 1)
+	while (i < cmd_count - 1)
 	{
 		if (pipe(pipes[i]) == -1)
 		{
 			perror("pipe");
-			free_commands(commands, cmd_cnt);
+			free_commands(commands, cmd_count);
 			free_split(prompt_split);
 
 		}
@@ -144,17 +133,16 @@ bool execute_cmd(char *read_line, char **envp)
 
 	i = 0;
 
-	while (i < cmd_cnt)
+	while (i < cmd_count)
 	{
 		pid = fork();
 		if (pid == -1)
 		{
 			perror("fork");
 			// TODO: handle error, close pipes, free resources, etc...
-			free_commands(commands, cmd_cnt);
+			free_commands(commands, cmd_count);
 			free_split(prompt_split);
 
-			return (false);
 		}
 		else if (pid == 0)
 		{
@@ -164,14 +152,14 @@ bool execute_cmd(char *read_line, char **envp)
 			else
 				read_fd = pipes[i - 1][0];
 
-			if (i == cmd_cnt - 1)
+			if (i == cmd_count - 1)
 				write_fd = STDOUT_FILENO;
 			else
 				write_fd = pipes[i][1];
 
 			// Close unused pipe ends
 			int j = 0;
-			while (j < cmd_cnt - 1)
+			while (j < cmd_count - 1)
 			{
 				if (j != i - 1)
 					close(pipes[j][0]);
@@ -187,7 +175,7 @@ bool execute_cmd(char *read_line, char **envp)
 	// PARENT PROCESS
 	// Close all pipe ends and wait for all child processes to finish
 	i = 0;
-	while (i < cmd_cnt - 1)
+	while (i < cmd_count - 1)
 	{
 		close(pipes[i][0]);
 		close(pipes[i][1]);
@@ -195,45 +183,45 @@ bool execute_cmd(char *read_line, char **envp)
 	}
 
 	i = 0;
-	while (i < cmd_cnt)
+	while (i < cmd_count)
 	{
 		wait(NULL);
 		i++;
 	}
 
 	// Free allocated resources
-	free_commands(commands, cmd_cnt);
+	free_commands(commands, cmd_count);
 	free_split(prompt_split);
-	return (true);
 }
 
-void terminal_line(char **envp)
+// TODO: exit the infinite loop with SIGNALS;
+// EOF (Ctrl+D) is dealt with the if (!read_line) {break} ; is that enough?
+// QUESTION: Do erroneous command go to history?
+// TODO: handle errors here?
+// QUESTION: since we are not mallocing read_line, should we free it?
+void terminal_prompt(char **envp)
 {
-	char *read_line = NULL;
+	char *read_line;
 
-	while (1) // TODO: exit loop with SIGNALS
+	while (1)
 	{
 		read_line = readline(">> ");
 		if (!read_line)
-			break ;  // EOF (Ctrl+D)
-
+			break ;
 		if (*read_line)
 		{
 			add_history(read_line);
+			// split_and_count_pipes(read_line);
 			execute_cmd(read_line, envp);
-			// TODO: handle error
 		}
 		free(read_line);
 	}
 }
 
-int main(int argc, char **argv, char **envp)
+int main(int argc, char **envp)
 {
-	(void) argv;
 	if (argc != 1)
 		return 1;
-
-	terminal_line(envp); // TODO: handle errors ?
-
-	return 0;
+	terminal_prompt(envp);
+	return (0);
 }

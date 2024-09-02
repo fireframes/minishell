@@ -13,21 +13,32 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdlib.h>
-# include <stdio.h>
-# include <unistd.h>
 # include <errno.h>
 # include <fcntl.h>
-# include <string.h>
-# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
-// util_split.c
+typedef struct	s_command
+{
+	char	**args;
+	char	*cmd_path;
+    int		total_commands;
+    int     command_index;
+}	t_command;
+
+// util_split.c:
 char	**split_v2(char const *s, char c);
-// util_path.c
+
+// util_path.c:
 char	*find_command_path(char *command, char **envp, char **cmd_flags);
-// util_strjoin.c
+
+// util_strjoin.c:
 char	*strnstr_v2(const char *haystack, const char *needle, size_t len);
 char	*strjoin_v2(char const *s1, char const *s2);
 
