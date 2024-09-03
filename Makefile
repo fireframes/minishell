@@ -1,6 +1,6 @@
 NAME		:=	minishell
 
-CFLAGS		:=	-Wextra -Wall -Werror
+CFLAGS		:=	-Wextra -Wall -Werror -g
 LDFLAGS		:=	-lreadline
 
 HEADERS		:=	-Iinclude

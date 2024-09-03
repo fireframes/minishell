@@ -69,62 +69,71 @@ void	child_process(t_command cmd, int read_fd, int write_fd, char **envp)
 	exit(EXIT_FAILURE);
 }
 
-void	execute_cmd(char *read_line, char **envp)
+// QUESTION: protection needed after split call (if (!prompt_split)...)?
+// void	execute_cmd(char *read_line, char **envp)
+//	!!! CHANGE for: 
+t_command	*init_global_and_pipes(char *read_line)
 {
-	char		**prompt_split;
+	char		**cmds_split;
 	int			cmd_count;
 	t_command	*commands;
 
 	cmd_count = 0;
-	prompt_split = split_v2(read_line, '|');
-	// if (!prompt_split)
-	while (prompt_split[cmd_count])
+	cmds_split = split_v2(read_line, '|');
+	while (cmds_split[cmd_count])
 		cmd_count++;
 	commands = malloc(sizeof(t_command) * cmd_count);
 	if (!commands)
-	{
-		free_split(prompt_split);
-	}
-	commands->total_commands = cmd_count;
+		free_split(cmds_split);
+	commands->cmds_split = cmds_split;
+	commands->total_cmds = cmd_count;
+	return (commands);
+}
 
-//	DIVIDE FUNCTION HERE
- 
+// TODO wrap the if(...) into command_error()
+void	cmds_path(t_command *commands, char **envp)
+{
 	int i = 0;
-	while (i < cmd_count)
+
+	while (i < commands->total_cmds)
 	{
-		commands[i].args = split_v2(prompt_split[i], ' ');
-		commands[i].cmd_path = find_command_path(commands[i].args[0], envp, &prompt_split[i]);
+		commands[i].args = split_v2(commands->cmds_split[i], ' ');
+		commands[i].cmd_path = find_command_path(commands[i].args[0], envp, &commands->cmds_split[i]);
 		commands[i].command_index = i;
-		// TODO wrap into command_error()
 		if (!commands[i].cmd_path)
 		{
 			printf("command not found: %s\n", commands[i].args[0]);
-			free_commands(commands, cmd_count);
-			free_split(prompt_split);
+			free_commands(commands, commands->total_cmds);
+			free_split(commands->cmds_split);
 		}
 		i++;
 	}
+}
 
+void	init_pipes(t_command *commands, char **envp)
+{
 	int (*pipes)[2];
+	int i;
 
-	pipes = malloc(sizeof(*pipes) * (cmd_count - 1));
+	pipes = malloc(sizeof(*pipes) * (commands->total_cmds - 1));
 	if (!pipes)
 	{
-		free_commands(commands, cmd_count);
+		free_commands(commands, commands->total_cmds);
 	}
 
 	i = 0;
-	while (i < cmd_count - 1)
+	while (i < commands->total_cmds - 1)
 	{
 		if (pipe(pipes[i]) == -1)
 		{
 			perror("pipe");
-			free_commands(commands, cmd_count);
-			free_split(prompt_split);
-
+			free_commands(commands, commands->total_cmds);
+			free_split(commands->cmds_split);
 		}
 		i++;
 	}
+
+//	!!! DIVIDE FUNCTION HERE???
 
 	// Fork child processes
 	pid_t	pid;
@@ -133,15 +142,15 @@ void	execute_cmd(char *read_line, char **envp)
 
 	i = 0;
 
-	while (i < cmd_count)
+	while (i < commands->total_cmds)
 	{
 		pid = fork();
 		if (pid == -1)
 		{
 			perror("fork");
 			// TODO: handle error, close pipes, free resources, etc...
-			free_commands(commands, cmd_count);
-			free_split(prompt_split);
+			free_commands(commands, commands->total_cmds);
+			free_split(commands->cmds_split);
 
 		}
 		else if (pid == 0)
@@ -152,14 +161,14 @@ void	execute_cmd(char *read_line, char **envp)
 			else
 				read_fd = pipes[i - 1][0];
 
-			if (i == cmd_count - 1)
+			if (i == commands->total_cmds - 1)
 				write_fd = STDOUT_FILENO;
 			else
 				write_fd = pipes[i][1];
 
 			// Close unused pipe ends
 			int j = 0;
-			while (j < cmd_count - 1)
+			while (j < commands->total_cmds - 1)
 			{
 				if (j != i - 1)
 					close(pipes[j][0]);
@@ -172,10 +181,12 @@ void	execute_cmd(char *read_line, char **envp)
 		i++;
 	}
 
+//	!!! DIVIDE FUNCTION HERE???
+
 	// PARENT PROCESS
 	// Close all pipe ends and wait for all child processes to finish
 	i = 0;
-	while (i < cmd_count - 1)
+	while (i < commands->total_cmds - 1)
 	{
 		close(pipes[i][0]);
 		close(pipes[i][1]);
@@ -183,15 +194,14 @@ void	execute_cmd(char *read_line, char **envp)
 	}
 
 	i = 0;
-	while (i < cmd_count)
+	while (i < commands->total_cmds)
 	{
 		wait(NULL);
 		i++;
 	}
-
 	// Free allocated resources
-	free_commands(commands, cmd_count);
-	free_split(prompt_split);
+	free_split(commands->cmds_split);
+	free_commands(commands, commands->total_cmds);
 }
 
 // TODO: exit the infinite loop with SIGNALS;
@@ -202,6 +212,7 @@ void	execute_cmd(char *read_line, char **envp)
 void terminal_prompt(char **envp)
 {
 	char *read_line;
+	t_command	*commands;
 
 	while (1)
 	{
@@ -211,8 +222,10 @@ void terminal_prompt(char **envp)
 		if (*read_line)
 		{
 			add_history(read_line);
-			// split_and_count_pipes(read_line);
-			execute_cmd(read_line, envp);
+			commands = init_global_and_pipes(read_line);
+			cmds_path(commands, envp);
+			init_pipes(commands, envp);
+			// execute_cmd(read_line, envp);
 		}
 		free(read_line);
 	}
