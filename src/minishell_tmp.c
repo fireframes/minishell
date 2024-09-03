@@ -79,6 +79,7 @@ t_command	*init_global_and_pipes(char *read_line)
 	t_command	*commands;
 
 	cmd_count = 0;
+	cmds_split = NULL;
 	cmds_split = split_v2(read_line, '|');
 	while (cmds_split[cmd_count])
 		cmd_count++;
@@ -103,8 +104,8 @@ void	cmds_path(t_command *commands, char **envp)
 		if (!commands[i].cmd_path)
 		{
 			printf("command not found: %s\n", commands[i].args[0]);
+			// free_split(commands->cmds_split);
 			free_commands(commands, commands->total_cmds);
-			free_split(commands->cmds_split);
 		}
 		i++;
 	}
@@ -224,8 +225,8 @@ void terminal_prompt(char **envp)
 			add_history(read_line);
 			commands = init_global_and_pipes(read_line);
 			cmds_path(commands, envp);
+			// IMPORTANT: if no path, do not execute the remaining process
 			init_pipes(commands, envp);
-			// execute_cmd(read_line, envp);
 		}
 		free(read_line);
 	}
