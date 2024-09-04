@@ -29,6 +29,7 @@ typedef struct	s_command
     char	**cmds_split;
     int		total_cmds;
 	char	**args;
+    bool    path_found;
 	char	*cmd_path;
     int     command_index;
 }	t_command;

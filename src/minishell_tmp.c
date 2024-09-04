@@ -106,7 +106,10 @@ void	cmds_path(t_command *commands, char **envp)
 			printf("command not found: %s\n", commands[i].args[0]);
 			// free_split(commands->cmds_split);
 			free_commands(commands, commands->total_cmds);
+			commands[i].path_found = false;
 		}
+		else
+			commands[i].path_found = true;
 		i++;
 	}
 }
