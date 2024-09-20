@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:16:31 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/20 16:00:27 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:12:31 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ void	child_process(t_command cmd, int read_fd, int write_fd, char **envp)
 		dup2(write_fd, STDOUT_FILENO);
 		close(write_fd);
 	}
+	// if (commands->is_builtin)
+	// 		execute_builtin(commands);
+	// else
 	execve(cmd.cmd_path, cmd.args, envp);
 	// TODO: handle error, close pipes, free resources, etc...
 	perror("execve");
