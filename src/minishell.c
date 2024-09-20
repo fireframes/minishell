@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_tmp.c                                    :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:16:31 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/08/30 22:16:34 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:00:27 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,17 @@ void	child_process(t_command cmd, int read_fd, int write_fd, char **envp)
 	exit(EXIT_FAILURE);
 }
 
+// TODO: PARSING!
 // QUESTION: protection needed after split call (if (!prompt_split)...)?
 // void	execute_cmd(char *read_line, char **envp)
-//	!!! CHANGE for: 
-t_command	*init_global_and_pipes(char *read_line)
+//	!!! CHANGE for:
+t_command	*init_global(char *read_line)
 {
 	char		**cmds_split;
 	int			cmd_count;
 	t_command	*commands;
 
+	// check if builtin then commands->is_builtin = true
 	cmd_count = 0;
 	cmds_split = NULL;
 	cmds_split = split_v2(read_line, '|');
@@ -226,10 +228,28 @@ void terminal_prompt(char **envp)
 		if (*read_line)
 		{
 			add_history(read_line);
-			commands = init_global_and_pipes(read_line);
-			cmds_path(commands, envp);
+			commands = init_global(read_line); // Pasrsing should be done here
+
+			// FOR TESTING
+			// if (commands->is_builtin)
+			// 	execute_builtin(commands);
+
+			cmds_path(rl_completion_word_break_hook, envp);  // should be migrated to the Parsing Module
 			// IMPORTANT: if no path, do not execute the remaining process
 			init_pipes(commands, envp);
+
+			/* PSUEDO
+			if (commands->total_cmds > 1)
+				init_pipes(commands, envp);
+				execute_command()
+			else
+				execute_command()  --- same construction should work if piping
+					if (commands->is_builtin)
+						execute_builtin(commands);
+					else
+						execve(commands, etc...);
+			*/
+
 		}
 		free(read_line);
 	}

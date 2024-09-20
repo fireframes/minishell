@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/08/28 15:14:10 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/20 15:34:42 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@
 
 typedef struct	s_command
 {
-    char	**cmds_split;
-    int		total_cmds;
+	char	**cmds_split;
+	int		total_cmds;
 	char	**args;
-    bool    path_found;
+	bool	path_found;
 	char	*cmd_path;
-    int     command_index;
+	int		command_index;
+	bool	is_builtin;
 }	t_command;
 
 // util_split.c:
