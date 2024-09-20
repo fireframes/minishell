@@ -5,15 +5,17 @@ LDFLAGS		:=	-lreadline
 
 HEADERS		:=	-Iinclude
 
-# LIBFT		:=	./lib/libft.a
-# LIBFTPRINTF	:=	./lib/libftprintf.a
-#LIBS		:=	$(LIBFT) $(LIBFTPRINTF)
+LIBFT		:=	./lib/libft.a
+LIBS		:=	$(LIBFT)
 
 SRCS_DIR	:=	./src/
-SRCS 		:=	minishell_tmp.c		\
-				util_path.c			\
-				util_split.c		\
-				util_strjoin.c
+SRCS 		:=	minishell.c		\
+				checker.c		\
+				util_path.c		\
+				util_split.c	\
+				util_strjoin.c	\
+				execution.c		\
+				ft_echo.c
 
 SRCS		:=	$(addprefix $(SRCS_DIR), $(SRCS))
 
@@ -25,7 +27,7 @@ all: $(NAME)
 	@echo "Compiling $< to $@..."
 	$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS)
 
-$(NAME): $(LIBFT) $(LIBFTPRINTF) $(OBJS)
+$(NAME): $(OBJS) $(LIBS)
 	@$(CC) $(OBJS) $(LIBS) $(LDFLAGS) -o $(NAME)
 	@echo "Linking object files to create $(NAME)..."
 	@echo "\n'$(NAME)' binary successfully created."

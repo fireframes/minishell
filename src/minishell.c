@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:16:31 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/20 16:12:31 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/20 20:38:59 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	free_commands(t_command *commands, int cmd_cnt)
 	free(commands);
 	commands = NULL;
 }
-
+// TODO: handle error, close pipes, free resources, etc...
 void	child_process(t_command cmd, int read_fd, int write_fd, char **envp)
 {
 	if (read_fd != STDIN_FILENO)
@@ -63,13 +63,18 @@ void	child_process(t_command cmd, int read_fd, int write_fd, char **envp)
 		dup2(write_fd, STDOUT_FILENO);
 		close(write_fd);
 	}
-	// if (commands->is_builtin)
-	// 		execute_builtin(commands);
-	// else
-	execve(cmd.cmd_path, cmd.args, envp);
-	// TODO: handle error, close pipes, free resources, etc...
-	perror("execve");
-	exit(EXIT_FAILURE);
+	if (cmd.is_builtin)
+	{
+		execute_builtin(&cmd);
+		exit(EXIT_SUCCESS);
+	}
+	else
+	{
+		execve(cmd.cmd_path, cmd.args, envp);
+		perror("execve");
+		exit(EXIT_FAILURE);
+	}
+
 }
 
 // TODO: PARSING!
@@ -82,7 +87,6 @@ t_command	*init_global(char *read_line)
 	int			cmd_count;
 	t_command	*commands;
 
-	// check if builtin then commands->is_builtin = true
 	cmd_count = 0;
 	cmds_split = NULL;
 	cmds_split = split_v2(read_line, '|');
@@ -97,24 +101,32 @@ t_command	*init_global(char *read_line)
 }
 
 // TODO wrap the if(...) into command_error()
-void	cmds_path(t_command *commands, char **envp)
+// BIG PARSING MODULE!
+void	cmds_parse(t_command *commands, char **envp)
 {
 	int i = 0;
 
 	while (i < commands->total_cmds)
 	{
-		commands[i].args = split_v2(commands->cmds_split[i], ' ');
-		commands[i].cmd_path = find_command_path(commands[i].args[0], envp, &commands->cmds_split[i]);
 		commands[i].command_index = i;
-		if (!commands[i].cmd_path)
-		{
-			printf("command not found: %s\n", commands[i].args[0]);
-			// free_split(commands->cmds_split);
-			free_commands(commands, commands->total_cmds);
-			commands[i].path_found = false;
-		}
+		// parsing here?
+		commands[i].args = split_v2(commands->cmds_split[i], ' ');
+		// after parsing
+		if (check_builtin(&commands[i]))
+			commands[i].is_builtin = true;
 		else
-			commands[i].path_found = true;
+		{
+			commands[i].cmd_path = find_command_path(commands[i].args[0], envp, &commands->cmds_split[i]);
+			if (!commands[i].cmd_path)
+			{
+				printf("command not found: %s\n", commands[i].args[0]);
+				// free_split(commands->cmds_split);
+				free_commands(commands, commands->total_cmds);
+				commands[i].path_found = false;
+			}
+			else
+				commands[i].path_found = true;
+		}
 		i++;
 	}
 }
@@ -233,26 +245,14 @@ void terminal_prompt(char **envp)
 			add_history(read_line);
 			commands = init_global(read_line); // Pasrsing should be done here
 
-			// FOR TESTING
-			// if (commands->is_builtin)
-			// 	execute_builtin(commands);
-
-			cmds_path(rl_completion_word_break_hook, envp);  // should be migrated to the Parsing Module
+			cmds_parse(commands, envp);  // should be migrated to the Parsing Module
 			// IMPORTANT: if no path, do not execute the remaining process
-			init_pipes(commands, envp);
-
-			/* PSUEDO
 			if (commands->total_cmds > 1)
 				init_pipes(commands, envp);
-				execute_command()
-			else
-				execute_command()  --- same construction should work if piping
-					if (commands->is_builtin)
-						execute_builtin(commands);
-					else
-						execve(commands, etc...);
-			*/
-
+			else if (commands->is_builtin)
+				execute_builtin(commands);  // same construction should work if piping
+			// else
+			// 	child_process();
 		}
 		free(read_line);
 	}
