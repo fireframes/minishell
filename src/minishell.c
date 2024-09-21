@@ -77,60 +77,6 @@ void	child_process(t_command cmd, int read_fd, int write_fd, char **envp)
 
 }
 
-// TODO: PARSING!
-// QUESTION: protection needed after split call (if (!prompt_split)...)?
-// void	execute_cmd(char *read_line, char **envp)
-//	!!! CHANGE for:
-t_command	*init_global(char *read_line)
-{
-	char		**cmds_split;
-	int			cmd_count;
-	t_command	*commands;
-
-	cmd_count = 0;
-	cmds_split = NULL;
-	cmds_split = split_v2(read_line, '|');
-	while (cmds_split[cmd_count])
-		cmd_count++;
-	commands = malloc(sizeof(t_command) * cmd_count);
-	if (!commands)
-		free_split(cmds_split);
-	commands->cmds_split = cmds_split;
-	commands->total_cmds = cmd_count;
-	return (commands);
-}
-
-// TODO wrap the if(...) into command_error()
-// BIG PARSING MODULE!
-void	cmds_parse(t_command *commands, char **envp)
-{
-	int i = 0;
-
-	while (i < commands->total_cmds)
-	{
-		commands[i].command_index = i;
-		// parsing here?
-		commands[i].args = split_v2(commands->cmds_split[i], ' ');
-		// after parsing
-		if (check_builtin(&commands[i]))
-			commands[i].is_builtin = true;
-		else
-		{
-			commands[i].cmd_path = find_command_path(commands[i].args[0], envp, &commands->cmds_split[i]);
-			if (!commands[i].cmd_path)
-			{
-				printf("command not found: %s\n", commands[i].args[0]);
-				// free_split(commands->cmds_split);
-				free_commands(commands, commands->total_cmds);
-				commands[i].path_found = false;
-			}
-			else
-				commands[i].path_found = true;
-		}
-		i++;
-	}
-}
-
 void	init_pipes(t_command *commands, char **envp)
 {
 	int (*pipes)[2];
@@ -149,7 +95,7 @@ void	init_pipes(t_command *commands, char **envp)
 		{
 			perror("pipe");
 			free_commands(commands, commands->total_cmds);
-			free_split(commands->cmds_split);
+			free_split(commands->cmds_splits);
 		}
 		i++;
 	}
@@ -171,7 +117,7 @@ void	init_pipes(t_command *commands, char **envp)
 			perror("fork");
 			// TODO: handle error, close pipes, free resources, etc...
 			free_commands(commands, commands->total_cmds);
-			free_split(commands->cmds_split);
+			free_split(commands->cmds_splits);
 
 		}
 		else if (pid == 0)
@@ -221,8 +167,65 @@ void	init_pipes(t_command *commands, char **envp)
 		i++;
 	}
 	// Free allocated resources
-	free_split(commands->cmds_split);
+	free_split(commands->cmds_splits);
 	free_commands(commands, commands->total_cmds);
+}
+
+// TODO wrap the if(...) into command_error()
+// TODO take into account relative and absolute commands paths too!
+// BIG PARSING MODULE!
+void	cmds_parse(t_command *commands, char **envp)
+{
+	int i = 0;
+
+	while (i < commands->total_cmds)
+	{
+		commands[i].command_index = i;
+		// parsing here?
+		commands[i].args = split_v2(commands->cmds_splits[i], ' ');
+		// after parsing
+		if (check_builtin(&commands[i]))
+			commands[i].is_builtin = true;
+		else
+		{
+			commands[i].cmd_path = find_command_path(commands[i].args[0], envp, &commands->cmds_splits[i]);
+			if (!commands[i].cmd_path)
+			{
+				printf("command not found: %s\n", commands[i].args[0]);
+				// free_split(commands->cmds_split);
+				free_commands(commands, commands->total_cmds);
+				commands[i].path_found = false;
+			}
+			else
+				commands[i].path_found = true;
+		}
+		i++;
+	}
+}
+
+// TODO: PARSING!
+// QUESTION: protection needed after split call (if (!prompt_split)...)?
+// QUESTION: do we have access to the cmds_splits and total_cmds struct elements 
+//  defined in the array we use later (such commands[i])?
+// void	execute_cmd(char *read_line, char **envp)
+//	!!! CHANGE for:
+t_command	*init_global(char *read_line)
+{
+	char		**cmds_splits;
+	int			cmd_count;
+	t_command	*commands;
+
+	cmd_count = 0;
+	cmds_splits = NULL;
+	cmds_splits = split_v2(read_line, '|');
+	while (cmds_splits[cmd_count])
+		cmd_count++;
+	commands = malloc(sizeof(t_command) * cmd_count);
+	if (!commands)
+		free_split(cmds_splits);
+	commands->cmds_splits = cmds_splits;
+	commands->total_cmds = cmd_count;
+	return (commands);
 }
 
 // TODO: exit the infinite loop with SIGNALS;
@@ -243,14 +246,16 @@ void terminal_prompt(char **envp)
 		if (*read_line)
 		{
 			add_history(read_line);
-			commands = init_global(read_line); // Pasrsing should be done here
-
+			commands = init_global(read_line); // Parsing should be done here
 			cmds_parse(commands, envp);  // should be migrated to the Parsing Module
 			// IMPORTANT: if no path, do not execute the remaining process
-			if (commands->total_cmds > 1)
+			// if (commands->total_cmds > 1)
+			if (commands->is_builtin && commands->total_cmds == 1)
+				execute_builtin(commands);
+			else
 				init_pipes(commands, envp);
-			else if (commands->is_builtin)
-				execute_builtin(commands);  // same construction should work if piping
+			// else if (commands->is_builtin)
+			// 	execute_builtin(commands);  // same construction should work if piping
 			// else
 			// 	child_process();
 		}

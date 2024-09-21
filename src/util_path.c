@@ -49,7 +49,6 @@ static char	*find_path_or_err(char **all_paths, char *cmd, char **flgs)
 	free(all_paths);
 	free_inside_array(flgs);
 	free(flgs);
-//	error_unexisting_cmd(n);
 	return (NULL);
 }
 

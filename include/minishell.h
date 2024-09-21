@@ -26,9 +26,18 @@
 
 # include "libft.h"
 
+// The following structure is generally accessed as an array of structures
+// It contains the following elements:
+//  - 
+//  - 
+//  - 
+//  - 
+//  - 
+//  - 
+//  - 
 typedef struct	s_command
 {
-	char	**cmds_split;
+	char	**cmds_splits;
 	int		total_cmds;
 	char	**args;
 	char	*cmd_path;
