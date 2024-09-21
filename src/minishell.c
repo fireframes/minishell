@@ -174,6 +174,8 @@ void	init_pipes(t_command *commands, char **envp)
 // TODO wrap the if(...) into command_error()
 // TODO take into account relative and absolute commands paths too!
 // BIG PARSING MODULE!
+// Parsing just before the split call?
+// 'free_split(commands->cmds_split)' has been deleted the line before printf
 void	cmds_parse(t_command *commands, char **envp)
 {
 	int i = 0;
@@ -181,9 +183,7 @@ void	cmds_parse(t_command *commands, char **envp)
 	while (i < commands->total_cmds)
 	{
 		commands[i].command_index = i;
-		// parsing here?
 		commands[i].args = split_v2(commands->cmds_splits[i], ' ');
-		// after parsing
 		if (check_builtin(&commands[i]))
 			commands[i].is_builtin = true;
 		else
@@ -192,7 +192,6 @@ void	cmds_parse(t_command *commands, char **envp)
 			if (!commands[i].cmd_path)
 			{
 				printf("command not found: %s\n", commands[i].args[0]);
-				// free_split(commands->cmds_split);
 				free_commands(commands, commands->total_cmds);
 				commands[i].path_found = false;
 			}
@@ -233,6 +232,10 @@ t_command	*init_global(char *read_line)
 // QUESTION: Do erroneous command go to history?
 // TODO: handle errors here?
 // QUESTION: since we are not mallocing read_line, should we free it?
+// IMPORTANT: if no path [and it is not a builtin], do not execute process
+//	after the cmds_parse call [?]
+// cmds_parse should be migrated to the Parsing Module
+// parsing shoudl be done on the init_global call line [or just after/before]
 void terminal_prompt(char **envp)
 {
 	char *read_line;
@@ -246,18 +249,12 @@ void terminal_prompt(char **envp)
 		if (*read_line)
 		{
 			add_history(read_line);
-			commands = init_global(read_line); // Parsing should be done here
-			cmds_parse(commands, envp);  // should be migrated to the Parsing Module
-			// IMPORTANT: if no path, do not execute the remaining process
-			// if (commands->total_cmds > 1)
+			commands = init_global(read_line);
+			cmds_parse(commands, envp);
 			if (commands->is_builtin && commands->total_cmds == 1)
 				execute_builtin(commands);
 			else
 				init_pipes(commands, envp);
-			// else if (commands->is_builtin)
-			// 	execute_builtin(commands);  // same construction should work if piping
-			// else
-			// 	child_process();
 		}
 		free(read_line);
 	}
