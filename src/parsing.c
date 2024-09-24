@@ -37,7 +37,7 @@ void	cmds_parse(t_command *commands, char **envp)
 			if (!commands[i].cmd_path)
 			{
 				printf("command not found: %s\n", commands[i].args[0]);
-				free_commands(commands, commands->total_cmds);
+// free_commands(commands, commands->total_cmds);
 				commands[i].path_found = false;
 			}
 			else

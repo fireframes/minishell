@@ -12,6 +12,28 @@
 
 #include "minishell.h"
 
+void	init_pipes(t_command *commands)
+{
+	int	(*pipes)[2];
+	int	i;
+
+	pipes = malloc(sizeof(*pipes) * (commands->total_cmds - 1));
+	if (!pipes)
+		free_commands(commands, commands->total_cmds);
+	commands->pipes = pipes;
+	i = 0;
+	while (i < commands->total_cmds - 1)
+	{
+		if (pipe(pipes[i]) == -1)
+		{
+			perror("pipe");
+			free_split(commands->cmds_splits);
+			free_commands(commands, commands->total_cmds);
+		}
+		i++;
+	}
+}
+
 // TODO: handle error, close pipes, free resources, etc...
 void	execute_cmd(t_command cmd, int read_fd, int write_fd, char **envp)
 {
@@ -35,28 +57,6 @@ void	execute_cmd(t_command cmd, int read_fd, int write_fd, char **envp)
 		execve(cmd.cmd_path, cmd.args, envp);
 		perror("execve");
 		exit(EXIT_FAILURE);
-	}
-}
-
-void	init_pipes(t_command *commands)
-{
-	int	(*pipes)[2];
-	int	i;
-
-	pipes = malloc(sizeof(*pipes) * (commands->total_cmds - 1));
-	if (!pipes)
-		free_commands(commands, commands->total_cmds);
-	commands->pipes = pipes;
-	i = 0;
-	while (i < commands->total_cmds - 1)
-	{
-		if (pipe(pipes[i]) == -1)
-		{
-			perror("pipe");
-			free_commands(commands, commands->total_cmds);
-			free_split(commands->cmds_splits);
-		}
-		i++;
 	}
 }
 
@@ -102,7 +102,8 @@ void	child_process(t_command *commands, int i, char **envp)
 			close(commands->pipes[j][1]);
 		j++;
 	}
-	execute_cmd(commands[i], commands[i].read_fd, commands[i].write_fd, envp);
+	if (commands[i].path_found == true || commands[i].is_builtin == true)
+		execute_cmd(commands[i], commands[i].read_fd, commands[i].write_fd, envp);
 }
 
 void	forking(t_command *commands, char **envp)

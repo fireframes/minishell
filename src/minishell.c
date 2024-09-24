@@ -36,6 +36,7 @@ t_command	*init_global(char *read_line)
 	char		**cmds_splits;
 	int			cmd_count;
 	t_command	*commands;
+	int			i;
 
 	cmd_count = 0;
 	cmds_splits = NULL;
@@ -47,6 +48,13 @@ t_command	*init_global(char *read_line)
 		free_split(cmds_splits);
 	commands->cmds_splits = cmds_splits;
 	commands->total_cmds = cmd_count;
+	i = 0;
+	while (i < commands->total_cmds)
+	{
+		commands[i].cmds_splits = commands->cmds_splits;
+		commands[i].total_cmds = commands->total_cmds;
+		i++;
+	}
 	return (commands);
 }
 
