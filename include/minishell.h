@@ -38,7 +38,7 @@
 // QUESTION: can (*pipes)[2] (defined in init_pipes) could only be pipes here?
 // IMPORTANT: some of the struct var are accessed in the struct, other in an 
 //	array of that struct!
-typedef struct	s_command
+typedef struct s_command
 {
 	char	**cmds_splits;
 	int		total_cmds;

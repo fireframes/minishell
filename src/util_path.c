@@ -52,13 +52,15 @@ static char	*find_path_or_err(char **all_paths, char *cmd, char **flgs)
 	return (NULL);
 }
 
+// NOTE - starting at 2 because for some reason envp[1] is NULL and it messes
+//	with the strnstr_v2 loop. TO BE MODIFIED anyway!
 static char	*get_correct_cmd_path(char *cmd, char **envp, char **flgs)
 {
 	char	**all_existing_paths;
 	char	*working_path_if_one;
 	int		i;
 
-	i = 2; // NOTE - starting at 2 because for some reason envp[1] is NULL and it messes with the strnstr_v2 loop. TO BE MODIFIED anyway
+	i = 2;
 	while (envp[i] != NULL)
 	{
 		if (strnstr_v2(envp[i], "PATH=", 5) && envp[i])

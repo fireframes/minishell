@@ -12,14 +12,13 @@
 
 #include "minishell.h"
 
+// TODO: error check to be added in the loops
 void	execute_builtin(t_command *cmd)
 {
 	if (ft_strcmp(cmd->args[0], "echo") == 0)
 	{
 		ft_echo(cmd);
-		// error check
 	}
-
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 		return ;
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
