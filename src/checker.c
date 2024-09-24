@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:05:13 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/20 19:05:36 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:23:39 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 bool	check_builtin(t_command *command)
 {
 	if (ft_strcmp(command->args[0], "echo") == 0)
+		return (true);
+	else if (ft_strcmp(command->args[0], "cd") == 0)
 		return (true);
 	else if (ft_strcmp(command->args[0], "pwd") == 0)
 		return (true);

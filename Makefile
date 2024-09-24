@@ -18,7 +18,8 @@ SRCS 		:=	minishell.c				\
 				util_split.c			\
 				util_strjoin.c			\
 				execution.c				\
-				ft_echo.c
+				ft_echo.c				\
+				ft_pwd.c
 
 SRCS		:=	$(addprefix $(SRCS_DIR), $(SRCS))
 

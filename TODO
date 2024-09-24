@@ -9,6 +9,22 @@
 
 2. implement subject built-ins (8 funcs)
 
+implemented; needs adjustments/tests/error_check:
+◦ echo with option -n
+
+wip:
+◦ cd with only a relative or absolute path
+
+todo:
+
+◦ pwd with no options
+◦ export with no options
+◦ unset with no options
+◦ env with no options or arguments
+◦ exit with no options
+
+done:
+
 3. lexer-parser-expander
 
 4. heredoc
