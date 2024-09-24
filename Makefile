@@ -9,12 +9,15 @@ LIBFT		:=	./lib/libft.a
 LIBS		:=	$(LIBFT)
 
 SRCS_DIR	:=	./src/
-SRCS 		:=	minishell.c		\
-				checker.c		\
-				util_path.c		\
-				util_split.c	\
-				util_strjoin.c	\
-				execution.c		\
+SRCS 		:=	minishell.c				\
+				checker.c				\
+				parsing.c				\
+				freeing.c				\
+				fork_and_processes.c	\
+				util_path.c				\
+				util_split.c			\
+				util_strjoin.c			\
+				execution.c				\
 				ft_echo.c
 
 SRCS		:=	$(addprefix $(SRCS_DIR), $(SRCS))

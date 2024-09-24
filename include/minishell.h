@@ -35,6 +35,9 @@
 //  - 
 //  - 
 //  - 
+// QUESTION: can (*pipes)[2] (defined in init_pipes) could only be pipes here?
+// IMPORTANT: some of the struct var are accessed in the struct, other in an 
+//	array of that struct!
 typedef struct	s_command
 {
 	char	**cmds_splits;
@@ -44,13 +47,28 @@ typedef struct	s_command
 	int		command_index;
 	bool	is_builtin;
 	bool	path_found;
+	int		(*pipes)[2];
+	pid_t	pid;
+	int		read_fd;
+	int		write_fd;
 }	t_command;
 
 // checker.c
 bool	check_builtin(t_command *command);
 
-// parser.c
-// ...
+// parsing.c
+void	cmds_parse(t_command *commands, char **envp);
+
+// freeing.c
+void	free_split(char **split);
+void	free_commands(t_command *commands, int cmd_cnt);
+
+// fork_and_processes.c
+void	execute_cmd(t_command cmd, int read_fd, int write_fd, char **envp);
+void	init_pipes(t_command *commands);
+void	parent_process(t_command *commands);
+void	child_process(t_command *commands, int i, char **envp);
+void	forking(t_command *commands, char **envp);
 
 // util_split.c:
 char	**split_v2(char const *s, char c);
