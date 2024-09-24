@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:58:50 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/24 16:13:16 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/24 18:52:24 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@
 // is there a purpose of returning -1 if too many args?
 int	ft_pwd(t_command *cmd)
 {
-	char	path_buf[4096];
+	char	curpath[PATH_MAX + 1];
 
 	if (cmd->args[1])
 	{
 		perror("pwd: too many arguments");
 		return (-1);
 	}
-	if (getcwd(path_buf, sizeof(path_buf)) == NULL)
+	if (getcwd(curpath, sizeof(curpath)) == NULL)
 		perror("pwd: getcwd() error");
 	else
-		printf("%s\n", path_buf);
+		printf("%s\n", curpath);
 	return (0);
 }

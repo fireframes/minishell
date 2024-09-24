@@ -9,21 +9,23 @@
 
 2. implement subject built-ins (8 funcs)
 
-implemented; needs adjustments/tests/error_check:
-◦ echo with option -n
-
-wip:
-◦ cd with only a relative or absolute path
-
-todo:
-
-◦ pwd with no options
+[ todo ]:
 ◦ export with no options
 ◦ unset with no options
 ◦ env with no options or arguments
 ◦ exit with no options
 
-done:
+[ wip ]:
+...
+
+[ implemented ] (needs adjustments/tests/error_check):
+◦ echo with option -n
+◦ cd with only a relative or absolute path
+◦ pwd with no options
+
+
+[ done ]:
+...
 
 3. lexer-parser-expander
 
@@ -31,4 +33,8 @@ done:
 
 5. signals
 
+6. history, view and UX
+	- clear command history
+	- add current dir view as prompt
+	- colors ?
 

@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/24 15:26:16 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/24 18:36:58 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ void	execute_builtin(t_command *cmd)
 		ft_echo(cmd);
 	}
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)
+	{
+		ft_cd(cmd);
 		return ;
+	}
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 	{
 		ft_pwd(cmd);

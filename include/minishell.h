@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/24 16:44:55 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:35:48 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <errno.h>
 # include <fcntl.h>
+#include "linux/limits.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
@@ -82,7 +83,7 @@ char	*strjoin_v2(char const *s1, char const *s2);
 
 // built-ins
 int		ft_echo(t_command *cmd);
-
+int		ft_cd(t_command *cmd);
 int		ft_pwd(t_command *cmd);
 
 // execution.c
