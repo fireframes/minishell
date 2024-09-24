@@ -75,9 +75,7 @@ void	terminal_prompt(char **envp)
 			commands = init_global(read_line);
 			cmds_parse(commands, envp);
 			if (commands->is_builtin && commands->total_cmds == 1)
-			{
 				execute_builtin(commands);
-			}
 			else
 			{
 				init_pipes(commands);
