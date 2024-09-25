@@ -38,3 +38,4 @@
 	- add current dir view as prompt
 	- colors ?
 
+7. commands should be searched and TAB-autocompleted
