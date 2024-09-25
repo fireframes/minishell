@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:41:40 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/24 20:30:29 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/25 12:27:38 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,16 @@
 
 #include "minishell.h"
 
-static bool	isvalidpath(char *path)
-{
-	if (path[0] == '.')
-		return (true);
-	else if (path[0] == '/')
-		return (true);
-	return (false);
-}
+// static bool	isvalidpath(char *path)
+// {
+// 	(void) path;
+// 	// if (path[0] == '.')
+// 		// return (true);
+// 	// else if (path[0] == '/')
+// 		// return (true);
+// 	// return (false);
+// 	return (true);
+// }
 
 static bool	chdir_home(void)
 {
@@ -48,8 +50,8 @@ static bool	chdir_home(void)
 	}
 	else if (chdir(homedir) != 0)
 	{
-		printf("chdir() to %s failed\n", homedir);
-		return (false);
+		printf("cd: chdir() to %s failed", homedir);
+		return (-1);
 	}
 	return (true);
 }
@@ -68,15 +70,10 @@ int	ft_cd(t_command *cmd)
 		printf("cd: string not in pwd: %s\n", cmd->args[1]);
 		return (-1);
 	}
-	else if (!isvalidpath(cmd->args[1]))
+	else if (chdir(cmd->args[1]) != 0)
 	{
 		printf("cd: no such file or directory: %s\n", cmd->args[1]);
 		return (-1);
-	}
-	else if (chdir(cmd->args[1]) != 0)
-	{
-		printf("chdir() to %s failed\n", cmd->args[1]);
-		return (1);
 	}
 	return (0);
 }
