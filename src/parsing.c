@@ -32,12 +32,10 @@ void	cmds_parse(t_command *commands, char **envp)
 		else
 		{
 			commands[i].is_builtin = false;
-			commands[i].cmd_path = find_command_path(commands[i].args[0], envp,
-					&commands->cmds_splits[i]);
+			commands[i].cmd_path = find_command_path(commands[i].args[0], envp);
 			if (!commands[i].cmd_path)
 			{
 				printf("command not found: %s\n", commands[i].args[0]);
-// free_commands(commands, commands->total_cmds);
 				commands[i].path_found = false;
 			}
 			else

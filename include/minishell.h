@@ -75,7 +75,7 @@ void	forking(t_command *commands, char **envp);
 char	**split_v2(char const *s, char c);
 
 // util_path.c:
-char	*find_command_path(char *command, char **envp, char **cmd_flags);
+char	*find_command_path(char *command, char **envp);
 
 // util_strjoin.c:
 char	*strnstr_v2(const char *haystack, const char *needle, size_t len);

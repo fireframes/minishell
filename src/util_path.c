@@ -20,11 +20,12 @@ static void	free_inside_array(char **arr_of_arr)
 	while (arr_of_arr[i] != NULL)
 	{
 		free(arr_of_arr[i]);
+		// arr_of_arr[i] = NULL;
 		i++;
 	}
 }
 
-static char	*find_path_or_err(char **all_paths, char *cmd, char **flgs)
+static char	*find_path_or_err(char **all_paths, char *cmd)
 {
 	char	*path_with_slash;
 	char	*tried_command_path;
@@ -47,14 +48,15 @@ static char	*find_path_or_err(char **all_paths, char *cmd, char **flgs)
 	}
 	free_inside_array(all_paths);
 	free(all_paths);
-	free_inside_array(flgs);
-	free(flgs);
+	// free_inside_array(flgs);
+	// free(flgs);
+	// flgs = NULL;
 	return (NULL);
 }
 
 // NOTE - starting at 2 because for some reason envp[1] is NULL and it messes
 //	with the strnstr_v2 loop. TO BE MODIFIED anyway!
-static char	*get_correct_cmd_path(char *cmd, char **envp, char **flgs)
+static char	*get_correct_cmd_path(char *cmd, char **envp)
 {
 	char	**all_existing_paths;
 	char	*working_path_if_one;
@@ -68,14 +70,14 @@ static char	*get_correct_cmd_path(char *cmd, char **envp, char **flgs)
 		i++;
 	}
 	all_existing_paths = split_v2(envp[i], ':');
-	working_path_if_one = find_path_or_err(all_existing_paths, cmd, flgs);
+	working_path_if_one = find_path_or_err(all_existing_paths, cmd);
 	return (working_path_if_one);
 }
 
-char	*find_command_path(char *command, char **envp, char **cmd_flags)
+char	*find_command_path(char *command, char **envp)
 {
 	char	*cmd_path;
 
-	cmd_path = get_correct_cmd_path(command, envp, cmd_flags);
+	cmd_path = get_correct_cmd_path(command, envp);
 	return (cmd_path);
 }
