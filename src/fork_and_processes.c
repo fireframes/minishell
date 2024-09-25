@@ -12,11 +12,14 @@
 
 #include "minishell.h"
 
+// QUESTION: do we have to call this function when only one command (no pipes)?
+// QUESTION: if there is no pipes, shouldn't it be null (and not malloced?)?
 void	init_pipes(t_command *commands)
 {
 	int	(*pipes)[2];
 	int	i;
 
+	pipes = NULL;
 	pipes = malloc(sizeof(*pipes) * (commands->total_cmds - 1));
 	if (!pipes)
 		free_commands(commands, commands->total_cmds);
@@ -35,7 +38,7 @@ void	init_pipes(t_command *commands)
 }
 
 // TODO: handle error, close pipes, free resources, etc...
-void	execute_cmd(t_command cmd, int read_fd, int write_fd, char **envp)
+void	exec_cmd(t_command commands, int read_fd, int write_fd, char **envp)
 {
 	if (read_fd != STDIN_FILENO)
 	{
@@ -47,14 +50,14 @@ void	execute_cmd(t_command cmd, int read_fd, int write_fd, char **envp)
 		dup2(write_fd, STDOUT_FILENO);
 		close(write_fd);
 	}
-	if (cmd.is_builtin)
+	if (commands.is_builtin)
 	{
-		execute_builtin(&cmd);
+		execute_builtin(&commands);
 		exit(EXIT_SUCCESS);
 	}
 	else
 	{
-		execve(cmd.cmd_path, cmd.args, envp);
+		execve(commands.cmd_path, commands.args, envp);
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
@@ -103,7 +106,7 @@ void	child_process(t_command *commands, int i, char **envp)
 		j++;
 	}
 	if (commands[i].path_found == true || commands[i].is_builtin == true)
-		execute_cmd(commands[i], commands[i].read_fd, commands[i].write_fd, envp);
+		exec_cmd(commands[i], commands[i].read_fd, commands[i].write_fd, envp);
 }
 
 void	forking(t_command *commands, char **envp)
@@ -113,15 +116,18 @@ void	forking(t_command *commands, char **envp)
 	i = 0;
 	while (i < commands->total_cmds)
 	{
-		commands[i].pid = fork();
-		if (commands[i].pid == -1)
+		if (commands[i].path_found == true || commands[i].is_builtin == true)
 		{
-			perror("fork");
-			free_commands(commands, commands->total_cmds);
-			free_split(commands->cmds_splits);
+			commands[i].pid = fork();
+			if (commands[i].pid == -1)
+			{
+				perror("fork");
+				free_split(commands->cmds_splits);
+				free_commands(commands, commands->total_cmds);
+			}
+			else if (commands[i].pid == 0)
+				child_process(commands, i, envp);
 		}
-		else if (commands[i].pid == 0)
-			child_process(commands, i, envp);
 		i++;
 	}
 	parent_process(commands);

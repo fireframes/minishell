@@ -22,6 +22,9 @@
 // autocomplete ?
 // perror or printf ?
 
+// TODO: correct the behavior in which it does not go into an existing
+//	directory, saying: "cd: no such file or directory: <name>"
+
 #include "minishell.h"
 
 static bool	isvalidpath(char *path)

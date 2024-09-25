@@ -65,7 +65,7 @@ void	free_split(char **split);
 void	free_commands(t_command *commands, int cmd_cnt);
 
 // fork_and_processes.c
-void	execute_cmd(t_command cmd, int read_fd, int write_fd, char **envp);
+void	exec_cmd(t_command cmd, int read_fd, int write_fd, char **envp);
 void	init_pipes(t_command *commands);
 void	parent_process(t_command *commands);
 void	child_process(t_command *commands, int i, char **envp);

@@ -27,10 +27,6 @@
 
 // TODO: PARSING!
 // QUESTION: protection needed after split call (if (!prompt_split)...)?
-// QUESTION: do we have access to the cmds_splits and total_cmds struct var
-//  defined in the array we use later (such commands[i])?
-// void	execute_cmd(char *read_line, char **envp)
-//	!!! CHANGE for:
 t_command	*init_global(char *read_line)
 {
 	char		**cmds_splits;
@@ -46,13 +42,11 @@ t_command	*init_global(char *read_line)
 	commands = malloc(sizeof(t_command) * cmd_count);
 	if (!commands)
 		free_split(cmds_splits);
-	commands->cmds_splits = cmds_splits;
-	commands->total_cmds = cmd_count;
 	i = 0;
-	while (i < commands->total_cmds)
+	while (i < cmd_count)
 	{
-		commands[i].cmds_splits = commands->cmds_splits;
-		commands[i].total_cmds = commands->total_cmds;
+		commands[i].cmds_splits = cmds_splits;
+		commands[i].total_cmds = cmd_count;
 		i++;
 	}
 	return (commands);
@@ -72,6 +66,7 @@ void	terminal_prompt(char **envp)
 	char		*read_line;
 	t_command	*commands;
 
+	commands = NULL;
 	while (1)
 	{
 		read_line = readline(">> ");
