@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	free_split(char **split)
+void	free_arr_of_arr(char **split)
 {
 	int	i;
 
@@ -34,11 +34,13 @@ void	free_commands(t_command *cmds_struc, int cmd_cnt)
 	i = 0;
 	while (i < cmd_cnt)
 	{
-		free_split(cmds_struc[i].args);
+		free_arr_of_arr(cmds_struc[i].args);
 		free(cmds_struc[i].cmd_path);
 		cmds_struc[i].cmd_path = NULL;
 		i++;
 	}
+	free_arr_of_arr(cmds_struc->cmds_splits);
+	free(cmds_struc->pipes);
 	free(cmds_struc);
 	cmds_struc = NULL;
 }

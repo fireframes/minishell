@@ -81,7 +81,7 @@ char		**cmds_parse(char *read_line);
 void		cmd_args_parse(t_command *commands, char **envp);
 
 // freeing.c
-void		free_split(char **split);
+void		free_arr_of_arr(char **split);
 void		free_commands(t_command *commands, int cmd_cnt);
 
 // fork_and_processes.c
@@ -111,6 +111,6 @@ void		execution_module(t_command *commands, char**envp);
 void		execute_builtin(t_command *cmd);
 
 //minishell.c
-t_command	*init_struct(char **cmds_splits, t_command *commands);
+t_command	*create_struct(char **cmds_splits, t_command *commands);
 
 #endif

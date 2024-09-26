@@ -12,8 +12,21 @@
 
 #include "minishell.h"
 
+void	init_struct(t_command *cmd_struc)
+{
+	cmd_struc->args = NULL;
+	cmd_struc->cmd_path = NULL;
+	cmd_struc->command_index = 0;
+	cmd_struc->is_builtin = false;
+	cmd_struc->path_found = false;
+	cmd_struc->pipes = NULL;
+	cmd_struc->pid = 0;
+	cmd_struc->read_fd = 0;
+	cmd_struc->write_fd = 0;
+}
+
 // QUESTION: protection needed after split call (if (!prompt_split)...)?
-t_command	*init_struct(char **cmds_splits, t_command *cmds_struc)
+t_command	*create_struct(char **cmds_splits, t_command *cmds_struc)
 {
 	int			cmd_count;
 	int			i;
@@ -23,12 +36,13 @@ t_command	*init_struct(char **cmds_splits, t_command *cmds_struc)
 		cmd_count++;
 	cmds_struc = malloc(sizeof(t_command) * cmd_count);
 	if (!cmds_struc)
-		free_split(cmds_splits);
+		free_arr_of_arr(cmds_splits);
 	i = 0;
 	while (i < cmd_count)
 	{
 		cmds_struc[i].cmds_splits = cmds_splits;
 		cmds_struc[i].total_cmds = cmd_count;
+		init_struct(cmds_struc);
 		i++;
 	}
 	return (cmds_struc);

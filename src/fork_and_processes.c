@@ -14,8 +14,6 @@
 
 // QUESTION: do we have to call this function when only one command (no pipes)?
 // QUESTION: if there is no pipes, shouldn't it be null (and not malloced?)?
-// QUESTION: something missing is the free following if(!pipes): free
-//				cmds_split and free pipes
 void	init_pipes(t_command *cmds_struc)
 {
 	int	(*pipes)[2];
@@ -32,7 +30,6 @@ void	init_pipes(t_command *cmds_struc)
 		if (pipe(pipes[i]) == -1)
 		{
 			perror("pipe");
-			free_split(cmds_struc->cmds_splits);
 			free_commands(cmds_struc, cmds_struc->total_cmds);
 		}
 		i++;
@@ -82,8 +79,6 @@ void	parent_process(t_command *cmds_struc)
 		wait(NULL);
 		i++;
 	}
-	free_split(cmds_struc->cmds_splits);
-	free(cmds_struc->pipes);
 	free_commands(cmds_struc, cmds_struc->total_cmds);
 }
 
@@ -127,7 +122,6 @@ void	forking(t_command *cmds_struc, char **envp)
 			if (cmds_struc[i].pid == -1)
 			{
 				perror("fork");
-				free_split(cmds_struc->cmds_splits);
 				free_commands(cmds_struc, cmds_struc->total_cmds);
 			}
 			else if (cmds_struc[i].pid == 0)
