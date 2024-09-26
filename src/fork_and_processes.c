@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.c                                        :+:      :+:    :+:   */
+/*   fork_and_processes.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/24 12:15:25 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/27 01:06:55 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	exec_cmd(t_command cmds_struc, int read_fd, int write_fd, char **envp)
 	}
 	if (cmds_struc.is_builtin)
 	{
-		execute_builtin(&cmds_struc);
+		execute_builtin(&cmds_struc, envp);
 		exit(EXIT_SUCCESS);
 	}
 	else

@@ -20,7 +20,8 @@ SRCS 		:=	minishell.c				\
 				execution.c				\
 				ft_echo.c				\
 				ft_cd.c					\
-				ft_pwd.c
+				ft_pwd.c				\
+				ft_env.c
 
 SRCS		:=	$(addprefix $(SRCS_DIR), $(SRCS))
 

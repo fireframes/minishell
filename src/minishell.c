@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:16:31 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/20 20:38:59 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/27 01:19:10 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,10 @@ void	main_module(char **envp, char *read_line)
 // TODO: exit the infinite loop with SIGNALS;
 // EOF (Ctrl+D) is dealt with the if (!read_line) {break} ; is that enough?
 // QUESTION: since we are not mallocing read_line, should we free it?
-int	main(int argc, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*read_line;
+	(void)	argv;
 
 	if (argc != 1)
 		return (1);

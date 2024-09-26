@@ -6,13 +6,13 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/24 18:36:58 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/27 01:28:47 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execution_module(t_command *cmds_struc, char**envp)
+void	execution_module(t_command *cmds_struc, char **envp)
 {
 	init_pipes(cmds_struc);
 	forking(cmds_struc, envp);
@@ -20,7 +20,7 @@ void	execution_module(t_command *cmds_struc, char**envp)
 
 // TODO: error check to be added in the loops
 // QUESTION: why is there no return after ft_echo(cmd) compared to the others?
-void	execute_builtin(t_command *cmd)
+void	execute_builtin(t_command *cmd, char **envp)
 {
 	if (ft_strcmp(cmd->args[0], "echo") == 0)
 	{
@@ -41,7 +41,10 @@ void	execute_builtin(t_command *cmd)
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		return ;
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
+	{
+		ft_env(cmd, envp);
 		return ;
+	}
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 		return ;
 }
