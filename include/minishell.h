@@ -82,7 +82,7 @@ void		cmd_args_parse(t_command *commands, char **envp);
 
 // freeing.c
 void		free_arr_of_arr(char **split);
-void		free_commands(t_command *commands, int cmd_cnt);
+void		free_in_struct(t_command *commands);
 
 // fork_and_processes.c
 void		exec_cmd(t_command cmd, int read_fd, int write_fd, char **envp);

@@ -27,12 +27,12 @@ void	free_arr_of_arr(char **split)
 	split = NULL;
 }
 
-void	free_commands(t_command *cmds_struc, int cmd_cnt)
+void	free_in_struct(t_command *cmds_struc)
 {
 	int	i;
 
 	i = 0;
-	while (i < cmd_cnt)
+	while (i < cmds_struc->total_cmds)
 	{
 		free_arr_of_arr(cmds_struc[i].args);
 		free(cmds_struc[i].cmd_path);

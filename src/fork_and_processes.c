@@ -22,7 +22,7 @@ void	init_pipes(t_command *cmds_struc)
 	pipes = NULL;
 	pipes = malloc(sizeof(*pipes) * (cmds_struc->total_cmds - 1));
 	if (!pipes)
-		free_commands(cmds_struc, cmds_struc->total_cmds);
+		free_in_struct(cmds_struc);
 	cmds_struc->pipes = pipes;
 	i = 0;
 	while (i < cmds_struc->total_cmds - 1)
@@ -30,7 +30,7 @@ void	init_pipes(t_command *cmds_struc)
 		if (pipe(pipes[i]) == -1)
 		{
 			perror("pipe");
-			free_commands(cmds_struc, cmds_struc->total_cmds);
+			free_in_struct(cmds_struc);
 		}
 		i++;
 	}
@@ -79,7 +79,7 @@ void	parent_process(t_command *cmds_struc)
 		wait(NULL);
 		i++;
 	}
-	free_commands(cmds_struc, cmds_struc->total_cmds);
+	free_in_struct(cmds_struc);
 }
 
 void	child_process(t_command *cmds_struc, int i, char **envp)
@@ -122,7 +122,7 @@ void	forking(t_command *cmds_struc, char **envp)
 			if (cmds_struc[i].pid == -1)
 			{
 				perror("fork");
-				free_commands(cmds_struc, cmds_struc->total_cmds);
+				free_in_struct(cmds_struc);
 			}
 			else if (cmds_struc[i].pid == 0)
 				child_process(cmds_struc, i, envp);
