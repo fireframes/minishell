@@ -12,7 +12,14 @@
 
 #include "minishell.h"
 
+void	execution_module(t_command *commands, char**envp)
+{
+	init_pipes(commands);
+	forking(commands, envp);
+}
+
 // TODO: error check to be added in the loops
+// QUESTION: why is there no return after ft_echo(cmd) compared to the others?
 void	execute_builtin(t_command *cmd)
 {
 	if (ft_strcmp(cmd->args[0], "echo") == 0)

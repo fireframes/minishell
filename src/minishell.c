@@ -12,31 +12,14 @@
 
 #include "minishell.h"
 
-// QUESTION: THE FOLLOWING FUNCTION IS NOT USED, TO BE DELETED?
-// int	error_check(int ret_val, const char *err_msg, int close_fd)
-// {
-// 	if (ret_val == -1)
-// 	{
-// 		perror(err_msg);
-// 		if (close_fd > 0)
-// 			close(close_fd);
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	return (0);
-// }
-
-// TODO: PARSING!
 // QUESTION: protection needed after split call (if (!prompt_split)...)?
-t_command	*init_global(char *read_line)
+t_command	*init_struct(char **cmds_splits)
 {
-	char		**cmds_splits;
 	int			cmd_count;
 	t_command	*commands;
 	int			i;
 
 	cmd_count = 0;
-	cmds_splits = NULL;
-	cmds_splits = split_v2(read_line, '|');
 	while (cmds_splits[cmd_count])
 		cmd_count++;
 	commands = malloc(sizeof(t_command) * cmd_count);
@@ -52,47 +35,35 @@ t_command	*init_global(char *read_line)
 	return (commands);
 }
 
-// TODO: exit the infinite loop with SIGNALS;
-// EOF (Ctrl+D) is dealt with the if (!read_line) {break} ; is that enough?
-// QUESTION: Do erroneous command go to history?
-// TODO: handle errors here?
-// QUESTION: since we are not mallocing read_line, should we free it?
-// IMPORTANT: if no path [and it is not a builtin], do not execute process
-//	after the cmds_parse call [?]
-// cmds_parse should be migrated to the Parsing Module
-// parsing shoudl be done on the init_global call line [or just after/before]
-void	terminal_prompt(char **envp)
+// QUESTION: should freeing mallocated memory have its own module instead
+//	of being inside execution module?
+void	main_module(char **envp, char *read_line)
 {
-	char		*read_line;
 	t_command	*commands;
 
 	commands = NULL;
+	add_history(read_line);
+	commands = parsing_module(envp, read_line);
+	execution_module(commands, envp);
+}
+
+// TODO: exit the infinite loop with SIGNALS;
+// EOF (Ctrl+D) is dealt with the if (!read_line) {break} ; is that enough?
+// QUESTION: since we are not mallocing read_line, should we free it?
+int	main(int argc, char **envp)
+{
+	char	*read_line;
+
+	if (argc != 1)
+		return (1);
 	while (1)
 	{
 		read_line = readline(">> ");
 		if (!read_line)
 			break ;
 		if (*read_line)
-		{
-			add_history(read_line);
-			commands = init_global(read_line);
-			cmds_parse(commands, envp);
-			if (commands->is_builtin && commands->total_cmds == 1)
-				execute_builtin(commands);
-			else
-			{
-				init_pipes(commands);
-				forking(commands, envp);
-			}
-		}
+			main_module(envp, read_line);
 		free(read_line);
 	}
-}
-
-int	main(int argc, char **envp)
-{
-	if (argc != 1)
-		return (1);
-	terminal_prompt(envp);
 	return (0);
 }

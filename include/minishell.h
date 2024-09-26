@@ -15,7 +15,7 @@
 
 # include <errno.h>
 # include <fcntl.h>
-#include "linux/limits.h"
+# include "linux/limits.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
@@ -76,7 +76,9 @@ typedef struct s_command
 bool	check_builtin(t_command *command);
 
 // parsing.c
-void	cmds_parse(t_command *commands, char **envp);
+t_command	*parsing_module(char **envp, char *read_line);
+char	**cmds_parse(char *read_line);
+void	cmd_args_parse(t_command *commands, char **envp);
 
 // freeing.c
 void	free_split(char **split);
@@ -105,6 +107,10 @@ int		ft_cd(t_command *cmd);
 int		ft_pwd(t_command *cmd);
 
 // execution.c
+void	execution_module(t_command *commands, char**envp);
 void	execute_builtin(t_command *cmd);
+
+//minishell.c
+t_command	*init_struct(char **cmds_splits);
 
 #endif

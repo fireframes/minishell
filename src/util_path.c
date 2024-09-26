@@ -20,7 +20,6 @@ static void	free_inside_array(char **arr_of_arr)
 	while (arr_of_arr[i] != NULL)
 	{
 		free(arr_of_arr[i]);
-		// arr_of_arr[i] = NULL;
 		i++;
 	}
 }
@@ -48,9 +47,6 @@ static char	*find_path_or_err(char **all_paths, char *cmd)
 	}
 	free_inside_array(all_paths);
 	free(all_paths);
-	// free_inside_array(flgs);
-	// free(flgs);
-	// flgs = NULL;
 	return (NULL);
 }
 

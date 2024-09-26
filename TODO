@@ -4,6 +4,7 @@
 
 [ todo ]:
 ◦ make absolute and relative paths working
+◦ leaks when executing only one builtin (no pipes)
 
 [ wip ]:
 ◦ test with std syst cmds (ls / grep / wc / cat / etc..)
