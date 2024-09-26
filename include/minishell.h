@@ -29,13 +29,31 @@
 
 // The following structure is generally accessed as an array of structures
 // It contains the following elements:
-//  -
-//  -
-//  -
-//  -
-//  -
-//  -
-//  -
+//  - cmds_splits, the adress of a MALLOCATED array of array of chars contained
+//		at least one command attempts as a string (copied into each sub-struct);
+//  - total_cmds, an integer for the number of commands (existing or not, with
+//		or without flags) separated by pipe(s). If no pipes (and at least one
+//		character), equals to 1 (copied into each sub-structure);
+//  - args, the adress of a MALLOCATED array of array of chars for the arguments
+// 		contained in a given command, separated by 1 space char, which could
+// 		be flags, path, other arguments or parameters (path, etc.). It contains
+// 		at least the same thing as cmds_splits, if no other arguments (each sub-
+//		contains its own;
+//  - cmd_path, the adress of a MALLOCATED string of chars containing the path
+//		of the command, OR NULL if non (each sub-structure has its own value);
+//  - command_index, an integer starting at 0 to keep trace of the index of the
+//		commands (each sub-structure has its own value);
+//  - is_builtin, a boolean saying if the command exact name (string) is the
+//		same as one of the 8 built-ins (plus 1 with flag). Each sub-structure
+//		has its own value;
+//  - (*pipes)[2], an array of 2 integers [...] [...]
+//	- path_found, a boolean saying if a path has been found for the command. 
+// 		Each sub-structure has its own value. [NB: is that really needed, 
+//		because normally if no path has been found, the cmd_path string should 
+//		be NULL?]
+//	- pid, [...] [...]
+//	- read_fd, an integer [...] [...]
+//	- write_fd, an integer [...] [...]
 // QUESTION: can (*pipes)[2] (defined in init_pipes) could only be pipes here?
 // IMPORTANT: some of the struct var are accessed in the struct, other in an
 //	array of that struct!
