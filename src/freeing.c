@@ -27,18 +27,18 @@ void	free_split(char **split)
 	split = NULL;
 }
 
-void	free_commands(t_command *commands, int cmd_cnt)
+void	free_commands(t_command *cmds_struc, int cmd_cnt)
 {
 	int	i;
 
 	i = 0;
 	while (i < cmd_cnt)
 	{
-		free_split(commands[i].args);
-		free(commands[i].cmd_path);
-		commands[i].cmd_path = NULL;
+		free_split(cmds_struc[i].args);
+		free(cmds_struc[i].cmd_path);
+		cmds_struc[i].cmd_path = NULL;
 		i++;
 	}
-	free(commands);
-	commands = NULL;
+	free(cmds_struc);
+	cmds_struc = NULL;
 }

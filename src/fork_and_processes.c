@@ -14,31 +14,33 @@
 
 // QUESTION: do we have to call this function when only one command (no pipes)?
 // QUESTION: if there is no pipes, shouldn't it be null (and not malloced?)?
-void	init_pipes(t_command *commands)
+// QUESTION: something missing is the free following if(!pipes): free
+//				cmds_split and free pipes
+void	init_pipes(t_command *cmds_struc)
 {
 	int	(*pipes)[2];
 	int	i;
 
 	pipes = NULL;
-	pipes = malloc(sizeof(*pipes) * (commands->total_cmds - 1));
+	pipes = malloc(sizeof(*pipes) * (cmds_struc->total_cmds - 1));
 	if (!pipes)
-		free_commands(commands, commands->total_cmds);
-	commands->pipes = pipes;
+		free_commands(cmds_struc, cmds_struc->total_cmds);
+	cmds_struc->pipes = pipes;
 	i = 0;
-	while (i < commands->total_cmds - 1)
+	while (i < cmds_struc->total_cmds - 1)
 	{
 		if (pipe(pipes[i]) == -1)
 		{
 			perror("pipe");
-			free_split(commands->cmds_splits);
-			free_commands(commands, commands->total_cmds);
+			free_split(cmds_struc->cmds_splits);
+			free_commands(cmds_struc, cmds_struc->total_cmds);
 		}
 		i++;
 	}
 }
 
 // TODO: handle error, close pipes, free resources, etc...
-void	exec_cmd(t_command commands, int read_fd, int write_fd, char **envp)
+void	exec_cmd(t_command cmds_struc, int read_fd, int write_fd, char **envp)
 {
 	if (read_fd != STDIN_FILENO)
 	{
@@ -50,85 +52,88 @@ void	exec_cmd(t_command commands, int read_fd, int write_fd, char **envp)
 		dup2(write_fd, STDOUT_FILENO);
 		close(write_fd);
 	}
-	if (commands.is_builtin)
+	if (cmds_struc.is_builtin)
 	{
-		execute_builtin(&commands);
+		execute_builtin(&cmds_struc);
 		exit(EXIT_SUCCESS);
 	}
 	else
 	{
-		execve(commands.cmd_path, commands.args, envp);
+		execve(cmds_struc.cmd_path, cmds_struc.args, envp);
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
 }
 
-void	parent_process(t_command *commands)
+void	parent_process(t_command *cmds_struc)
 {
 	int	i;
 
 	i = 0;
-	while (i < commands->total_cmds - 1)
+	while (i < cmds_struc->total_cmds - 1)
 	{
-		close(commands->pipes[i][0]);
-		close(commands->pipes[i][1]);
+		close(cmds_struc->pipes[i][0]);
+		close(cmds_struc->pipes[i][1]);
 		i++;
 	}
 	i = 0;
-	while (i < commands->total_cmds)
+	while (i < cmds_struc->total_cmds)
 	{
 		wait(NULL);
 		i++;
 	}
-	free_split(commands->cmds_splits);
-	free_commands(commands, commands->total_cmds);
+	free_split(cmds_struc->cmds_splits);
+	free(cmds_struc->pipes);
+	free_commands(cmds_struc, cmds_struc->total_cmds);
 }
 
-void	child_process(t_command *commands, int i, char **envp)
+void	child_process(t_command *cmds_struc, int i, char **envp)
 {
 	int		j;
 
 	if (i == 0)
-		commands[i].read_fd = STDIN_FILENO;
+		cmds_struc[i].read_fd = STDIN_FILENO;
 	else
-		commands[i].read_fd = commands->pipes[i - 1][0];
-	if (i == commands->total_cmds - 1)
-		commands[i].write_fd = STDOUT_FILENO;
+		cmds_struc[i].read_fd = cmds_struc->pipes[i - 1][0];
+	if (i == cmds_struc->total_cmds - 1)
+		cmds_struc[i].write_fd = STDOUT_FILENO;
 	else
-		commands[i].write_fd = commands->pipes[i][1];
+		cmds_struc[i].write_fd = cmds_struc->pipes[i][1];
 	j = 0;
-	while (j < commands->total_cmds - 1)
+	while (j < cmds_struc->total_cmds - 1)
 	{
 		if (j != i - 1)
-			close(commands->pipes[j][0]);
+			close(cmds_struc->pipes[j][0]);
 		if (j != i)
-			close(commands->pipes[j][1]);
+			close(cmds_struc->pipes[j][1]);
 		j++;
 	}
-	if (commands[i].path_found == true || commands[i].is_builtin == true)
-		exec_cmd(commands[i], commands[i].read_fd, commands[i].write_fd, envp);
+	if (cmds_struc[i].path_found == true || cmds_struc[i].is_builtin == true)
+		exec_cmd(cmds_struc[i], cmds_struc[i].read_fd, cmds_struc[i].write_fd,
+			envp);
 }
 
-void	forking(t_command *commands, char **envp)
+void	forking(t_command *cmds_struc, char **envp)
 {
 	int		i;
 
 	i = 0;
-	while (i < commands->total_cmds)
+	while (i < cmds_struc->total_cmds)
 	{
-		if (commands[i].path_found == true || commands[i].is_builtin == true)
+		if (cmds_struc[i].path_found == true || cmds_struc[i].is_builtin
+			== true)
 		{
-			commands[i].pid = fork();
-			if (commands[i].pid == -1)
+			cmds_struc[i].pid = fork();
+			if (cmds_struc[i].pid == -1)
 			{
 				perror("fork");
-				free_split(commands->cmds_splits);
-				free_commands(commands, commands->total_cmds);
+				free_split(cmds_struc->cmds_splits);
+				free_commands(cmds_struc, cmds_struc->total_cmds);
 			}
-			else if (commands[i].pid == 0)
-				child_process(commands, i, envp);
+			else if (cmds_struc[i].pid == 0)
+				child_process(cmds_struc, i, envp);
 		}
 		i++;
 	}
-	parent_process(commands);
+	parent_process(cmds_struc);
 }

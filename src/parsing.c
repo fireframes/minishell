@@ -12,15 +12,14 @@
 
 #include "minishell.h"
 
-t_command	*parsing_module(char **envp, char *read_line)
+t_command	*parsing_module(char **envp, char *read_line, t_command *cmds_struc)
 {
-	t_command	*commands;
 	char		**cmds_splits;
 
 	cmds_splits = cmds_parse(read_line);
-	commands = init_struct(cmds_splits);
-	cmd_args_parse(commands, envp);
-	return (commands);
+	cmds_struc = init_struct(cmds_splits, cmds_struc);
+	cmd_args_parse(cmds_struc, envp);
+	return (cmds_struc);
 }
 
 char	**cmds_parse(char *read_line)
@@ -38,28 +37,28 @@ char	**cmds_parse(char *read_line)
 // Parsing just before the split call?
 // 'free_split(commands->cmds_split)' has been deleted the line before printf
 // TODO problem with double free when trying an unexisting command
-void	cmd_args_parse(t_command *commands, char **envp)
+void	cmd_args_parse(t_command *cmds_struc, char **envp)
 {
 	int	i;
 
 	i = 0;
-	while (i < commands->total_cmds)
+	while (i < cmds_struc->total_cmds)
 	{
-		commands[i].command_index = i;
-		commands[i].args = split_v2(commands->cmds_splits[i], ' ');
-		if (check_builtin(&commands[i]))
-			commands[i].is_builtin = true;
+		cmds_struc[i].command_index = i;
+		cmds_struc[i].args = split_v2(cmds_struc->cmds_splits[i], ' ');
+		if (check_builtin(&cmds_struc[i]))
+			cmds_struc[i].is_builtin = true;
 		else
 		{
-			commands[i].is_builtin = false;
-			commands[i].cmd_path = find_command_path(commands[i].args[0], envp);
-			if (!commands[i].cmd_path)
+			cmds_struc[i].is_builtin = false;
+			cmds_struc[i].cmd_path = find_cmd_path(cmds_struc[i].args[0], envp);
+			if (!cmds_struc[i].cmd_path)
 			{
-				printf("command not found: %s\n", commands[i].args[0]);
-				commands[i].path_found = false;
+				printf("command not found: %s\n", cmds_struc[i].args[0]);
+				cmds_struc[i].path_found = false;
 			}
 			else
-				commands[i].path_found = true;
+				cmds_struc[i].path_found = true;
 		}
 		i++;
 	}

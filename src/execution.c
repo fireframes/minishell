@@ -12,10 +12,10 @@
 
 #include "minishell.h"
 
-void	execution_module(t_command *commands, char**envp)
+void	execution_module(t_command *cmds_struc, char**envp)
 {
-	init_pipes(commands);
-	forking(commands, envp);
+	init_pipes(cmds_struc);
+	forking(cmds_struc, envp);
 }
 
 // TODO: error check to be added in the loops

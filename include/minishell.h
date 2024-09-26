@@ -73,44 +73,44 @@ typedef struct s_command
 }	t_command;
 
 // checker.c
-bool	check_builtin(t_command *command);
+bool		check_builtin(t_command *command);
 
 // parsing.c
-t_command	*parsing_module(char **envp, char *read_line);
-char	**cmds_parse(char *read_line);
-void	cmd_args_parse(t_command *commands, char **envp);
+t_command	*parsing_module(char **envp, char *read_line, t_command *commands);
+char		**cmds_parse(char *read_line);
+void		cmd_args_parse(t_command *commands, char **envp);
 
 // freeing.c
-void	free_split(char **split);
-void	free_commands(t_command *commands, int cmd_cnt);
+void		free_split(char **split);
+void		free_commands(t_command *commands, int cmd_cnt);
 
 // fork_and_processes.c
-void	exec_cmd(t_command cmd, int read_fd, int write_fd, char **envp);
-void	init_pipes(t_command *commands);
-void	parent_process(t_command *commands);
-void	child_process(t_command *commands, int i, char **envp);
-void	forking(t_command *commands, char **envp);
+void		exec_cmd(t_command cmd, int read_fd, int write_fd, char **envp);
+void		init_pipes(t_command *commands);
+void		parent_process(t_command *commands);
+void		child_process(t_command *commands, int i, char **envp);
+void		forking(t_command *commands, char **envp);
 
 // util_split.c:
-char	**split_v2(char const *s, char c);
+char		**split_v2(char const *s, char c);
 
 // util_path.c:
-char	*find_command_path(char *command, char **envp);
+char		*find_cmd_path(char *command, char **envp);
 
 // util_strjoin.c:
-char	*strnstr_v2(const char *haystack, const char *needle, size_t len);
-char	*strjoin_v2(char const *s1, char const *s2);
+char		*strnstr_v2(const char *haystack, const char *needle, size_t len);
+char		*strjoin_v2(char const *s1, char const *s2);
 
 // built-ins
-int		ft_echo(t_command *cmd);
-int		ft_cd(t_command *cmd);
-int		ft_pwd(t_command *cmd);
+int			ft_echo(t_command *cmd);
+int			ft_cd(t_command *cmd);
+int			ft_pwd(t_command *cmd);
 
 // execution.c
-void	execution_module(t_command *commands, char**envp);
-void	execute_builtin(t_command *cmd);
+void		execution_module(t_command *commands, char**envp);
+void		execute_builtin(t_command *cmd);
 
 //minishell.c
-t_command	*init_struct(char **cmds_splits);
+t_command	*init_struct(char **cmds_splits, t_command *commands);
 
 #endif

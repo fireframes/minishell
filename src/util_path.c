@@ -70,7 +70,7 @@ static char	*get_correct_cmd_path(char *cmd, char **envp)
 	return (working_path_if_one);
 }
 
-char	*find_command_path(char *command, char **envp)
+char	*find_cmd_path(char *command, char **envp)
 {
 	char	*cmd_path;
 

@@ -13,38 +13,37 @@
 #include "minishell.h"
 
 // QUESTION: protection needed after split call (if (!prompt_split)...)?
-t_command	*init_struct(char **cmds_splits)
+t_command	*init_struct(char **cmds_splits, t_command *cmds_struc)
 {
 	int			cmd_count;
-	t_command	*commands;
 	int			i;
 
 	cmd_count = 0;
 	while (cmds_splits[cmd_count])
 		cmd_count++;
-	commands = malloc(sizeof(t_command) * cmd_count);
-	if (!commands)
+	cmds_struc = malloc(sizeof(t_command) * cmd_count);
+	if (!cmds_struc)
 		free_split(cmds_splits);
 	i = 0;
 	while (i < cmd_count)
 	{
-		commands[i].cmds_splits = cmds_splits;
-		commands[i].total_cmds = cmd_count;
+		cmds_struc[i].cmds_splits = cmds_splits;
+		cmds_struc[i].total_cmds = cmd_count;
 		i++;
 	}
-	return (commands);
+	return (cmds_struc);
 }
 
 // QUESTION: should freeing mallocated memory have its own module instead
 //	of being inside execution module?
 void	main_module(char **envp, char *read_line)
 {
-	t_command	*commands;
+	t_command	*cmds_struc;
 
-	commands = NULL;
+	cmds_struc = NULL;
 	add_history(read_line);
-	commands = parsing_module(envp, read_line);
-	execution_module(commands, envp);
+	cmds_struc = parsing_module(envp, read_line, cmds_struc);
+	execution_module(cmds_struc, envp);
 }
 
 // TODO: exit the infinite loop with SIGNALS;
