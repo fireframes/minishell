@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/27 18:03:43 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/27 18:42:05 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,12 +110,13 @@ char	*strjoin_v2(char const *s1, char const *s2);
 int		ft_echo(t_cmd *cmd);
 int		ft_cd(t_cmd *cmd);
 int		ft_pwd(t_cmd *cmd);
+int		ft_export(t_cmd *cmd, char **envp);
 
-int		ft_env(t_cmd *cmd, char **env);
+int		ft_env(t_cmd *cmd, char **envp);
 
 // execution.c
 void	execution_module(t_cmd *commands, char**envp);
-void	execute_builtin(t_cmd *cmd, char **env);
+void	execute_builtin(t_cmd *cmd, char **envp);
 
 //minishell.c
 t_cmd	*create_struct(char **cmds_splits, t_cmd *commands);
