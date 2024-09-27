@@ -108,7 +108,6 @@ int			ft_pwd(t_command *cmd);
 
 int			ft_env(t_command *cmd, char **env);
 
-
 // execution.c
 void		execution_module(t_command *commands, char**envp);
 void		execute_builtin(t_command *cmd, char **env);
