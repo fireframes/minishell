@@ -6,13 +6,13 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:16:31 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/27 13:40:44 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/27 18:02:20 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	init_struct(t_command *cmd_struc, int index)
+static void	init_struct(t_cmd *cmd_struc, int index)
 {
 	cmd_struc[index].args = NULL;
 	cmd_struc[index].cmd_path = NULL;
@@ -26,7 +26,7 @@ static void	init_struct(t_command *cmd_struc, int index)
 }
 
 // QUESTION: protection needed after split call (if (!prompt_split)...)?
-t_command	*create_struct(char **cmds_splits, t_command *cmds_struc)
+t_cmd	*create_struct(char **cmds_splits, t_cmd *cmds_struc)
 {
 	int			cmd_count;
 	int			i;
@@ -34,7 +34,7 @@ t_command	*create_struct(char **cmds_splits, t_command *cmds_struc)
 	cmd_count = 0;
 	while (cmds_splits[cmd_count])
 		cmd_count++;
-	cmds_struc = malloc(sizeof(t_command) * cmd_count);
+	cmds_struc = malloc(sizeof(t_cmd) * cmd_count);
 	if (!cmds_struc)
 		free_arr_of_arr(cmds_splits);
 	i = 0;
@@ -52,7 +52,7 @@ t_command	*create_struct(char **cmds_splits, t_command *cmds_struc)
 //	of being inside execution module?
 void	main_module(char **envp, char *read_line, char *prompt_with_path)
 {
-	t_command	*cmds_struc;
+	t_cmd	*cmds_struc;
 
 	cmds_struc = NULL;
 	add_history(read_line);
@@ -74,14 +74,25 @@ static char	*get_curr_dir(void)
 
 // TODO: exit the infinite loop with SIGNALS;
 // EOF (Ctrl+D) is dealt with the if (!read_line) {break} ; is that enough?
-int	main(int argc, char **argv, char **envp)
+
+// QUESTION: -should we free envp in the end of main?
+//			 - need to print error on envp error?
+// 			 -where to free when exiting with signals?
+int	main(int argc, char **argv, char **envp_orig)
 {
 	char	*read_line;
 	char	*prompt_with_path;
+	char	**envp;
 
 	(void) argv;
 	if (argc != 1)
+	{
+		perror("minishell: program should be started without arguments");
 		return (1);
+	}
+	envp = copy_envp(envp_orig);
+	if (!envp)
+		return (2);
 	while (1)
 	{
 		prompt_with_path = get_curr_dir();
@@ -91,5 +102,6 @@ int	main(int argc, char **argv, char **envp)
 		if (*read_line)
 			main_module(envp, read_line, prompt_with_path);
 	}
+	free_arr_of_arr(envp);
 	return (0);
 }

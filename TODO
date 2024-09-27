@@ -21,17 +21,20 @@
 [ todo ]:
 ◦ export with no options
 ◦ unset with no options
-◦ env with no options or arguments
-◦ exit with no options
 
 [ wip ]:
-...
+◦ exit with no options
+
 
 [ implemented ] (needs adjustments/tests/error_check):
 ◦ echo with option -n
-◦ cd with only a relative or absolute path
-◦ pwd with no options
 
+◦ cd with only a relative or absolute path  -->
+
+!!! cd and possibly other builtins should work in the end of pipes
+
+◦ pwd with no options
+◦ env with no options or arguments
 
 [ done ]:
 ...
@@ -51,6 +54,7 @@
 
 7. commands should be searched and TAB-autocompleted
 
+8. check function scopes. limit locals with static
 
 
 

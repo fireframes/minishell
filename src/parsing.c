@@ -6,13 +6,13 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/27 13:28:48 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/27 18:02:20 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_command	*parsing_module(char **envp, char *read_line, t_command *cmds_struc)
+t_cmd	*parsing_module(char **envp, char *read_line, t_cmd *cmds_struc)
 {
 	char		**cmds_splits;
 
@@ -38,7 +38,7 @@ char	**cmds_parse(char *read_line)
 // Parsing just before the split call?
 // 'free_split(commands->cmds_split)' has been deleted the line before printf
 // TODO problem with double free when trying an unexisting command
-void	cmd_args_parse(t_command *cmds_struc, char **envp)
+void	cmd_args_parse(t_cmd *cmds_struc, char **envp)
 {
 	int	i;
 
