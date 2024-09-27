@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.c                                        :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/24 12:15:25 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/27 13:28:48 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	cmd_args_parse(t_command *cmds_struc, char **envp)
 			cmds_struc[i].is_builtin = true;
 		else
 		{
-			cmds_struc[i].is_builtin = false;
 			cmds_struc[i].cmd_path = find_cmd_path(cmds_struc[i].args[0], envp);
 			if (!cmds_struc[i].cmd_path)
 			{

@@ -38,6 +38,8 @@
 
 3. lexer-parser-expander
 
+3.5 redirections
+
 4. heredoc
 
 5. signals
@@ -48,3 +50,22 @@
 	- colors ?
 
 7. commands should be searched and TAB-autocompleted
+
+
+
+
+
+
+----
+can be added to checker module for ft_cd
+
+// static bool	isvalidpath(char *path)
+// {
+// 	(void) path;
+// 	// if (path[0] == '.')
+// 		// return (true);
+// 	// else if (path[0] == '/')
+// 		// return (true);
+// 	// return (false);
+// 	return (true);
+// }

@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:41:40 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/25 14:33:43 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/27 14:02:04 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,6 @@
 
 #include "minishell.h"
 
-// static bool	isvalidpath(char *path)
-// {
-// 	(void) path;
-// 	// if (path[0] == '.')
-// 		// return (true);
-// 	// else if (path[0] == '/')
-// 		// return (true);
-// 	// return (false);
-// 	return (true);
-// }
-
 static bool	chdir_home(void)
 {
 	char	*homedir;
@@ -51,7 +40,7 @@ static bool	chdir_home(void)
 	else if (chdir(homedir) != 0)
 	{
 		printf("cd: chdir() to %s failed", homedir);
-		return (-1);
+		return (false);
 	}
 	return (true);
 }

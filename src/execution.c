@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/27 01:28:47 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/27 13:43:22 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	execution_module(t_command *cmds_struc, char **envp)
 }
 
 // TODO: error check to be added in the loops
-// QUESTION: why is there no return after ft_echo(cmd) compared to the others?
 void	execute_builtin(t_command *cmd, char **envp)
 {
 	if (ft_strcmp(cmd->args[0], "echo") == 0)
 	{
 		ft_echo(cmd);
+		return ;
 	}
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)
 	{
