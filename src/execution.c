@@ -19,6 +19,7 @@ void	execution_module(t_command *cmds_struc, char **envp)
 }
 
 // TODO: error check to be added in the loops
+// TODO: this function is more than 25 lines and it messes with norm
 void	execute_builtin(t_command *cmd, char **envp)
 {
 	if (ft_strcmp(cmd->args[0], "echo") == 0)
