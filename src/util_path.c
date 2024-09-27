@@ -70,31 +70,31 @@ static char	*get_correct_cmd_path(char *cmd, char **envp)
 	return (working_path_if_one);
 }
 
-static char	*is_absolute_path(char *command)
+static char	*absolute_or_relative_path(char *cmd)
 {
-	char	*absolute_path_if_any;
+	char	*abs_or_rel_path_if_any;
 	int		i;
 
-	absolute_path_if_any = NULL;
-	if (access(command, F_OK | X_OK) != -1)
+	abs_or_rel_path_if_any = NULL;
+	if (access(cmd, F_OK | X_OK) != -1)
 	{
-		absolute_path_if_any = malloc(sizeof(char) * (strlen_v2(command)) + 1);
+		abs_or_rel_path_if_any = malloc(sizeof(char) * (strlen_v2(cmd)) + 1);
 		i = 0;
-		while (command[i] != '\0')
+		while (cmd[i] != '\0')
 		{
-			absolute_path_if_any[i] = command[i];
+			abs_or_rel_path_if_any[i] = cmd[i];
 			i++;
 		}
-		absolute_path_if_any[i] = '\0';
+		abs_or_rel_path_if_any[i] = '\0';
 	}
-	return (absolute_path_if_any);
+	return (abs_or_rel_path_if_any);
 }
 
 char	*find_cmd_path(char *command, char **envp)
 {
 	char	*cmd_path;
 
-	cmd_path = is_absolute_path(command);
+	cmd_path = absolute_or_relative_path(command);
 	if (cmd_path == NULL)
 		cmd_path = get_correct_cmd_path(command, envp);
 	return (cmd_path);
