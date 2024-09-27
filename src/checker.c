@@ -6,13 +6,13 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:05:13 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/24 15:23:39 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/27 18:02:20 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	check_builtin(t_command *command)
+bool	check_builtin(t_cmd *command)
 {
 	if (ft_strcmp(command->args[0], "echo") == 0)
 		return (true);

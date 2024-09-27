@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:58:50 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/24 18:52:24 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/27 18:02:20 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // is the buffer size appropriate -- check again
 // is there a purpose of returning -1 if too many args?
-int	ft_pwd(t_command *cmd)
+int	ft_pwd(t_cmd *cmd)
 {
 	char	curpath[PATH_MAX + 1];
 

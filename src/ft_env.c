@@ -6,13 +6,13 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 01:01:50 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/27 01:30:08 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/27 18:02:20 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_env(t_command *cmd, char **envp)
+int	ft_env(t_cmd *cmd, char **envp)
 {
 	int	i;
 

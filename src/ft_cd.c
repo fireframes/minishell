@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:41:40 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/27 14:02:04 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/27 18:02:20 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static bool	chdir_home(void)
 	return (true);
 }
 
-int	ft_cd(t_command *cmd)
+int	ft_cd(t_cmd *cmd)
 {
 	if (cmd->args[1] == NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/27 01:29:21 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/27 18:03:43 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@
 //		same as one of the 8 built-ins (plus 1 with flag). Each sub-structure
 //		has its own value;
 //  - (*pipes)[2], an array of 2 integers [...] [...]
-//	- path_found, a boolean saying if a path has been found for the command. 
-// 		Each sub-structure has its own value. [NB: is that really needed, 
-//		because normally if no path has been found, the cmd_path string should 
+//	- path_found, a boolean saying if a path has been found for the command.
+// 		Each sub-structure has its own value. [NB: is that really needed,
+//		because normally if no path has been found, the cmd_path string should
 //		be NULL?]
 //	- pid, [...] [...]
 //	- read_fd, an integer [...] [...]
@@ -57,7 +57,7 @@
 // QUESTION: can (*pipes)[2] (defined in init_pipes) could only be pipes here?
 // IMPORTANT: some of the struct var are accessed in the struct, other in an
 //	array of that struct!
-typedef struct s_command
+typedef struct s_cmd
 {
 	char	**cmds_splits;
 	int		total_cmds;
@@ -70,51 +70,54 @@ typedef struct s_command
 	pid_t	pid;
 	int		read_fd;
 	int		write_fd;
-}	t_command;
+}	t_cmd;
 
 // checker.c
-bool		check_builtin(t_command *command);
+bool	check_builtin(t_cmd *command);
 
 // parsing.c
-t_command	*parsing_module(char **envp, char *read_line, t_command *commands);
-char		**cmds_parse(char *read_line);
-void		cmd_args_parse(t_command *commands, char **envp);
+t_cmd	*parsing_module(char **envp, char *read_line, t_cmd *commands);
+char	**cmds_parse(char *read_line);
+void	cmd_args_parse(t_cmd *commands, char **envp);
 
 // freeing.c
-void		free_module(t_command *cmds_struc, char *read_l, char *prompt_path);
-void		free_arr_of_arr(char **split);
-void		free_structs(t_command *commands);
+void	free_module(t_cmd *cmds_struc, char *read_line, char *prmpt_path);
+void	free_arr_of_arr(char **split);
+void	free_structs(t_cmd *commands);
 
 // fork_and_processes.c
-void		exec_cmd(t_command cmd, int read_fd, int write_fd, char **envp);
-void		init_pipes(t_command *commands);
-void		parent_process(t_command *commands);
-void		child_process(t_command *commands, int i, char **envp);
-void		forking(t_command *commands, char **envp);
+void	exec_cmd(t_cmd cmd, int read_fd, int write_fd, char **envp);
+void	init_pipes(t_cmd *commands);
+void	parent_process(t_cmd *commands);
+void	child_process(t_cmd *commands, int i, char **envp);
+void	forking(t_cmd *commands, char **envp);
+
+// copy
+char	**copy_envp(char **envp);
 
 // util_split.c:
-char		**split_v2(char const *s, char c);
+char	**split_v2(char const *s, char c);
 
 // util_path.c:
-char		*find_cmd_path(char *command, char **envp);
+char	*find_cmd_path(char *command, char **envp);
 
 // util_strjoin.c:
-size_t		strlen_v2(const char *s);
-char		*strnstr_v2(const char *haystack, const char *needle, size_t len);
-char		*strjoin_v2(char const *s1, char const *s2);
+size_t	strlen_v2(const char *s);
+char	*strnstr_v2(const char *haystack, const char *needle, size_t len);
+char	*strjoin_v2(char const *s1, char const *s2);
 
 // built-ins
-int			ft_echo(t_command *cmd);
-int			ft_cd(t_command *cmd);
-int			ft_pwd(t_command *cmd);
+int		ft_echo(t_cmd *cmd);
+int		ft_cd(t_cmd *cmd);
+int		ft_pwd(t_cmd *cmd);
 
-int			ft_env(t_command *cmd, char **env);
+int		ft_env(t_cmd *cmd, char **env);
 
 // execution.c
-void		execution_module(t_command *commands, char**envp);
-void		execute_builtin(t_command *cmd, char **env);
+void	execution_module(t_cmd *commands, char**envp);
+void	execute_builtin(t_cmd *cmd, char **env);
 
 //minishell.c
-t_command	*create_struct(char **cmds_splits, t_command *commands);
+t_cmd	*create_struct(char **cmds_splits, t_cmd *commands);
 
 #endif

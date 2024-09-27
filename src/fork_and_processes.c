@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/27 01:06:55 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/09/27 18:02:20 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // QUESTION: do we have to call this function when only one command (no pipes)?
 // QUESTION: if there is no pipes, shouldn't it be null (and not malloced?)?
-void	init_pipes(t_command *cmds_struc)
+void	init_pipes(t_cmd *cmds_struc)
 {
 	int	(*pipes)[2];
 	int	i;
@@ -37,7 +37,7 @@ void	init_pipes(t_command *cmds_struc)
 }
 
 // TODO: handle error, close pipes, free resources, etc...
-void	exec_cmd(t_command cmds_struc, int read_fd, int write_fd, char **envp)
+void	exec_cmd(t_cmd cmds_struc, int read_fd, int write_fd, char **envp)
 {
 	if (read_fd != STDIN_FILENO)
 	{
@@ -62,7 +62,7 @@ void	exec_cmd(t_command cmds_struc, int read_fd, int write_fd, char **envp)
 	}
 }
 
-void	parent_process(t_command *cmds_struc)
+void	parent_process(t_cmd *cmds_struc)
 {
 	int	i;
 
@@ -81,7 +81,7 @@ void	parent_process(t_command *cmds_struc)
 	}
 }
 
-void	child_process(t_command *cmds_struc, int i, char **envp)
+void	child_process(t_cmd *cmds_struc, int i, char **envp)
 {
 	int		j;
 
@@ -107,7 +107,8 @@ void	child_process(t_command *cmds_struc, int i, char **envp)
 			envp);
 }
 
-void	forking(t_command *cmds_struc, char **envp)
+// TODO: execute builtin without forking it
+void	forking(t_cmd *cmds_struc, char **envp)
 {
 	int		i;
 
