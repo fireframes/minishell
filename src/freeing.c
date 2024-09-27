@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+// QUESTION: since we are not mallocing read_line, should we free it?
 void	free_module(t_command *cmds_struc, char *read_line, char *prompt_path)
 {
 	free_structs(cmds_struc);

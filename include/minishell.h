@@ -99,6 +99,7 @@ char		**split_v2(char const *s, char c);
 char		*find_cmd_path(char *command, char **envp);
 
 // util_strjoin.c:
+size_t		strlen_v2(const char *s);
 char		*strnstr_v2(const char *haystack, const char *needle, size_t len);
 char		*strjoin_v2(char const *s1, char const *s2);
 

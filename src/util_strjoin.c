@@ -33,7 +33,7 @@ static int	strncmp_v2(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-static size_t	strlen_v2(const char *s)
+size_t	strlen_v2(const char *s)
 {
 	int	count;
 

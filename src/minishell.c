@@ -66,7 +66,7 @@ void	main_module(char **envp, char *read_line, char *prompt_with_path)
 static char	*get_curr_dir(void)
 {
 	static char	curr_dir[PATH_MAX + 1];
-	char *full_prompt;
+	char		*full_prompt;
 
 	full_prompt = strjoin_v2(getcwd(curr_dir, sizeof(curr_dir)), "$ ");
 	return (full_prompt);
@@ -74,7 +74,6 @@ static char	*get_curr_dir(void)
 
 // TODO: exit the infinite loop with SIGNALS;
 // EOF (Ctrl+D) is dealt with the if (!read_line) {break} ; is that enough?
-// QUESTION: since we are not mallocing read_line, should we free it?
 int	main(int argc, char **argv, char **envp)
 {
 	char	*read_line;

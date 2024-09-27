@@ -70,10 +70,32 @@ static char	*get_correct_cmd_path(char *cmd, char **envp)
 	return (working_path_if_one);
 }
 
+static char	*is_absolute_path(char *command)
+{
+	char	*absolute_path_if_any;
+	int		i;
+
+	absolute_path_if_any = NULL;
+	if (access(command, F_OK | X_OK) != -1)
+	{
+		absolute_path_if_any = malloc(sizeof(char) * (strlen_v2(command)) + 1);
+		i = 0;
+		while (command[i] != '\0')
+		{
+			absolute_path_if_any[i] = command[i];
+			i++;
+		}
+		absolute_path_if_any[i] = '\0';
+	}
+	return (absolute_path_if_any);
+}
+
 char	*find_cmd_path(char *command, char **envp)
 {
 	char	*cmd_path;
 
-	cmd_path = get_correct_cmd_path(command, envp);
+	cmd_path = is_absolute_path(command);
+	if (cmd_path == NULL)
+		cmd_path = get_correct_cmd_path(command, envp);
 	return (cmd_path);
 }
