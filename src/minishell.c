@@ -50,7 +50,7 @@ t_command	*create_struct(char **cmds_splits, t_command *cmds_struc)
 
 // QUESTION: should freeing mallocated memory have its own module instead
 //	of being inside execution module?
-void	main_module(char **envp, char *read_line)
+void	main_module(char **envp, char *read_line, char *prompt_with_path)
 {
 	t_command	*cmds_struc;
 
@@ -58,6 +58,7 @@ void	main_module(char **envp, char *read_line)
 	add_history(read_line);
 	cmds_struc = parsing_module(envp, read_line, cmds_struc);
 	execution_module(cmds_struc, envp);
+	free_module(cmds_struc, read_line, prompt_with_path);
 }
 
 // NOTE: based on current implementation of ft_pwd, taking the same assumptions
@@ -89,9 +90,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!read_line)
 			break ;
 		if (*read_line)
-			main_module(envp, read_line);
-		free(prompt_with_path);
-		free(read_line);
+			main_module(envp, read_line, prompt_with_path);
 	}
 	return (0);
 }

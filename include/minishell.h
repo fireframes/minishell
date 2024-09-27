@@ -81,8 +81,9 @@ char		**cmds_parse(char *read_line);
 void		cmd_args_parse(t_command *commands, char **envp);
 
 // freeing.c
+void		free_module(t_command *cmds_struc, char *read_l, char *prompt_path);
 void		free_arr_of_arr(char **split);
-void		free_in_struct(t_command *commands);
+void		free_structs(t_command *commands);
 
 // fork_and_processes.c
 void		exec_cmd(t_command cmd, int read_fd, int write_fd, char **envp);
