@@ -14,8 +14,13 @@
 
 void	execution_module(t_command *cmds_struc, char **envp)
 {
-	init_pipes(cmds_struc);
-	forking(cmds_struc, envp);
+	if (cmds_struc->total_cmds == 1 && cmds_struc->is_builtin == true)
+		execute_builtin(cmds_struc, envp);
+	else
+	{
+		init_pipes(cmds_struc);
+		forking(cmds_struc, envp);
+	}
 }
 
 // TODO: error check to be added in the loops
