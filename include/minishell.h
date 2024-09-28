@@ -55,8 +55,6 @@
 //	- read_fd, an integer [...] [...]
 //	- write_fd, an integer [...] [...]
 // QUESTION: can (*pipes)[2] (defined in init_pipes) could only be pipes here?
-// IMPORTANT: some of the struct var are accessed in the struct, other in an
-//	array of that struct!
 typedef struct s_cmd
 {
 	char	**cmds_splits;

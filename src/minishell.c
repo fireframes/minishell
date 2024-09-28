@@ -74,10 +74,12 @@ static char	*get_curr_dir(void)
 
 // TODO: exit the infinite loop with SIGNALS;
 // EOF (Ctrl+D) is dealt with the if (!read_line) {break} ; is that enough?
-
-// QUESTION: -should we free envp in the end of main?
+// TODO: the main function is already 24 lines, should some part of it (such
+//		as the nb of args check or the envp error check) moved to other 
+//		functions?
+// QUESTION: - should we free envp in the end of main?
 //			 - need to print error on envp error?
-// 			 -where to free when exiting with signals?
+// 			 - where to free when exiting with signals?
 int	main(int argc, char **argv, char **envp_orig)
 {
 	char	*read_line;

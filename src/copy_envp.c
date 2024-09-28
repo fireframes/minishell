@@ -12,6 +12,9 @@
 
 #include "minishell.h"
 
+// QUESTION: what is the use of the following check?
+//			if (envp_cpy[i] == NULL)
+//				return (NULL);
 char	**copy_envp(char **envp)
 {
 	char	**envp_cpy;
