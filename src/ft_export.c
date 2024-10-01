@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 18:39:56 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/01 15:20:53 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:46:53 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	print_sorted_envp(char **envp)
 		printf("%s\n", sorted_list[i]);
 		i++;
 	}
+	free(sorted_list);
 }
 
 // PROBLEM:	why this line is in envp list?

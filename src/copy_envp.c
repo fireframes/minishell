@@ -6,36 +6,36 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:34:56 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/01 15:41:05 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/01 18:31:53 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// QUESTION: what is the use of the following check?
-//			if (envp_cpy[i] == NULL)
-//				return (NULL);
-// ANSWER: ft_strdup allocates new string with malloc,
-//			so we have to check if allocation went wrong
+/**
+* Creates a copy of the environment variable list.
+* It allocates space for the copies using static arrays,
+* ensuring that copied environment variables do not exceed predefined limits.
+*/
 char	**copy_envp(char **envp)
 {
-	char	**envp_cpy;
-	int		i;
+	static char	envp_copy[ENVVAR_MAX][PATH_MAX];
+	static char	*copy_ptr[ENVVAR_MAX + 1];
+	int			i;
 
 	i = 0;
 	while (envp[i] != NULL)
-		i++;
-	envp_cpy = (char **) malloc(sizeof(char *) * (i + 1));
-	if (envp_cpy == NULL)
-		return (NULL);
-	i = 0;
-	while (envp[i] != NULL)
 	{
-		envp_cpy[i] = ft_strdup(envp[i]);
-		if (envp_cpy[i] == NULL)
+		if (i >= ENVVAR_MAX)
+		{
+			perror("envp: size of envp list exceeds maximum value");
 			return (NULL);
+		}
+		ft_strlcpy(envp_copy[i], envp[i], ft_strlen(envp[i]) + 1);
+		envp_copy[i][PATH_MAX - 1] = '\0';
+		copy_ptr[i] = envp_copy[i];
 		i++;
 	}
-	envp_cpy[i] = NULL;
-	return (envp_cpy);
+	copy_ptr[i] = NULL;
+	return (copy_ptr);
 }
