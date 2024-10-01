@@ -112,6 +112,7 @@ int		ft_export(t_cmd *cmd, char **envp);
 
 int		ft_env(t_cmd *cmd, char **envp);
 
+// void	ft_exit(t_cmd *cmd, char **envp);
 void	ft_exit(char **envp);
 
 // execution.c

@@ -31,12 +31,29 @@ static bool is_first_levels(char** envp)
         return (false);
 }
 
+// QUESTIONS: what is the maximum exit code number possible? What happens if
+//  you have value higher? A negative value?
+// static int get_second_arg()
+// {
+
+//     return (0);
+// }
+
+// TODO: implement the value that can be passed as parameters (exit code)
+// TODO: finish behavior when not on the lower SLVL value
+// TODO: see for the max value of SLVL and what happens when overflow
+// TODO: how to deal with exit code when SLVL higher thant 2?
 void    ft_exit(char **envp)
+// void    ft_exit(t_cmd *cmd, char **envp)
 {
+    // int exit_code;
+
+    // exit_code = get_second_arg();
     if (is_first_levels(envp))
     {
         printf("exit\n");
-        exit (EXIT_SUCCESS);
+        exit (0);
+        // exit (exit_code);
     }
     else
     {
