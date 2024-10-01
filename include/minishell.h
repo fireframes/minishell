@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/01 16:37:44 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/01 20:50:08 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,12 @@ typedef struct s_cmd
 	int		write_fd;
 }	t_cmd;
 
+typedef struct s_env
+{
+	char	envp_arr[ENVVAR_MAX][PATH_MAX];
+	char	*ptr_arr[ENVVAR_MAX + 1];
+}	t_env;
+
 // checker.c
 bool	check_builtin(t_cmd *command);
 
@@ -86,14 +92,17 @@ void	free_arr_of_arr(char **split);
 void	free_structs(t_cmd *commands);
 
 // fork_and_processes.c
-void	exec_cmd(t_cmd cmd, int read_fd, int write_fd, char **envp);
+void	exec_cmd(t_cmd cmd, int read_fd, int write_fd, t_env *envp);
 void	init_pipes(t_cmd *commands);
 void	parent_process(t_cmd *commands);
-void	child_process(t_cmd *commands, int i, char **envp);
-void	forking(t_cmd *commands, char **envp);
+void	child_process(t_cmd *commands, int i, t_env *envp);
+void	forking(t_cmd *commands, t_env *envp);
 
-// copy
-char	**copy_envp(char **envp);
+// util_envp.c
+t_env	*copy_envp(char **envp);
+void	bubble_sort(char **arr, int count);
+void	print_sorted_envp(t_env *envp);
+bool	isvalid_arg(char *arg);
 
 // util_split.c:
 char	**split_v2(char const *s, char c);
@@ -115,16 +124,16 @@ int		ft_atoi_v2(const char *str);
 int		ft_echo(t_cmd *cmd);
 int		ft_cd(t_cmd *cmd);
 int		ft_pwd(t_cmd *cmd);
-int		ft_export(t_cmd *cmd, char **envp);
+int		ft_export(t_cmd *cmd, t_env *envp);
 
-int		ft_env(t_cmd *cmd, char **envp);
+int		ft_env(t_cmd *cmd, t_env *envp);
 
 void	ft_exit(t_cmd *cmd, char **envp);
-// void	ft_exit(char **envp);
+// void	ft_exit(t_env *envp);
 
 // execution.c
-void	execution_module(t_cmd *commands, char**envp);
-void	execute_builtin(t_cmd *cmd, char **envp);
+void	execution_module(t_cmd *commands, t_env *envp);
+void	execute_builtin(t_cmd *cmd, t_env *envp);
 
 //minishell.c
 t_cmd	*create_struct(char **cmds_splits, t_cmd *commands);

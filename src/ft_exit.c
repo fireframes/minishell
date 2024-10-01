@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/27 17:11:50 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/01 20:49:35 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static bool is_first_levels(char** envp)
 	}
     if (ft_strcmp(envp[i], "SHLVL=2") == 0)
         return (true);
-    else if (ft_strcmp(envp[i], "SHLVL=1") == 0) 
+    else if (ft_strcmp(envp[i], "SHLVL=1") == 0)
         return (true);
     else
         return (false);
@@ -50,7 +50,7 @@ static int get_second_arg(t_cmd *cmd)
 // TODO: finish behavior when not on the lower SLVL value
 // TODO: see for the max value of SLVL and what happens when overflow
 // TODO: how to deal with exit code when SLVL higher thant 2?
-// void    ft_exit(char **envp)
+// void    ft_exit(t_env *envp)
 void    ft_exit(t_cmd *cmd, char **envp)
 {
     int exit_code;
