@@ -18,6 +18,7 @@ SRCS 		:=	minishell.c				\
 				util_path.c				\
 				util_split.c			\
 				util_strjoin.c			\
+				util_others.c			\
 				execution.c				\
 				ft_echo.c				\
 				ft_cd.c					\

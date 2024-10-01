@@ -104,6 +104,11 @@ size_t	strlen_v2(const char *s);
 char	*strnstr_v2(const char *haystack, const char *needle, size_t len);
 char	*strjoin_v2(char const *s1, char const *s2);
 
+// util_others.c
+char	*ft_itoa_v2(int n);
+int		ft_isdigit_v3(int c);
+int		ft_atoi_v2(const char *str);
+
 // built-ins
 int		ft_echo(t_cmd *cmd);
 int		ft_cd(t_cmd *cmd);
@@ -112,8 +117,8 @@ int		ft_export(t_cmd *cmd, char **envp);
 
 int		ft_env(t_cmd *cmd, char **envp);
 
-// void	ft_exit(t_cmd *cmd, char **envp);
-void	ft_exit(char **envp);
+void	ft_exit(t_cmd *cmd, char **envp);
+// void	ft_exit(char **envp);
 
 // execution.c
 void	execution_module(t_cmd *commands, char**envp);
