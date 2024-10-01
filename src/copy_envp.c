@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:34:56 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/27 17:12:55 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:41:05 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 // QUESTION: what is the use of the following check?
 //			if (envp_cpy[i] == NULL)
 //				return (NULL);
+// ANSWER: ft_strdup allocates new string with malloc,
+//			so we have to check if allocation went wrong
 char	**copy_envp(char **envp)
 {
 	char	**envp_cpy;
