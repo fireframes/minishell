@@ -12,10 +12,34 @@
 
 #include "minishell.h"
 
-int	ft_exit()
+static bool is_first_levels(char** envp)
 {
+    int i;
 
-    return (0);
+	i = 0;
+	while (envp[i] != NULL)
+	{
+		if (strnstr_v2(envp[i], "SHLVL=", 6) && envp[i])
+			break ;
+		i++;
+	}
+    if (ft_strcmp(envp[i], "SHLVL=2") == 0)
+        return (true);
+    else if (ft_strcmp(envp[i], "SHLVL=1") == 0) 
+        return (true);
+    else
+        return (false);
+}
 
-    return (-1);
+void    ft_exit(char **envp)
+{
+    if (is_first_levels(envp))
+    {
+        printf("exit\n");
+        exit (EXIT_SUCCESS);
+    }
+    else
+    {
+        printf("exit\n");
+    }
 }

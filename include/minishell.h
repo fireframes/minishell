@@ -112,6 +112,8 @@ int		ft_export(t_cmd *cmd, char **envp);
 
 int		ft_env(t_cmd *cmd, char **envp);
 
+void	ft_exit(char **envp);
+
 // execution.c
 void	execution_module(t_cmd *commands, char**envp);
 void	execute_builtin(t_cmd *cmd, char **envp);

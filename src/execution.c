@@ -40,6 +40,6 @@ void	execute_builtin(t_cmd *cmd, char **envp)
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
 		ft_env(cmd, envp);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
-		return ;
+		ft_exit(envp);
 	return ;
 }
