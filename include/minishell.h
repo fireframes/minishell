@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/01 20:50:08 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/02 15:14:57 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,14 @@ typedef struct s_cmd
 	pid_t	pid;
 	int		read_fd;
 	int		write_fd;
+	int		shell_level;
+
 }	t_cmd;
 
 typedef struct s_env
 {
 	char	envp_arr[ENVVAR_MAX][PATH_MAX];
-	char	*ptr_arr[ENVVAR_MAX + 1];
+	char	(*ptr_arr)[PATH_MAX];
 }	t_env;
 
 // checker.c

@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:34:56 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/01 20:44:52 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/02 14:41:29 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_env	*copy_envp(char **envp)
 	if (!env)
 		return (NULL);
 	i = 0;
-	while (env->ptr_arr[i] != NULL)
+	while (envp[i] != NULL)
 	{
 		if (i >= ENVVAR_MAX)
 		{
@@ -36,10 +36,10 @@ t_env	*copy_envp(char **envp)
 		}
 		ft_strlcpy(env->envp_arr[i], envp[i], ft_strlen(envp[i]) + 1);
 		env->envp_arr[i][PATH_MAX - 1] = '\0';
-		env->ptr_arr[i] = env->envp_arr[i];
 		i++;
 	}
-	env->ptr_arr[i] = NULL;
+	env->envp_arr[i][0] = '\0';
+	env->ptr_arr = env->envp_arr;
 	return (env);
 }
 

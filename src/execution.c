@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/01 20:29:28 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/02 15:15:51 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	execute_builtin(t_cmd *cmd, t_env *envp)
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
 		ft_env(cmd, envp);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
-		ft_exit(cmd, envp->ptr_arr);
+		ft_exit(cmd, envp);
 		// ft_exit(envp);
 	return ;
 }
