@@ -6,14 +6,13 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/02 17:05:21 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:18:06 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define ENVVAR_MAX 512
 # define MAX_SHLVL 256
 
 # include <errno.h>
