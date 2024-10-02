@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-static bool is_first_levels(char** envp)
+static bool	is_first_levels(char **envp)
 {
-    int i;
+	int	i;
 
 	i = 0;
 	while (envp[i] != NULL)
@@ -23,12 +23,12 @@ static bool is_first_levels(char** envp)
 			break ;
 		i++;
 	}
-    if (ft_strcmp(envp[i], "SHLVL=2") == 0)
-        return (true);
-    else if (ft_strcmp(envp[i], "SHLVL=1") == 0) 
-        return (true);
-    else
-        return (false);
+	if (ft_strcmp(envp[i], "SHLVL=2") == 0)
+		return (true);
+	else if (ft_strcmp(envp[i], "SHLVL=1") == 0)
+		return (true);
+	else
+		return (false);
 }
 
 // QUESTIONS: what is the maximum exit code number possible? What happens if
@@ -36,14 +36,37 @@ static bool is_first_levels(char** envp)
 // TODO: Implement behavior to overflow (to 0) when higher or equal to 256;
 // TODO: ...and reverse "overflowing" behavior when negative value;
 // TODO: Error message if more than one parameter, if non numerical value;
-static int get_second_arg(t_cmd *cmd)
+static int	get_2nd_arg(t_cmd *cmd)
 {
-    int exit_code_if_any;
+	int	exit_code_if_any;
 
-    exit_code_if_any = 0;
-    if (cmd->args[1] != NULL)
-        exit_code_if_any = ft_atoi_v2(cmd->args[1]);
-    return (exit_code_if_any);
+	exit_code_if_any = 0;
+	if (cmd->args[1] != NULL)
+		exit_code_if_any = ft_atoi_v2(cmd->args[1]);
+    exit_code_if_any = exit_code_if_any % 256;
+	return (exit_code_if_any);
+}
+
+static int	check_error(t_cmd *cmd)
+{
+	int	index;
+
+	index = 0;
+	if (cmd->args[1] != NULL)
+	{
+        if (cmd->args[1][index] == '+' || cmd->args[1][index] == '-')
+            index++;
+		while (cmd->args[1][index] != '\0')
+		{
+			if (ft_isdigit_v3(cmd->args[1][index]) == 0)
+				return (2);
+			index++;
+		}
+		if (cmd->args[1] != NULL)
+			if (cmd->args[2] != NULL)
+				return (1);
+	}
+	return (0);
 }
 
 // TODO: implement the value that can be passed as parameters (exit code)
@@ -51,19 +74,27 @@ static int get_second_arg(t_cmd *cmd)
 // TODO: see for the max value of SLVL and what happens when overflow
 // TODO: how to deal with exit code when SLVL higher thant 2?
 // void    ft_exit(char **envp)
-void    ft_exit(t_cmd *cmd, char **envp)
+void	ft_exit(t_cmd *cmd, char **envp)
 {
-    int exit_code;
+	int	exit_code;
 
-    exit_code = get_second_arg(cmd);
-    if (is_first_levels(envp))
-    {
-        printf("exit\n");
-        // exit (0);
-        exit (exit_code);
-    }
-    else
-    {
-        printf("exit\n");
-    }
+	exit_code = get_2nd_arg(cmd);
+	printf("exit\n");
+	if (check_error(cmd) == 1)
+	{
+		printf("minishell: exit: too many arguments\n");
+		exit_code = 1;
+	}
+	if (check_error(cmd) == 2)
+	{
+		printf("minishell: exit: %s: numeric argument required\n",
+			cmd->args[1]);
+		exit_code = 2;
+	}
+	if (is_first_levels(envp))
+		exit (exit_code);
+	else
+	{
+		printf("TO BE IMPLEMENTED: SLVL--\n");
+	}
 }
