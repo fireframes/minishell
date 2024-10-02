@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:16:31 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/02 18:14:36 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:22:44 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ t_cmd	*create_struct(char **cmds_splits, t_cmd *cmds_struc)
 
 // QUESTION: should freeing mallocated memory have its own module instead
 //	of being inside execution module?
-void	main_module(char **envp, char *read_line, char *prompt_with_path)
+void	main_module(char ***envp, char *read_line, char *prompt_with_path)
 {
 	t_cmd	*cmds_struc;
 
 	cmds_struc = NULL;
 	add_history(read_line);
-	cmds_struc = parsing_module(envp, read_line, cmds_struc);
+	cmds_struc = parsing_module(*envp, read_line, cmds_struc);
 	execution_module(cmds_struc, envp);
 	free_module(cmds_struc, read_line, prompt_with_path);
 }
@@ -95,7 +95,7 @@ int	main(int argc, char **argv, char **envp)
 	env = malloc(sizeof(char **) * MAX_SHLVL);
 	if (env == NULL)
 		return (2);
-	env[0] = copy_envp(envp);
+	env[0] = copy_env_arr(envp);
 	if (env[0] == NULL)
 		return (2);
 	while (1)
@@ -105,7 +105,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!read_line)
 			break ;
 		if (*read_line)
-			main_module(env[0], read_line, prompt_with_path);
+			main_module(&env[0], read_line, prompt_with_path);
 	}
 	free_arr_of_arr(env[0]);
 	free(env);
