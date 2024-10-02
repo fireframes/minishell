@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/01 16:37:44 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/02 17:05:21 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # define ENVVAR_MAX 512
+# define MAX_SHLVL 256
 
 # include <errno.h>
 # include <fcntl.h>
@@ -71,6 +72,12 @@ typedef struct s_cmd
 	int		read_fd;
 	int		write_fd;
 }	t_cmd;
+
+// typedef	struct s_env
+// {
+// 	char	**envp;
+// 	int		shlvl;
+// }	t_env;
 
 // checker.c
 bool	check_builtin(t_cmd *command);

@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:16:31 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/27 18:02:20 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:14:36 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,16 @@ static char	*get_curr_dir(void)
 // TODO: exit the infinite loop with SIGNALS;
 // EOF (Ctrl+D) is dealt with the if (!read_line) {break} ; is that enough?
 // TODO: the main function is already 24 lines, should some part of it (such
-//		as the nb of args check or the envp error check) moved to other 
+//		as the nb of args check or the envp error check) moved to other
 //		functions?
 // QUESTION: - should we free envp in the end of main?
 //			 - need to print error on envp error?
 // 			 - where to free when exiting with signals?
-int	main(int argc, char **argv, char **envp_orig)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*read_line;
 	char	*prompt_with_path;
-	char	**envp;
+	char	***env;
 
 	(void) argv;
 	if (argc != 1)
@@ -92,8 +92,11 @@ int	main(int argc, char **argv, char **envp_orig)
 		perror("minishell: program should be started without arguments");
 		return (1);
 	}
-	envp = copy_envp(envp_orig);
-	if (!envp)
+	env = malloc(sizeof(char **) * MAX_SHLVL);
+	if (env == NULL)
+		return (2);
+	env[0] = copy_envp(envp);
+	if (env[0] == NULL)
 		return (2);
 	while (1)
 	{
@@ -102,8 +105,9 @@ int	main(int argc, char **argv, char **envp_orig)
 		if (!read_line)
 			break ;
 		if (*read_line)
-			main_module(envp, read_line, prompt_with_path);
+			main_module(env[0], read_line, prompt_with_path);
 	}
-	free_arr_of_arr(envp);
+	free_arr_of_arr(env[0]);
+	free(env);
 	return (0);
 }
