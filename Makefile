@@ -14,7 +14,7 @@ SRCS 		:=	minishell.c				\
 				parsing.c				\
 				freeing.c				\
 				fork_and_processes.c	\
-				copy_envp.c				\
+				util_env.c				\
 				util_path.c				\
 				util_split.c			\
 				util_strjoin.c			\

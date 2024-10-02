@@ -6,13 +6,13 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/27 18:42:57 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:30:52 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execution_module(t_cmd *cmds_struc, char **envp)
+void	execution_module(t_cmd *cmds_struc, char ***envp)
 {
 	if (cmds_struc->total_cmds == 1 && cmds_struc->is_builtin == true)
 		execute_builtin(cmds_struc, envp);
@@ -25,7 +25,7 @@ void	execution_module(t_cmd *cmds_struc, char **envp)
 
 // TODO: error check to be added in the loops
 // TODO: this function is more than 25 lines and it messes with norm
-void	execute_builtin(t_cmd *cmd, char **envp)
+void	execute_builtin(t_cmd *cmd, char ***envp)
 {
 	if (ft_strcmp(cmd->args[0], "echo") == 0)
 		ft_echo(cmd);
@@ -38,9 +38,9 @@ void	execute_builtin(t_cmd *cmd, char **envp)
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		return ;
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
-		ft_env(cmd, envp);
+		ft_env(cmd, *envp);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
-		ft_exit(cmd, envp);
+		ft_exit(cmd, *envp);
 		// ft_exit(envp);
 	return ;
 }
