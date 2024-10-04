@@ -86,6 +86,7 @@ size_t	get_envvar_len(char *str)
 	return (i);
 }
 // Compares envvar from arg to envvar from envp
+// QUESTION: could we use getenv() here?
 char	*env_exists(char *arg, char **envp)
 {
 	int		i;

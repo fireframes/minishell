@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/04 13:57:55 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:20:25 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,12 @@ typedef struct s_cmd
 	int		read_fd;
 	int		write_fd;
 }	t_cmd;
+
+typedef struct s_env
+{
+	char	***envp;
+	int		shell_lvl;
+} t_env;
 
 // checker.c
 bool	check_builtin(t_cmd *command);
