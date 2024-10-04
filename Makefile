@@ -14,11 +14,13 @@ SRCS 		:=	minishell.c				\
 				parsing.c				\
 				freeing.c				\
 				fork_and_processes.c	\
+				struct.c				\
 				util_env.c				\
 				util_path.c				\
 				util_split.c			\
 				util_strjoin.c			\
 				util_others.c			\
+				util_others2.c			\
 				execution.c				\
 				ft_echo.c				\
 				ft_cd.c					\

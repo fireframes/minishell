@@ -98,6 +98,10 @@ void	parent_process(t_cmd *commands);
 void	child_process(t_cmd *commands, int i, char ***envp);
 void	forking(t_cmd *commands, char ***envp);
 
+//struct.c
+void	init_struct(t_cmd *cmd_struc, int index);
+t_cmd	*create_struct(char **cmds_splits, t_cmd *cmds_struc);
+
 // util_env.c
 char	**copy_env_arr(char **envp);
 int		get_env_count(char **envp);
@@ -114,9 +118,13 @@ char	*strnstr_v2(const char *haystack, const char *needle, size_t len);
 char	*strjoin_v2(char const *s1, char const *s2);
 
 // util_others.c
-char	*ft_itoa_v2(int n);
+char	*itoa_v2(int n);
 int		ft_isdigit_v3(int c);
-int		ft_atoi_v2(const char *str);
+int		atoi_v2(const char *str);
+
+// util_others2.c
+char	*strdup_v2(const char *s1);
+char	*substr_v2(char const *s, unsigned int start, size_t len);
 
 // built-ins
 int		ft_echo(t_cmd *cmd);
@@ -127,13 +135,12 @@ int		ft_export(t_cmd *cmd, char ***envp);
 int		ft_env(t_cmd *cmd, char **envp);
 
 void	ft_exit(t_cmd *cmd, char **envp);
-// void	ft_exit(char **envp);
 
 // execution.c
 void	execution_module(t_cmd *commands, char ***envp);
 void	execute_builtin(t_cmd *cmd, char ***envp);
 
 //minishell.c
-t_cmd	*create_struct(char **cmds_splits, t_cmd *commands);
+ void	incr_or_decr_shell_level(char **envp, bool increase);
 
 #endif

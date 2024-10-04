@@ -12,47 +12,11 @@
 
 #include "minishell.h"
 
-static void	init_struct(t_cmd *cmd_struc, int index)
-{
-	cmd_struc[index].args = NULL;
-	cmd_struc[index].cmd_path = NULL;
-	cmd_struc[index].command_index = 0;
-	cmd_struc[index].is_builtin = false;
-	cmd_struc[index].path_found = false;
-	cmd_struc[index].pipes = NULL;
-	cmd_struc[index].pid = 0;
-	cmd_struc[index].read_fd = 0;
-	cmd_struc[index].write_fd = 0;
-}
-
-// QUESTION: protection needed after split call (if (!prompt_split)...)?
-t_cmd	*create_struct(char **cmds_splits, t_cmd *cmds_struc)
-{
-	int			cmd_count;
-	int			i;
-
-	cmd_count = 0;
-	while (cmds_splits[cmd_count])
-		cmd_count++;
-	cmds_struc = malloc(sizeof(t_cmd) * cmd_count);
-	if (!cmds_struc)
-		free_arr_of_arr(cmds_splits);
-	i = 0;
-	while (i < cmd_count)
-	{
-		cmds_struc[i].cmds_splits = cmds_splits;
-		cmds_struc[i].total_cmds = cmd_count;
-		init_struct(cmds_struc, i);
-		i++;
-	}
-	return (cmds_struc);
-}
-
 // QUESTION: should freeing mallocated memory have its own module instead
 //	of being inside execution module?
 void	main_module(char ***envp, char *read_line, char *prompt_with_path)
 {
-	t_cmd	*cmds_struc;
+	t_cmd		*cmds_struc;
 
 	cmds_struc = NULL;
 	add_history(read_line);
@@ -72,6 +36,49 @@ static char	*get_curr_dir(void)
 	return (full_prompt);
 }
 
+static void	check_nb_of_args(int argc)
+{
+	if (argc != 1)
+	{
+		printf("minishell: program should be started without arguments\n");
+		exit (1);
+	}
+}
+
+// void	add_or_del_env_lvl()
+// {
+
+// }
+
+ void	incr_or_decr_shell_level(char **envp, bool increase)
+ {
+	int		i;
+	char	*substr_1;
+	char	*substr_2;
+	int		shell_level_integer;
+	
+	i = 0;
+	while (envp[i] != NULL)
+	{
+		if (strnstr_v2(envp[i], "SHLVL=", 6) && envp[i])
+			break ;
+		i++;
+	}
+	substr_1 = substr_v2(envp[i], 0, 6);
+	substr_2 = substr_v2(envp[i], 6, strlen_v2(envp[i]) - 6);
+	shell_level_integer = atoi_v2(substr_2);
+	if (increase == true)
+		shell_level_integer++;
+	else
+		shell_level_integer--;
+	free(substr_2);
+	substr_2 = itoa_v2(shell_level_integer);
+	free(envp[i]);
+	envp[i] = strjoin_v2(substr_1, substr_2);
+	free(substr_1);
+	free(substr_2);
+ }
+
 // TODO: exit the infinite loop with SIGNALS;
 // EOF (Ctrl+D) is dealt with the if (!read_line) {break} ; is that enough?
 // TODO: the main function is already 24 lines, should some part of it (such
@@ -87,17 +94,14 @@ int	main(int argc, char **argv, char **envp)
 	char	***env;
 
 	(void) argv;
-	if (argc != 1)
-	{
-		perror("minishell: program should be started without arguments");
-		return (1);
-	}
+	check_nb_of_args(argc);
 	env = malloc(sizeof(char **) * MAX_SHLVL);
 	if (env == NULL)
 		return (2);
 	env[0] = copy_env_arr(envp);
 	if (env[0] == NULL)
 		return (2);
+	incr_or_decr_shell_level(env[0], true);
 	while (1)
 	{
 		prompt_with_path = get_curr_dir();

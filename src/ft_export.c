@@ -76,12 +76,12 @@ int	add_env(char *arg, char ***envp)
 	i = 0;
 	while (envp_old[i] != NULL)
 	{
-		envp_new[i] = ft_strdup(envp_old[i]);
+		envp_new[i] = strdup_v2(envp_old[i]);
 		if (envp_new[i] == NULL)
 			return (-1);
 		i++;
 	}
-	envp_new[i] = ft_strdup(arg);
+	envp_new[i] = strdup_v2(arg);
 	if (envp_new[i] == NULL)
 		return (-1);
 	envp_new[i + 1] = NULL;

@@ -12,34 +12,44 @@
 
 #include "minishell.h"
 
-int get_env_count(char **envp)
+char	*strdup_v2(const char *s1)
 {
-	int i;
+	char	*str_cpy;
+	size_t	index;
 
-	i = 0;
-	while (envp[i] != NULL)
-		i++;
-	return (i);
+	str_cpy = (char *)malloc((strlen_v2(s1) + 1) * sizeof(char));
+	if (str_cpy == NULL)
+		return (0);
+	index = 0;
+	while (index < (strlen_v2(s1) + 1))
+	{
+		str_cpy[index] = s1[index];
+		index++;
+	}
+	return (str_cpy);
 }
 
-char	**copy_env_arr(char **envp)
+char	*substr_v2(char const *s, unsigned int start, size_t len)
 {
-	char	**envp_new;
-	int		i;
+	char	*substr;
+	size_t	i;
 
-	if (envp == NULL)
-		return (NULL);
-	envp_new = malloc(sizeof(char **) * (get_env_count(envp) + 1));
-	if (envp_new == NULL)
+	if ((s == 0) || (len == 0) || (start >= strlen_v2(s)))
+		return (strdup_v2(""));
+	if (len + start > strlen_v2(s))
+		len = strlen_v2(s) - start;
+	substr = (char *)malloc((len + 1) * sizeof(char));
+	if (substr == NULL)
 		return (NULL);
 	i = 0;
-	while (envp[i] != NULL)
+	if (start < strlen_v2(s))
 	{
-		envp_new[i] = strdup_v2(envp[i]);
-		if (envp_new[i] == NULL)
-			return (NULL);
-		i++;
+		while (i < len)
+		{
+			substr[i] = s[i + (size_t)start];
+			i++;
+		}
 	}
-	envp_new[i] = NULL;
-	return (envp_new);
+	substr[i] = '\0';
+	return (substr);
 }

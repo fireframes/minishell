@@ -27,7 +27,7 @@ static int	length(long n)
 	return (len);
 }
 
-char	*ft_itoa_v2(int n)
+char	*itoa_v2(int n)
 {
 	char	*str;
 	int		i;
@@ -71,7 +71,7 @@ int	ft_isdigit_v3(int c)
 }
 
 // QUESTION: what was the use of the line commented out in this function?
-int	ft_atoi_v2(const char *str)
+int	atoi_v2(const char *str)
 {
 	int	index;
 	int	result;

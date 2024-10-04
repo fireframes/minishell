@@ -27,6 +27,8 @@ static bool	is_first_levels(char **envp)
 		return (true);
 	else if (ft_strcmp(envp[i], "SHLVL=1") == 0)
 		return (true);
+	else if (ft_strcmp(envp[i], "SHLVL=3") == 0)
+		return (true);
 	else
 		return (false);
 }
@@ -42,7 +44,7 @@ static int	get_2nd_arg(t_cmd *cmd)
 
 	exit_code_if_any = 0;
 	if (cmd->args[1] != NULL)
-		exit_code_if_any = ft_atoi_v2(cmd->args[1]);
+		exit_code_if_any = atoi_v2(cmd->args[1]);
     exit_code_if_any = exit_code_if_any % 256;
 	return (exit_code_if_any);
 }
@@ -95,6 +97,6 @@ void	ft_exit(t_cmd *cmd, char **envp)
 		exit (exit_code);
 	else
 	{
-		printf("TO BE IMPLEMENTED: SLVL--\n");
+		incr_or_decr_shell_level(envp, false);
 	}
 }
