@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/04 16:20:25 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/04 20:37:55 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ t_cmd	*create_struct(char **cmds_splits, t_cmd *cmds_struc);
 char	**copy_env_arr(char **envp);
 int		get_env_count(char **envp);
 int		add_env(char *arg, char ***envp);
-char	*env_exists(char *arg, char **envp);
+char	**env_exists(char *arg, char **envp);
 
 // util_export.c
 void	bubble_sort(char **arr, int count);
