@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 18:39:56 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/02 19:18:46 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:51:01 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	bubble_sort(char **arr, int count)
 	}
 }
 
-void	print_sorted_env(char **envp)
+int	print_sorted_env(char **envp)
 {
 	int		i;
 	int		count;
@@ -46,6 +46,8 @@ void	print_sorted_env(char **envp)
 	while (envp[count] != NULL)
 		count++;
 	sorted_list = malloc(sizeof(char *) * count);
+	if (!sorted_list)
+		return (-1);
 	i = 0;
 	while (envp[i] != NULL)
 	{
@@ -56,11 +58,11 @@ void	print_sorted_env(char **envp)
 	i = 0;
 	while (i < count)
 	{
-		printf("declare -x ");
-		printf("%s\n", sorted_list[i]);
+		printf("declare -x %s\n", sorted_list[i]);
 		i++;
 	}
 	free(sorted_list);
+	return (0);
 }
 // QUESTION: the function is almost the same as copy_envp. maybe do it with one?
 int	add_env(char *arg, char ***envp)
@@ -76,12 +78,12 @@ int	add_env(char *arg, char ***envp)
 	i = 0;
 	while (envp_old[i] != NULL)
 	{
-		envp_new[i] = strdup_v2(envp_old[i]);
+		envp_new[i] = ft_strdup(envp_old[i]);
 		if (envp_new[i] == NULL)
 			return (-1);
 		i++;
 	}
-	envp_new[i] = strdup_v2(arg);
+	envp_new[i] = ft_strdup(arg);
 	if (envp_new[i] == NULL)
 		return (-1);
 	envp_new[i + 1] = NULL;
@@ -104,8 +106,10 @@ int	ft_export(t_cmd *cmd, char ***envp)
 {
 	if (!cmd->args[1])
 	{
-		print_sorted_env(*envp);
-		return (0);
+		if (print_sorted_env(*envp) < 0)
+			return (-1);
+		else
+			return (0);
 	}
 	int j = 1;
 	while (cmd->args[j] != NULL)

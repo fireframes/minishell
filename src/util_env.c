@@ -35,7 +35,7 @@ char	**copy_env_arr(char **envp)
 	i = 0;
 	while (envp[i] != NULL)
 	{
-		envp_new[i] = strdup_v2(envp[i]);
+		envp_new[i] = ft_strdup(envp[i]);
 		if (envp_new[i] == NULL)
 			return (NULL);
 		i++;
