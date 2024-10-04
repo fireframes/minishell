@@ -32,6 +32,12 @@ char	**cmds_parse(char *read_line)
 	return (cmds_splits);
 }
 
+void	check_for_minishell_call(t_cmd *cmd_struc, char *arg, int i)
+{
+	if (ft_strnstr(arg, "/minishell", ft_strlen(arg)) != NULL)
+		cmd_struc[i].minishell_call = true;
+}
+
 // TODO wrap the if(...) into command_error()
 // TODO take into account relative and absolute commands paths too!
 // BIG PARSING MODULE!
@@ -58,7 +64,10 @@ void	cmd_args_parse(t_cmd *cmds_struc, char **envp)
 				cmds_struc[i].path_found = false;
 			}
 			else
+			{
 				cmds_struc[i].path_found = true;
+				check_for_minishell_call(cmds_struc, cmds_struc[i].args[0], i);
+			}
 		}
 		i++;
 	}

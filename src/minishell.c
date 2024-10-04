@@ -50,7 +50,7 @@ static void	check_nb_of_args(int argc)
 
 // }
 
- void	incr_or_decr_shell_level(char **envp, bool increase)
+ void	incr_or_decr_env_shlvl(char **envp, bool increase)
  {
 	int		i;
 	char	*substr_1;
@@ -101,7 +101,7 @@ int	main(int argc, char **argv, char **envp)
 	env[0] = copy_env_arr(envp);
 	if (env[0] == NULL)
 		return (2);
-	incr_or_decr_shell_level(env[0], true);
+	incr_or_decr_env_shlvl(env[0], true);
 	while (1)
 	{
 		prompt_with_path = get_curr_dir();

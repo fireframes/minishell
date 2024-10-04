@@ -97,6 +97,6 @@ void	ft_exit(t_cmd *cmd, char **envp)
 		exit (exit_code);
 	else
 	{
-		incr_or_decr_shell_level(envp, false);
+		incr_or_decr_env_shlvl(envp, false);
 	}
 }

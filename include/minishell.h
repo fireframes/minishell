@@ -66,6 +66,7 @@ typedef struct s_cmd
 	int		command_index;
 	bool	is_builtin;
 	bool	path_found;
+	bool	minishell_call;
 	int		(*pipes)[2];
 	pid_t	pid;
 	int		read_fd;
@@ -141,6 +142,6 @@ void	execution_module(t_cmd *commands, char ***envp);
 void	execute_builtin(t_cmd *cmd, char ***envp);
 
 //minishell.c
- void	incr_or_decr_shell_level(char **envp, bool increase);
+ void	incr_or_decr_env_shlvl(char **envp, bool increase);
 
 #endif

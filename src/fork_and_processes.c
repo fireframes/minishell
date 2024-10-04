@@ -115,8 +115,8 @@ void	forking(t_cmd *cmds_struc, char ***envp)
 	i = 0;
 	while (i < cmds_struc->total_cmds)
 	{
-		if (cmds_struc[i].path_found == true || cmds_struc[i].is_builtin
-			== true)
+		if ((cmds_struc[i].path_found == true || cmds_struc[i].is_builtin
+			== true) && cmds_struc[i].minishell_call != true)
 		{
 			cmds_struc[i].pid = fork();
 			if (cmds_struc[i].pid == -1)

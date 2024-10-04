@@ -19,6 +19,7 @@ void	init_struct(t_cmd *cmd_struc, int index)
 	cmd_struc[index].command_index = 0;
 	cmd_struc[index].is_builtin = false;
 	cmd_struc[index].path_found = false;
+	cmd_struc[index].minishell_call = false;
 	cmd_struc[index].pipes = NULL;
 	cmd_struc[index].pid = 0;
 	cmd_struc[index].read_fd = 0;

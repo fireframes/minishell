@@ -16,6 +16,11 @@ void	execution_module(t_cmd *cmds_struc, char ***envp)
 {
 	if (cmds_struc->total_cmds == 1 && cmds_struc->is_builtin == true)
 		execute_builtin(cmds_struc, envp);
+	else if (cmds_struc->total_cmds == 1 && cmds_struc->minishell_call == true)
+	{
+		init_pipes(cmds_struc);
+		incr_or_decr_env_shlvl(envp[0], true);
+	}	
 	else
 	{
 		init_pipes(cmds_struc);
