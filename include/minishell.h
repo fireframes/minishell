@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/02 19:33:01 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/04 13:57:55 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,6 @@ typedef struct s_cmd
 	int		write_fd;
 }	t_cmd;
 
-// typedef	struct s_env
-// {
-// 	char	**envp;
-// 	int		shlvl;
-// }	t_env;
-
 // checker.c
 bool	check_builtin(t_cmd *command);
 
@@ -105,6 +99,12 @@ t_cmd	*create_struct(char **cmds_splits, t_cmd *cmds_struc);
 // util_env.c
 char	**copy_env_arr(char **envp);
 int		get_env_count(char **envp);
+int		add_env(char *arg, char ***envp);
+char	*env_exists(char *arg, char **envp);
+
+// util_export.c
+void	bubble_sort(char **arr, int count);
+int		print_sorted_env(char **envp);
 
 // util_split.c:
 char	**split_v2(char const *s, char c);
