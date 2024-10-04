@@ -16,6 +16,7 @@ SRCS 		:=	minishell.c				\
 				fork_and_processes.c	\
 				struct.c				\
 				util_env.c				\
+				util_export.c			\
 				util_path.c				\
 				util_split.c			\
 				util_strjoin.c			\
