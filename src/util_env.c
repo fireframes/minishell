@@ -87,7 +87,7 @@ size_t	get_envvar_len(char *str)
 }
 // Compares envvar from arg to envvar from envp
 // QUESTION: could we use getenv() here?
-char	*env_exists(char *arg, char **envp)
+char	**env_exists(char *arg, char **envp)
 {
 	int		i;
 	size_t	env1_len;
@@ -100,11 +100,7 @@ char	*env_exists(char *arg, char **envp)
 	{
 		env2_len = get_envvar_len(envp[i]);
 		if(ft_strncmp(arg, envp[i], env1_len) == 0 && env1_len == env2_len)
-		{
-			if (*(envp[i] + env1_len) == '=')
-				env1_len++;
-			return (envp[i] + env1_len);
-		}
+			return (&envp[i]);
 		i++;
 	}
 	return (NULL);
