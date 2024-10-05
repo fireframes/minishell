@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/04 20:37:55 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:44:06 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_env
 {
 	char	***env;
 	int		real_shlvl;
-} t_env;
+}	t_env;
 
 typedef struct s_cmd
 {
@@ -109,7 +109,7 @@ t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc, t_env *envp);
 void	init_env_struc(t_env *global, char **envp);
 
 // util_env.c
-char	**copy_env_arr(char **envp);
+char	**copy_env(char **envp);
 int		get_env_count(char **envp);
 int		add_env(char *arg, t_env *envp);
 char	**env_exists(char *arg, char **envp);
@@ -153,6 +153,6 @@ void	execution_module(t_cmd *commands, t_env *envp);
 void	execute_builtin(t_cmd *cmd, t_env *envp);
 
 //minishell.c
- void	incr_or_decr_env_shlvl(char **envp, bool increase);
+void	incr_or_decr_env_shlvl(char **envp, bool increase);
 
 #endif

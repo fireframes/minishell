@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 18:39:56 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/04 20:46:56 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:47:32 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ bool	isvalid_arg(char *arg)
 	}
 	return (true);
 }
+
 // 1. update path with totally new path
 // 2. concatenate to old path
 // 3. if empty == ""
@@ -61,6 +62,7 @@ int	update_envp(char *arg, char **env_ptr)
 int	ft_export(t_cmd *cmd, t_env *envp)
 {
 	char	**env_ptr;
+	int		j;
 
 	env_ptr = NULL;
 	if (!cmd->args[1])
@@ -70,7 +72,7 @@ int	ft_export(t_cmd *cmd, t_env *envp)
 		else
 			return (0);
 	}
-	int j = 1;
+	j = 1;
 	while (cmd->args[j] != NULL)
 	{
 		if (!isvalid_arg(cmd->args[j]))

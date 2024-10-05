@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   struct.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:58:50 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/27 18:02:20 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:24:57 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	init_env_struc(t_env *global, char **envp)
 	global->env = malloc(sizeof(char **) * MAX_SHLVL);
 	if (global->env == NULL)
 		exit(2);
-	global->env[global->real_shlvl] = copy_env_arr(envp);
+	global->env[global->real_shlvl] = copy_env(envp);
 	if (global->env[global->real_shlvl] == NULL)
 		exit(2);
 }

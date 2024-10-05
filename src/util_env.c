@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   copy_env_arr.c                                        :+:      :+:    :+:   */
+/*   copy_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-int get_env_count(char **envp)
+int	get_env_count(char **envp)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (envp[i] != NULL)
@@ -22,7 +22,7 @@ int get_env_count(char **envp)
 	return (i);
 }
 
-char	**copy_env_arr(char **envp)
+char	**copy_env(char **envp)
 {
 	char	**envp_new;
 	int		i;
@@ -85,6 +85,7 @@ size_t	get_envvar_len(char *str)
 	}
 	return (i);
 }
+
 // Compares envvar from arg to envvar from envp
 // QUESTION: could we use getenv() here?
 char	**env_exists(char *arg, char **envp)
@@ -99,11 +100,9 @@ char	**env_exists(char *arg, char **envp)
 	while (envp[i] != NULL)
 	{
 		env2_len = get_envvar_len(envp[i]);
-		if(ft_strncmp(arg, envp[i], env1_len) == 0 && env1_len == env2_len)
+		if (ft_strncmp(arg, envp[i], env1_len) == 0 && env1_len == env2_len)
 			return (&envp[i]);
 		i++;
 	}
 	return (NULL);
 }
-
-
