@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	init_struct(t_cmd *cmd_struc, int index)
+void	init_cmds_struc(t_cmd *cmd_struc, int index)
 {
 	cmd_struc[index].args = NULL;
 	cmd_struc[index].cmd_path = NULL;
@@ -27,7 +27,7 @@ void	init_struct(t_cmd *cmd_struc, int index)
 }
 
 // QUESTION: protection needed after split call (if (!prompt_split)...)?
-t_cmd	*create_struct(char **cmds_splits, t_cmd *cmds_struc)
+t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc)
 {
 	int			cmd_count;
 	int			i;
@@ -43,8 +43,19 @@ t_cmd	*create_struct(char **cmds_splits, t_cmd *cmds_struc)
 	{
 		cmds_struc[i].cmds_splits = cmds_splits;
 		cmds_struc[i].total_cmds = cmd_count;
-		init_struct(cmds_struc, i);
+		init_cmds_struc(cmds_struc, i);
 		i++;
 	}
 	return (cmds_struc);
+}
+
+void	init_env_struc(t_env *global, char **envp)
+{
+	global->real_shlvl = 0;
+	global->env = malloc(sizeof(char **) * MAX_SHLVL);
+	if (global->env == NULL)
+		exit(2);
+	global->env[global->real_shlvl] = copy_env_arr(envp);
+	if (global->env[global->real_shlvl] == NULL)
+		exit(2);
 }

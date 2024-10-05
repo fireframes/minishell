@@ -75,8 +75,8 @@ typedef struct s_cmd
 
 typedef struct s_env
 {
-	char	***envp;
-	int		shell_lvl;
+	char	***env;
+	int		real_shlvl;
 } t_env;
 
 // checker.c
@@ -100,8 +100,9 @@ void	child_process(t_cmd *commands, int i, char ***envp);
 void	forking(t_cmd *commands, char ***envp);
 
 //struct.c
-void	init_struct(t_cmd *cmd_struc, int index);
-t_cmd	*create_struct(char **cmds_splits, t_cmd *cmds_struc);
+void	init_cmds_struc(t_cmd *cmd_struc, int index);
+t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc);
+void	init_env_struc(t_env *global, char **envp);
 
 // util_env.c
 char	**copy_env_arr(char **envp);

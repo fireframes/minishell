@@ -18,7 +18,7 @@ t_cmd	*parsing_module(char **envp, char *read_line, t_cmd *cmds_struc)
 
 	cmds_splits = NULL;
 	cmds_splits = cmds_parse(read_line);
-	cmds_struc = create_struct(cmds_splits, cmds_struc);
+	cmds_struc = create_cmds_struc(cmds_splits, cmds_struc);
 	cmd_args_parse(cmds_struc, envp);
 	return (cmds_struc);
 }

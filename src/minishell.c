@@ -45,11 +45,6 @@ static void	check_nb_of_args(int argc)
 	}
 }
 
-// void	add_or_del_env_lvl()
-// {
-
-// }
-
  void	incr_or_decr_env_shlvl(char **envp, bool increase)
  {
 	int		i;
@@ -79,39 +74,34 @@ static void	check_nb_of_args(int argc)
 	free(substr_2);
  }
 
+
+
 // TODO: exit the infinite loop with SIGNALS;
 // EOF (Ctrl+D) is dealt with the if (!read_line) {break} ; is that enough?
-// TODO: the main function is already 24 lines, should some part of it (such
-//		as the nb of args check or the envp error check) moved to other
-//		functions?
 // QUESTION: - should we free envp in the end of main?
 //			 - need to print error on envp error?
 // 			 - where to free when exiting with signals?
 int	main(int argc, char **argv, char **envp)
 {
 	char	*read_line;
-	char	*prompt_with_path;
-	char	***env;
+	char	*prompt_w_path;
+	t_env	*env;
 
 	(void) argv;
 	check_nb_of_args(argc);
-	env = malloc(sizeof(char **) * MAX_SHLVL);
-	if (env == NULL)
-		return (2);
-	env[0] = copy_env_arr(envp);
-	if (env[0] == NULL)
-		return (2);
-	incr_or_decr_env_shlvl(env[0], true);
+	env = malloc(sizeof(t_env) * 1);
+	init_env_struc(env, envp);
+	incr_or_decr_env_shlvl(env->env[env->real_shlvl], true);
 	while (1)
 	{
-		prompt_with_path = get_curr_dir();
-		read_line = readline(prompt_with_path);
+		prompt_w_path = get_curr_dir();
+		read_line = readline(prompt_w_path);
 		if (!read_line)
 			break ;
 		if (*read_line)
-			main_module(&env[0], read_line, prompt_with_path);
+			main_module(&env->env[env->real_shlvl], read_line, prompt_w_path);
 	}
-	free_arr_of_arr(env[0]);
-	free(env);
+	free_arr_of_arr(env->env[env->real_shlvl]);
+	free(env->env);
 	return (0);
 }
