@@ -6,38 +6,16 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 18:39:56 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/05 15:47:32 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/05 17:50:05 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	isvalid_arg(char *arg)
-{
-	char	*arg_tmp;
-
-	if (*arg == '=')
-	{
-		printf("export: `%s`: not a valid identifier\n", arg);
-		return (false);
-	}
-	arg_tmp = arg;
-	while (*arg_tmp != '=' && *arg_tmp)
-	{
-		if (!ft_isalnum(*arg_tmp))
-		{
-			printf("export: `%s` not a valid identifier\n", arg);
-			return (false);
-		}
-		arg_tmp++;
-	}
-	return (true);
-}
-
 // 1. update path with totally new path
 // 2. concatenate to old path
 // 3. if empty == ""
-int	update_envp(char *arg, char **env_ptr)
+static int	update_envp(char *arg, char **env_ptr)
 {
 	char	*new_env;
 	char	*tmp;
@@ -51,6 +29,35 @@ int	update_envp(char *arg, char **env_ptr)
 	tmp = *env_ptr;
 	*env_ptr = new_env;
 	free(tmp);
+	tmp = NULL;
+	return (0);
+}
+
+// QUESTION: the function is almost the same as copy_envp. maybe do it with one?
+static int	add_env(char *arg, t_env *envp)
+{
+	char	**envp_old;
+	char	**envp_new;
+	int		i;
+
+	envp_old = envp->env[envp->real_shlvl];
+	envp_new = malloc(sizeof(char **) * (get_env_count(envp_old) + 2));
+	if (envp_new == NULL)
+		return (-1);
+	i = 0;
+	while (envp_old[i] != NULL)
+	{
+		envp_new[i] = ft_strdup(envp_old[i]);
+		if (envp_new[i] == NULL)
+			return (-1);
+		i++;
+	}
+	envp_new[i] = ft_strdup(arg);
+	if (envp_new[i] == NULL)
+		return (-1);
+	envp_new[i + 1] = NULL;
+	envp->env[envp->real_shlvl] = envp_new;
+	free_arr_of_arr(envp_old);
 	return (0);
 }
 

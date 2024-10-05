@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/05 15:44:06 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/05 17:51:37 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,9 @@ void	init_env_struc(t_env *global, char **envp);
 // util_env.c
 char	**copy_env(char **envp);
 int		get_env_count(char **envp);
-int		add_env(char *arg, t_env *envp);
+size_t	get_env_len(char *str);
 char	**env_exists(char *arg, char **envp);
+bool	isvalid_arg(char *arg);
 
 // util_export.c
 void	bubble_sort(char **arr, int count);
@@ -143,9 +144,8 @@ int		ft_echo(t_cmd *cmd);
 int		ft_cd(t_cmd *cmd);
 int		ft_pwd(t_cmd *cmd);
 int		ft_export(t_cmd *cmd, t_env *envp);
-
+int		ft_unset(t_cmd *cmd, t_env *envp);
 int		ft_env(t_cmd *cmd, char **envp);
-
 void	ft_exit(t_cmd *cmd, t_env *envp);
 
 // execution.c

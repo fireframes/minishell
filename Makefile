@@ -27,6 +27,7 @@ SRCS 		:=	minishell.c				\
 				ft_cd.c					\
 				ft_pwd.c				\
 				ft_export.c				\
+				ft_unset.c				\
 				ft_env.c				\
 				ft_exit.c
 
