@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:19:46 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/05 19:39:55 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/05 19:47:14 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	ft_unset(t_cmd *cmd, t_env *envp)
 	while (cmd->args[j] != NULL)
 	{
 		env_ptr = env_exists(cmd->args[j], envp->env[envp->real_shlvl]);
-		if (env_ptr != NULL && *env_ptr != NULL && !ft_strchr(cmd->args[j], '='))
+		if (env_ptr != NULL && *env_ptr != NULL
+			&& !ft_strchr(cmd->args[j], '='))
 			free_env_shift_arr(env_ptr);
 		j++;
 	}
