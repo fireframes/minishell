@@ -111,7 +111,7 @@ void	init_env_struc(t_env *global, char **envp);
 // util_env.c
 char	**copy_env_arr(char **envp);
 int		get_env_count(char **envp);
-int		add_env(char *arg, char ***envp);
+int		add_env(char *arg, t_env *envp);
 char	**env_exists(char *arg, char **envp);
 
 // util_export.c
@@ -142,7 +142,7 @@ char	*substr_v2(char const *s, unsigned int start, size_t len);
 int		ft_echo(t_cmd *cmd);
 int		ft_cd(t_cmd *cmd);
 int		ft_pwd(t_cmd *cmd);
-int		ft_export(t_cmd *cmd, char ***envp);
+int		ft_export(t_cmd *cmd, t_env *envp);
 
 int		ft_env(t_cmd *cmd, char **envp);
 

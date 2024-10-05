@@ -58,14 +58,14 @@ int	update_envp(char *arg, char **env_ptr)
 // TODO: 1) check args validity
 // 		 2) update envp list
 // QUESTION: split to var_name, var_value?
-int	ft_export(t_cmd *cmd, char ***envp)
+int	ft_export(t_cmd *cmd, t_env *envp)
 {
 	char	**env_ptr;
 
 	env_ptr = NULL;
 	if (!cmd->args[1])
 	{
-		if (print_sorted_env(*envp) < 0)
+		if (print_sorted_env(envp->env[envp->real_shlvl]) < 0)
 			return (-1);
 		else
 			return (0);
@@ -75,7 +75,7 @@ int	ft_export(t_cmd *cmd, char ***envp)
 	{
 		if (!isvalid_arg(cmd->args[j]))
 			return (-1);
-		env_ptr = env_exists(cmd->args[j], *envp);
+		env_ptr = env_exists(cmd->args[j], envp->env[envp->real_shlvl]);
 		if (env_ptr != NULL && ft_strchr(cmd->args[j], '='))
 			update_envp(cmd->args[j], env_ptr);
 		else if (!env_ptr)

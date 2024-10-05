@@ -45,13 +45,13 @@ char	**copy_env_arr(char **envp)
 }
 
 // QUESTION: the function is almost the same as copy_envp. maybe do it with one?
-int	add_env(char *arg, char ***envp)
+int	add_env(char *arg, t_env *envp)
 {
 	char	**envp_old;
 	char	**envp_new;
 	int		i;
 
-	envp_old = *envp;
+	envp_old = envp->env[envp->real_shlvl];
 	envp_new = malloc(sizeof(char **) * (get_env_count(envp_old) + 2));
 	if (envp_new == NULL)
 		return (-1);
@@ -67,7 +67,7 @@ int	add_env(char *arg, char ***envp)
 	if (envp_new[i] == NULL)
 		return (-1);
 	envp_new[i + 1] = NULL;
-	*envp = envp_new;
+	envp->env[envp->real_shlvl] = envp_new;
 	free_arr_of_arr(envp_old);
 	return (0);
 }
