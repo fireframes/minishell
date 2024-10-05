@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/27 17:11:50 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:46:20 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	get_2nd_arg(t_cmd *cmd)
 	exit_code_if_any = 0;
 	if (cmd->args[1] != NULL)
 		exit_code_if_any = atoi_v2(cmd->args[1]);
-    exit_code_if_any = exit_code_if_any % 256;
+	exit_code_if_any = exit_code_if_any % 256;
 	return (exit_code_if_any);
 }
 
@@ -56,8 +56,8 @@ static int	check_error(t_cmd *cmd)
 	index = 0;
 	if (cmd->args[1] != NULL)
 	{
-        if (cmd->args[1][index] == '+' || cmd->args[1][index] == '-')
-            index++;
+		if (cmd->args[1][index] == '+' || cmd->args[1][index] == '-')
+			index++;
 		while (cmd->args[1][index] != '\0')
 		{
 			if (ft_isdigit_v3(cmd->args[1][index]) == 0)

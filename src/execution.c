@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/02 19:30:52 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:24:57 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void	execution_module(t_cmd *cmds_struc, t_env *envp)
 	{
 		init_pipes(cmds_struc);
 		envp->real_shlvl++;
-		envp->env[envp->real_shlvl] = copy_env_arr(envp->env[envp->real_shlvl - 1]);
+		envp->env[envp->real_shlvl] = copy_env(envp->env[envp->real_shlvl - 1]);
 		if (envp->env[envp->real_shlvl] == NULL)
 			exit(2);
 		incr_or_decr_env_shlvl(envp->env[envp->real_shlvl], true);
-	}	
+	}
 	else
 	{
 		init_pipes(cmds_struc);

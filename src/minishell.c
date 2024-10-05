@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:16:31 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/02 19:22:44 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:22:18 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 //	of being inside execution module?
 void	main_module(t_env *envp, char *read_line, char *prompt_with_path)
 {
-	t_cmd		*cmds_struc;
+	t_cmd	*cmds_struc;
 
 	cmds_struc = NULL;
 	add_history(read_line);
@@ -45,13 +45,13 @@ static void	check_nb_of_args(int argc)
 	}
 }
 
- void	incr_or_decr_env_shlvl(char **envp, bool increase)
- {
+void	incr_or_decr_env_shlvl(char **envp, bool increase)
+{
 	int		i;
 	char	*substr_1;
 	char	*substr_2;
 	int		shell_level_integer;
-	
+
 	i = 0;
 	while (envp[i] != NULL)
 	{
@@ -72,7 +72,7 @@ static void	check_nb_of_args(int argc)
 	envp[i] = strjoin_v2(substr_1, substr_2);
 	free(substr_1);
 	free(substr_2);
- }
+}
 
 // TODO: exit the infinite loop with SIGNALS;
 // EOF (Ctrl+D) is dealt with the if (!read_line) {break} ; is that enough?

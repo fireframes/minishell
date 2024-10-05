@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/02 19:32:11 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:21:15 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,9 @@ void	forking(t_cmd *cmds_struc, t_env *envp)
 	i = 0;
 	while (i < cmds_struc->total_cmds)
 	{
-		if ((cmds_struc[i].path_found == true || cmds_struc[i].is_builtin
-			== true) && cmds_struc[i].minishell_call != true)
+		if ((cmds_struc[i].path_found == true
+				|| cmds_struc[i].is_builtin == true)
+			&& cmds_struc[i].minishell_call != true)
 		{
 			cmds_struc[i].pid = fork();
 			if (cmds_struc[i].pid == -1)
