@@ -12,26 +12,26 @@
 
 #include "minishell.h"
 
-static bool	is_first_levels(char **envp)
-{
-	int	i;
+// static bool	is_first_levels(char **envp)
+// {
+// 	int	i;
 
-	i = 0;
-	while (envp[i] != NULL)
-	{
-		if (strnstr_v2(envp[i], "SHLVL=", 6) && envp[i])
-			break ;
-		i++;
-	}
-	if (ft_strcmp(envp[i], "SHLVL=2") == 0)
-		return (true);
-	else if (ft_strcmp(envp[i], "SHLVL=1") == 0)
-		return (true);
-	else if (ft_strcmp(envp[i], "SHLVL=3") == 0)
-		return (true);
-	else
-		return (false);
-}
+// 	i = 0;
+// 	while (envp[i] != NULL)
+// 	{
+// 		if (strnstr_v2(envp[i], "SHLVL=", 6) && envp[i])
+// 			break ;
+// 		i++;
+// 	}
+// 	if (ft_strcmp(envp[i], "SHLVL=2") == 0)
+// 		return (true);
+// 	else if (ft_strcmp(envp[i], "SHLVL=1") == 0)
+// 		return (true);
+// 	else if (ft_strcmp(envp[i], "SHLVL=3") == 0)
+// 		return (true);
+// 	else
+// 		return (false);
+// }
 
 // QUESTIONS: what is the maximum exit code number possible? What happens if
 //  you have value higher? A negative value?
@@ -93,10 +93,12 @@ void	ft_exit(t_cmd *cmd, t_env *envp)
 			cmd->args[1]);
 		exit_code = 2;
 	}
-	if (is_first_levels(envp->env[envp->real_shlvl]))
+	if (envp->real_shlvl == 0)
 		exit (exit_code);
 	else
 	{
-		incr_or_decr_env_shlvl(envp->env[envp->real_shlvl], false);
+		envp->env[envp->real_shlvl] = NULL;
+		envp->real_shlvl--;
+//		incr_or_decr_env_shlvl(envp->env[envp->real_shlvl], false);
 	}
 }

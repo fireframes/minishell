@@ -19,6 +19,10 @@ void	execution_module(t_cmd *cmds_struc, t_env *envp)
 	else if (cmds_struc->total_cmds == 1 && cmds_struc->minishell_call == true)
 	{
 		init_pipes(cmds_struc);
+		envp->real_shlvl++;
+		envp->env[envp->real_shlvl] = copy_env_arr(envp->env[envp->real_shlvl - 1]);
+		if (envp->env[envp->real_shlvl] == NULL)
+			exit(2);
 		incr_or_decr_env_shlvl(envp->env[envp->real_shlvl], true);
 	}	
 	else
@@ -46,9 +50,8 @@ void	execute_builtin(t_cmd *cmd, t_env *envp)
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		return ;
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
-		ft_env(cmd, envp->env[0]);
+		ft_env(cmd, envp->env[envp->real_shlvl]);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 		ft_exit(cmd, envp);
-		// ft_exit(envp);
 	return ;
 }
