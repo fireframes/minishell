@@ -14,13 +14,13 @@
 
 // QUESTION: should freeing mallocated memory have its own module instead
 //	of being inside execution module?
-void	main_module(char ***envp, char *read_line, char *prompt_with_path)
+void	main_module(t_env *envp, char *read_line, char *prompt_with_path)
 {
 	t_cmd		*cmds_struc;
 
 	cmds_struc = NULL;
 	add_history(read_line);
-	cmds_struc = parsing_module(*envp, read_line, cmds_struc);
+	cmds_struc = parsing_module(envp, read_line, cmds_struc);
 	execution_module(cmds_struc, envp);
 	free_module(cmds_struc, read_line, prompt_with_path);
 }
@@ -74,8 +74,6 @@ static void	check_nb_of_args(int argc)
 	free(substr_2);
  }
 
-
-
 // TODO: exit the infinite loop with SIGNALS;
 // EOF (Ctrl+D) is dealt with the if (!read_line) {break} ; is that enough?
 // QUESTION: - should we free envp in the end of main?
@@ -99,7 +97,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!read_line)
 			break ;
 		if (*read_line)
-			main_module(&env->env[env->real_shlvl], read_line, prompt_w_path);
+			main_module(env, read_line, prompt_w_path);
 	}
 	free_arr_of_arr(env->env[env->real_shlvl]);
 	free(env->env);

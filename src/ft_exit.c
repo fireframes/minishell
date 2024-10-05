@@ -76,7 +76,7 @@ static int	check_error(t_cmd *cmd)
 // TODO: see for the max value of SLVL and what happens when overflow
 // TODO: how to deal with exit code when SLVL higher thant 2?
 // void    ft_exit(char **envp)
-void	ft_exit(t_cmd *cmd, char **envp)
+void	ft_exit(t_cmd *cmd, t_env *envp)
 {
 	int	exit_code;
 
@@ -93,10 +93,10 @@ void	ft_exit(t_cmd *cmd, char **envp)
 			cmd->args[1]);
 		exit_code = 2;
 	}
-	if (is_first_levels(envp))
+	if (is_first_levels(envp->env[envp->real_shlvl]))
 		exit (exit_code);
 	else
 	{
-		incr_or_decr_env_shlvl(envp, false);
+		incr_or_decr_env_shlvl(envp->env[envp->real_shlvl], false);
 	}
 }

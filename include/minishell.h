@@ -57,6 +57,13 @@
 //	- read_fd, an integer [...] [...]
 //	- write_fd, an integer [...] [...]
 // QUESTION: can (*pipes)[2] (defined in init_pipes) could only be pipes here?
+
+typedef struct s_env
+{
+	char	***env;
+	int		real_shlvl;
+} t_env;
+
 typedef struct s_cmd
 {
 	char	**cmds_splits;
@@ -67,23 +74,20 @@ typedef struct s_cmd
 	bool	is_builtin;
 	bool	path_found;
 	bool	minishell_call;
+	t_env	env_struc;
+	int		real_shlvl;
+	char	***env;
 	int		(*pipes)[2];
 	pid_t	pid;
 	int		read_fd;
 	int		write_fd;
 }	t_cmd;
 
-typedef struct s_env
-{
-	char	***env;
-	int		real_shlvl;
-} t_env;
-
 // checker.c
 bool	check_builtin(t_cmd *command);
 
 // parsing.c
-t_cmd	*parsing_module(char **envp, char *read_line, t_cmd *commands);
+t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *commands);
 char	**cmds_parse(char *read_line);
 void	cmd_args_parse(t_cmd *commands, char **envp);
 
@@ -93,15 +97,15 @@ void	free_arr_of_arr(char **split);
 void	free_structs(t_cmd *commands);
 
 // fork_and_processes.c
-void	exec_cmd(t_cmd cmd, int read_fd, int write_fd, char ***envp);
+void	exec_cmd(t_cmd cmd, int read_fd, int write_fd, t_env *envp);
 void	init_pipes(t_cmd *commands);
 void	parent_process(t_cmd *commands);
-void	child_process(t_cmd *commands, int i, char ***envp);
-void	forking(t_cmd *commands, char ***envp);
+void	child_process(t_cmd *commands, int i, t_env *envp);
+void	forking(t_cmd *commands, t_env *envp);
 
 //struct.c
 void	init_cmds_struc(t_cmd *cmd_struc, int index);
-t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc);
+t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc, t_env *envp);
 void	init_env_struc(t_env *global, char **envp);
 
 // util_env.c
@@ -142,11 +146,11 @@ int		ft_export(t_cmd *cmd, char ***envp);
 
 int		ft_env(t_cmd *cmd, char **envp);
 
-void	ft_exit(t_cmd *cmd, char **envp);
+void	ft_exit(t_cmd *cmd, t_env *envp);
 
 // execution.c
-void	execution_module(t_cmd *commands, char ***envp);
-void	execute_builtin(t_cmd *cmd, char ***envp);
+void	execution_module(t_cmd *commands, t_env *envp);
+void	execute_builtin(t_cmd *cmd, t_env *envp);
 
 //minishell.c
  void	incr_or_decr_env_shlvl(char **envp, bool increase);

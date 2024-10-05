@@ -37,7 +37,7 @@ void	init_pipes(t_cmd *cmds_struc)
 }
 
 // TODO: handle error, close pipes, free resources, etc...
-void	exec_cmd(t_cmd cmds_struc, int read_fd, int write_fd, char ***envp)
+void	exec_cmd(t_cmd cmds_struc, int read_fd, int write_fd, t_env *envp)
 {
 	if (read_fd != STDIN_FILENO)
 	{
@@ -56,7 +56,7 @@ void	exec_cmd(t_cmd cmds_struc, int read_fd, int write_fd, char ***envp)
 	}
 	else
 	{
-		execve(cmds_struc.cmd_path, cmds_struc.args, *envp);
+		execve(cmds_struc.cmd_path, cmds_struc.args, envp->env[0]);
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
@@ -81,7 +81,7 @@ void	parent_process(t_cmd *cmds_struc)
 	}
 }
 
-void	child_process(t_cmd *cmds_struc, int i, char ***envp)
+void	child_process(t_cmd *cmds_struc, int i, t_env *envp)
 {
 	int		j;
 
@@ -108,7 +108,7 @@ void	child_process(t_cmd *cmds_struc, int i, char ***envp)
 }
 
 // TODO: execute builtin without forking it
-void	forking(t_cmd *cmds_struc, char ***envp)
+void	forking(t_cmd *cmds_struc, t_env *envp)
 {
 	int		i;
 

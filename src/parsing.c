@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-t_cmd	*parsing_module(char **envp, char *read_line, t_cmd *cmds_struc)
+t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 {
 	char		**cmds_splits;
 
 	cmds_splits = NULL;
 	cmds_splits = cmds_parse(read_line);
-	cmds_struc = create_cmds_struc(cmds_splits, cmds_struc);
-	cmd_args_parse(cmds_struc, envp);
+	cmds_struc = create_cmds_struc(cmds_splits, cmds_struc, envp);
+	cmd_args_parse(cmds_struc, envp->env[envp->real_shlvl]);
 	return (cmds_struc);
 }
 
