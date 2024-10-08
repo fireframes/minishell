@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:41:40 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/08 15:42:47 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/08 19:56:22 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_cd(t_cmd *cmd)
 	}
 	else if (cmd->args[2])
 	{
-		printf("cd: string not in pwd: %s\n", cmd->args[1]);
+		write(2, " too many arguments", 20);
 		return (1);
 	}
 	else if (chdir(cmd->args[1]) != 0)
