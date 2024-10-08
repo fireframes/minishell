@@ -45,42 +45,6 @@ static void	check_nb_of_args(int argc)
 	}
 }
 
-// TODO: handle the case in which SHLVL has been unset (in that case, opening
-//	another level of shell should resume to SHLVL=1)
-// TODO?: handle the case in which SHLVL has been manually changed (via export)
-//	to a value bigger to 999 or higher. In that case, output:
-//		bash: warning: shell level (1000) too high, resetting to 1
-// TODO?: if a negative number has been set to SHLVL via export, the next level
-//	in the env should be 0
-void	incr_or_decr_env_shlvl(char **envp, bool increase)
-{
-	int		i;
-	char	*substr_1;
-	char	*substr_2;
-	int		shell_level_integer;
-
-	i = 0;
-	while (envp[i] != NULL)
-	{
-		if (strnstr_v2(envp[i], "SHLVL=", 6) && envp[i])
-			break ;
-		i++;
-	}
-	substr_1 = substr_v2(envp[i], 0, 6);
-	substr_2 = substr_v2(envp[i], 6, strlen_v2(envp[i]) - 6);
-	shell_level_integer = atoi_v2(substr_2);
-	if (increase == true)
-		shell_level_integer++;
-	else
-		shell_level_integer--;
-	free(substr_2);
-	substr_2 = itoa_v2(shell_level_integer);
-	free(envp[i]);
-	envp[i] = strjoin_v2(substr_1, substr_2);
-	free(substr_1);
-	free(substr_2);
-}
-
 // TODO: exit the infinite loop with SIGNALS;
 // EOF (Ctrl+D) is dealt with the if (!read_line) {break} ; is that enough?
 // QUESTION: - should we free envp in the end of main?

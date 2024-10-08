@@ -22,6 +22,7 @@ SRCS 		:=	minishell.c				\
 				util_strjoin.c			\
 				util_others.c			\
 				util_others2.c			\
+				util_shlvl.c			\
 				execution.c				\
 				ft_echo.c				\
 				ft_cd.c					\

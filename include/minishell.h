@@ -119,13 +119,16 @@ bool	isvalid_arg(char *arg);
 void	bubble_sort(char **arr, int count);
 int		print_sorted_env(char **envp);
 
-// util_split.c:
+// util_split.c
 char	**split_v2(char const *s, char c);
 
-// util_path.c:
+// util_shlvl.c
+
+
+// util_path.c
 char	*find_cmd_path(char *command, char **envp);
 
-// util_strjoin.c:
+// util_strjoin.c
 size_t	strlen_v2(const char *s);
 char	*strnstr_v2(const char *haystack, const char *needle, size_t len);
 char	*strjoin_v2(char const *s1, char const *s2);
