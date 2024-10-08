@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 16:08:11 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/27 18:02:20 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/08 14:12:20 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@
 
 // use printf or write? currently output is not recognized when piping
 
-int	ft_echo(t_cmd *cmd)
+// EXPANDER should expand $ in any case!
+int	ft_echo(t_cmd *cmd, t_env *envp)
 {
 	int	i;
 	int	newline;
+	char *expand;
 
 	i = 1;
 	newline = 1;
@@ -41,7 +43,11 @@ int	ft_echo(t_cmd *cmd)
 	}
 	while (cmd->args[i])
 	{
-		printf("%s", cmd->args[i]);
+		expand = ft_strchr(cmd->args[i], '$');
+		if (expand && *(expand + 1) == '?')
+			printf("%d", envp->exit_code);
+		else
+			printf("%s", cmd->args[i]);
 		if (cmd->args[i + 1])
 			printf(" ");
 		i++;

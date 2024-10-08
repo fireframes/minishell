@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/08 13:37:41 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/08 14:25:36 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_env
 {
 	char	***env;
 	int		real_shlvl;
+	int		exit_code;
 }	t_env;
 
 typedef struct s_cmd
@@ -143,7 +144,7 @@ char	*strdup_v2(const char *s1);
 char	*substr_v2(char const *s, unsigned int start, size_t len);
 
 // built-ins
-int		ft_echo(t_cmd *cmd);
+int		ft_echo(t_cmd *cmd, t_env *envp);
 int		ft_cd(t_cmd *cmd);
 int		ft_pwd(t_cmd *cmd);
 int		ft_export(t_cmd *cmd, t_env *envp);
