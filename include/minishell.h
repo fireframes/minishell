@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/05 17:51:37 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/08 13:37:41 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int		print_sorted_env(char **envp);
 char	**split_v2(char const *s, char c);
 
 // util_shlvl.c
-
+void	incr_or_decr_env_shlvl(char **envp, bool increase);
 
 // util_path.c
 char	*find_cmd_path(char *command, char **envp);
@@ -154,8 +154,5 @@ void	ft_exit(t_cmd *cmd, t_env *envp);
 // execution.c
 void	execution_module(t_cmd *commands, t_env *envp);
 void	execute_builtin(t_cmd *cmd, t_env *envp);
-
-//minishell.c
-void	incr_or_decr_env_shlvl(char **envp, bool increase);
 
 #endif

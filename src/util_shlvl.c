@@ -6,13 +6,13 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 11:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/08 11:11:50 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/08 13:38:03 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int search_shlvl_line(char **envp, int i)
+static int	search_shlvl_line(char **envp, int i)
 {
 	while (envp[i] != NULL)
 	{
@@ -20,26 +20,26 @@ static int search_shlvl_line(char **envp, int i)
 			break ;
 		i++;
 	}
-    if (envp[i] == NULL)
-        return (-1);
-    return (i);
+	if (envp[i] == NULL)
+		return (-1);
+	return (i);
 }
 
-static int  update_shlvl_int(int shell_level_integer, bool increase)
+static int	update_shlvl_int(int shell_level_integer, bool increase)
 {
-    if (increase == true && shell_level_integer < 0)
-        shell_level_integer = 0;
+	if (increase == true && shell_level_integer < 0)
+		shell_level_integer = 0;
 	else if (increase == true && shell_level_integer < 999)
 		shell_level_integer++;
-    else if (increase == true && shell_level_integer > 998)
-    {
-        shell_level_integer = 1;
-        printf("minishell: warning: ");
-        printf("shell level (1000) too high, resetting to 1\n");
-    }
-    else
+	else if (increase == true && shell_level_integer > 998)
+	{
+		shell_level_integer = 1;
+		printf("minishell: warning: ");
+		printf("shell level (1000) too high, resetting to 1\n");
+	}
+	else
 		shell_level_integer--;
-    return (shell_level_integer);
+	return (shell_level_integer);
 }
 
 // TODO: handle the case in which SHLVL has been unset (in that case, opening
@@ -52,11 +52,11 @@ void	incr_or_decr_env_shlvl(char **envp, bool increase)
 	int		shell_level_integer;
 
 	i = 0;
-    i = search_shlvl_line(envp, i);
+	i = search_shlvl_line(envp, i);
 	substr_1 = substr_v2(envp[i], 0, 6);
 	substr_2 = substr_v2(envp[i], 6, strlen_v2(envp[i]) - 6);
 	shell_level_integer = atoi_v2(substr_2);
-    shell_level_integer = update_shlvl_int(shell_level_integer, increase);
+	shell_level_integer = update_shlvl_int(shell_level_integer, increase);
 	free(substr_2);
 	substr_2 = itoa_v2(shell_level_integer);
 	free(envp[i]);
