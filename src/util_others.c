@@ -70,7 +70,9 @@ int	ft_isdigit_v3(int c)
 		return (0);
 }
 
-// QUESTION: what was the use of the line commented out in this function?
+// QUESTION: what was the use of the line commented out in this function just
+//	before the last return?
+//		result = str[index+2];
 int	atoi_v2(const char *str)
 {
 	int	index;
@@ -94,6 +96,5 @@ int	atoi_v2(const char *str)
 		result = result * 10 + str[index] - 48;
 		index++;
 	}
-	// result = str[index+2];
 	return (result * positive_or_negative_sign);
 }
