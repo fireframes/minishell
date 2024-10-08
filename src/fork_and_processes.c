@@ -62,9 +62,10 @@ void	exec_cmd(t_cmd cmds_struc, int read_fd, int write_fd, t_env *envp)
 	}
 }
 
-void	parent_process(t_cmd *cmds_struc)
+void	parent_process(t_cmd *cmds_struc, t_env *envp)
 {
 	int	i;
+	int	child_status_info;
 
 	i = 0;
 	while (i < cmds_struc->total_cmds - 1)
@@ -76,8 +77,11 @@ void	parent_process(t_cmd *cmds_struc)
 	i = 0;
 	while (i < cmds_struc->total_cmds)
 	{
-		wait(NULL);
+		// wait(NULL);
+		waitpid(cmds_struc[i].pid, &child_status_info, WUNTRACED);
 		i++;
+		if (i == cmds_struc->total_cmds)
+			envp->exit_code = WEXITSTATUS(child_status_info);
 	}
 }
 
@@ -130,5 +134,5 @@ void	forking(t_cmd *cmds_struc, t_env *envp)
 		}
 		i++;
 	}
-	parent_process(cmds_struc);
+	parent_process(cmds_struc, envp);
 }
