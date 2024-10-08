@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 01:01:50 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/02 19:26:07 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:55:09 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_env(t_cmd *cmd, char **envp)
 	if (*envp == NULL)
 	{
 		perror("env: null or empty list");
-		return (-1);
+		return (1);
 	}
 	if (cmd->args[1])
 	{

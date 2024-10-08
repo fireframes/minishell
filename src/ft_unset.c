@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:19:46 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/05 19:47:14 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:57:17 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_unset(t_cmd *cmd, t_env *envp)
 	int		j;
 
 	if (!cmd->args[1])
-		return (-1);
+		return (0);
 	j = 1;
 	while (cmd->args[j] != NULL)
 	{

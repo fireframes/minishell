@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:58:50 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/27 18:02:20 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:54:57 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_pwd(t_cmd *cmd)
 	if (cmd->args[1])
 	{
 		perror("pwd: too many arguments");
-		return (-1);
+		return (1);
 	}
 	if (getcwd(curpath, sizeof(curpath)) == NULL)
 		perror("pwd: getcwd() error");

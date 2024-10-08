@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 18:39:56 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/05 17:50:05 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:55:05 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	ft_export(t_cmd *cmd, t_env *envp)
 	if (!cmd->args[1])
 	{
 		if (print_sorted_env(envp->env[envp->real_shlvl]) < 0)
-			return (-1);
+			return (1);
 		else
 			return (0);
 	}
@@ -83,7 +83,7 @@ int	ft_export(t_cmd *cmd, t_env *envp)
 	while (cmd->args[j] != NULL)
 	{
 		if (!isvalid_arg(cmd->args[j]))
-			return (-1);
+			return (1);
 		env_ptr = env_exists(cmd->args[j], envp->env[envp->real_shlvl]);
 		if (env_ptr != NULL && ft_strchr(cmd->args[j], '='))
 			update_envp(cmd->args[j], env_ptr);
