@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/05 16:21:07 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/08 14:25:41 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,22 @@ void	execution_module(t_cmd *cmds_struc, t_env *envp)
 //	still make sense (and is up to date with the last existing copy of env)
 void	execute_builtin(t_cmd *cmd, t_env *envp)
 {
-	if (ft_strcmp(cmd->args[0], "echo") == 0)
-		ft_echo(cmd);
-	else if (ft_strcmp(cmd->args[0], "cd") == 0)
-		ft_cd(cmd);
+	int	*exit_code;
+
+	exit_code = &envp->exit_code;
+	if (ft_strcmp(cmd->args[0], "cd") == 0)
+		*exit_code = ft_cd(cmd);
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
-		ft_pwd(cmd);
+		*exit_code = ft_pwd(cmd);
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
-		ft_export(cmd, envp);
+		*exit_code = ft_export(cmd, envp);
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
-		ft_unset(cmd, envp);
+		*exit_code = ft_unset(cmd, envp);
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
-		ft_env(cmd, envp->env[envp->real_shlvl]);
+		*exit_code = ft_env(cmd, envp->env[envp->real_shlvl]);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 		ft_exit(cmd, envp);
+	else if (ft_strcmp(cmd->args[0], "echo") == 0)
+		*exit_code = ft_echo(cmd, envp);
 	return ;
 }

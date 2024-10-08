@@ -2,3 +2,4 @@
 minishell
 *.dSYM
 .vscode
+minishell_tester
