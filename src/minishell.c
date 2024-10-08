@@ -45,6 +45,13 @@ static void	check_nb_of_args(int argc)
 	}
 }
 
+// TODO: handle the case in which SHLVL has been unset (in that case, opening
+//	another level of shell should resume to SHLVL=1)
+// TODO?: handle the case in which SHLVL has been manually changed (via export)
+//	to a value bigger to 999 or higher. In that case, output:
+//		bash: warning: shell level (1000) too high, resetting to 1
+// TODO?: if a negative number has been set to SHLVL via export, the next level
+//	in the env should be 0
 void	incr_or_decr_env_shlvl(char **envp, bool increase)
 {
 	int		i;

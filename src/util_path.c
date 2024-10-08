@@ -63,9 +63,14 @@ static char	*get_correct_cmd_path(char *cmd, char **envp)
 			break ;
 		i++;
 	}
-	all_existing_paths = split_v2(envp[i], ':');
-	working_path_if_one = find_path_or_err(all_existing_paths, cmd);
-	return (working_path_if_one);
+	if (envp[i] != NULL)
+	{
+		all_existing_paths = split_v2(envp[i], ':');
+		working_path_if_one = find_path_or_err(all_existing_paths, cmd);
+		return (working_path_if_one);
+	}
+	else
+		return (NULL);
 }
 
 static char	*absolute_or_relative_path(char *cmd)

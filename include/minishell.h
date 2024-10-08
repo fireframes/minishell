@@ -13,7 +13,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define MAX_SHLVL 256
+# define MAX_SHLVL 999
 
 # include <errno.h>
 # include <fcntl.h>

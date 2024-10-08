@@ -44,6 +44,9 @@ void	check_for_minishell_call(t_cmd *cmd_struc, char *arg, int i)
 // Parsing just before the split call?
 // 'free_split(commands->cmds_split)' has been deleted the line before printf
 // TODO problem with double free when trying an unexisting command
+// If you unset PATH, you have this message:
+//		bash: ls: No such file or directory
+//	(not the command not found)
 void	cmd_args_parse(t_cmd *cmds_struc, char **envp)
 {
 	int	i;
