@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:41:40 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/08 14:25:33 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:42:47 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,17 @@ int	ft_cd(t_cmd *cmd)
 		if (chdir_home())
 			return (0);
 		else
-			return (-1);
+			return (1);
 	}
 	else if (cmd->args[2])
 	{
 		printf("cd: string not in pwd: %s\n", cmd->args[1]);
-		return (-1);
+		return (1);
 	}
 	else if (chdir(cmd->args[1]) != 0)
 	{
-		printf("cd: no such file or directory: %s\n", cmd->args[1]);
-		return (-1);
+		printf("cd:  %s: No such file or directory\n", cmd->args[1]);
+		return (1);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 16:08:11 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/08 14:12:20 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/08 16:07:00 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,27 @@
 // the string for echo is the whole string
 // how do we know it's just -n for args[1]
 
-// check argument count
+// check argument count?
 
 // use printf or write? currently output is not recognized when piping
 
 // EXPANDER should expand $ in any case!
+
+char *expander(char *cmd, t_env *envp)
+{
+	char	*expanded;
+
+	expanded = ft_strchr(cmd, '$');
+	if (expanded && *(expanded + 1) == '?')
+		printf("%d", envp->exit_code);
+	return (expanded);
+}
+
 int	ft_echo(t_cmd *cmd, t_env *envp)
 {
-	int	i;
-	int	newline;
-	char *expand;
+	int		i;
+	int		newline;
+	char	*expanded;
 
 	i = 1;
 	newline = 1;
