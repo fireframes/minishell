@@ -72,6 +72,7 @@ typedef struct s_cmd
 	char	**cmds_splits;
 	int		total_cmds;
 	char	**args;
+	int		total_args;
 	char	*cmd_path;
 	int		command_index;
 	bool	is_builtin;

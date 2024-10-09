@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+// TODO: PARSING FOR QUOTES SHOULD HAPPEN before the call of cmds_parse()
 t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 {
 	char		**cmds_splits;
@@ -20,7 +21,7 @@ t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 	cmds_splits = cmds_parse(read_line);
 	cmds_struc = create_cmds_struc(cmds_splits, cmds_struc, envp);
 	cmd_args_parse(cmds_struc, envp->env[envp->real_shlvl]);
-	// count_redirections(cmds_struc);
+	count_redirections(cmds_struc);
 	return (cmds_struc);
 }
 
