@@ -60,8 +60,10 @@ void	exec_cmd(t_cmd cmds_struc, int read_fd, int write_fd, t_env *envp)
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
-}
+}	
 
+// TODO: the returned code is not good when the command is not found
+//	(it should be 127 and is currently some number)
 void	parent_process(t_cmd *cmds_struc, t_env *envp)
 {
 	int	i;
@@ -77,7 +79,6 @@ void	parent_process(t_cmd *cmds_struc, t_env *envp)
 	i = 0;
 	while (i < cmds_struc->total_cmds)
 	{
-		// wait(NULL);
 		waitpid(cmds_struc[i].pid, &child_status_info, WUNTRACED);
 		i++;
 		if (i == cmds_struc->total_cmds)
