@@ -12,6 +12,7 @@ SRCS_DIR	:=	./src/
 SRCS 		:=	minishell.c				\
 				checker.c				\
 				parsing.c				\
+				redirections.c			\
 				freeing.c				\
 				fork_and_processes.c	\
 				struct.c				\

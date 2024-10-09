@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	strncmp_v2(const char *s1, const char *s2, size_t n)
+int	strncmp_v2(const char *s1, const char *s2, size_t n)
 {
 	size_t			index;
 	unsigned char	*unsigned_s1;

@@ -65,6 +65,8 @@ typedef struct s_env
 	int		exit_code;
 }	t_env;
 
+// TODO: check if the env_struct, real_shlvl and env are really necessary and
+//	used, since they are also reachable via the s_env struct.
 typedef struct s_cmd
 {
 	char	**cmds_splits;
@@ -82,6 +84,7 @@ typedef struct s_cmd
 	pid_t	pid;
 	int		read_fd;
 	int		write_fd;
+	int		redir_amount;
 }	t_cmd;
 
 // checker.c
@@ -91,6 +94,9 @@ bool	check_builtin(t_cmd *command);
 t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *commands);
 char	**cmds_parse(char *read_line);
 void	cmd_args_parse(t_cmd *commands, char **envp);
+
+// redirections.c
+void	count_redirections(t_cmd *cmds_struc);
 
 // freeing.c
 void	free_module(t_cmd *cmds_struc, char *read_line, char *prmpt_path);
@@ -130,6 +136,7 @@ void	incr_or_decr_env_shlvl(char **envp, bool increase);
 char	*find_cmd_path(char *command, char **envp);
 
 // util_strjoin.c
+int		strncmp_v2(const char *s1, const char *s2, size_t n);
 size_t	strlen_v2(const char *s);
 char	*strnstr_v2(const char *haystack, const char *needle, size_t len);
 char	*strjoin_v2(char const *s1, char const *s2);
