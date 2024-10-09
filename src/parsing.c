@@ -38,7 +38,6 @@ void	check_for_minishell_call(t_cmd *cmd_struc, char *arg, int i)
 		cmd_struc[i].minishell_call = true;
 }
 
-// PROBLEM: SEGFAULT WHEN input only one or more space character in the prompt!!!!
 // TODO wrap the if(...) into command_error()
 // TODO take into account relative and absolute commands paths too!
 // BIG PARSING MODULE!

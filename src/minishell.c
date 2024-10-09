@@ -45,6 +45,20 @@ static void	check_nb_of_args(int argc)
 	}
 }
 
+static int	has_only_sp_or_tab_chars(char *read_line)
+{
+	int i;
+
+	i = 0;
+	while (read_line[i] != '\0')
+	{
+		if (read_line[i] != ' ' && read_line[i] != '\t')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 // TODO: exit the infinite loop with SIGNALS;
 // EOF (Ctrl+D) is dealt with the if (!read_line) {break} ; is that enough?
 // QUESTION: - should we free envp in the end of main?
@@ -67,6 +81,8 @@ int	main(int argc, char **argv, char **envp)
 		read_line = readline(prompt_w_path);
 		if (!read_line)
 			break ;
+		if (has_only_sp_or_tab_chars(read_line) == 1)
+			continue;
 		if (*read_line)
 			main_module(env, read_line, prompt_w_path);
 	}
