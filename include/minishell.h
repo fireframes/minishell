@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/08 14:25:36 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:00:10 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ char	*substr_v2(char const *s, unsigned int start, size_t len);
 // built-ins
 int		ft_echo(t_cmd *cmd, t_env *envp);
 int		ft_cd(t_cmd *cmd);
-int		ft_pwd(t_cmd *cmd);
+int		ft_pwd(void);
 int		ft_export(t_cmd *cmd, t_env *envp);
 int		ft_unset(t_cmd *cmd, t_env *envp);
 int		ft_env(t_cmd *cmd, char **envp);
@@ -163,5 +163,8 @@ void	ft_exit(t_cmd *cmd, t_env *envp);
 // execution.c
 void	execution_module(t_cmd *commands, t_env *envp);
 void	execute_builtin(t_cmd *cmd, t_env *envp);
+
+// expander.c
+char	*expander(char *str, t_env *envp);
 
 #endif

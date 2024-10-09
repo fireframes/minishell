@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:16:31 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/05 15:22:18 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:00:05 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,11 @@ int	main(int argc, char **argv, char **envp)
 		if (!read_line)
 			break ;
 		if (has_only_sp_or_tab_chars(read_line) == 1)
+		{
+			free(prompt_w_path);
+			free(read_line);
 			continue;
+		}
 		if (*read_line)
 			main_module(env, read_line, prompt_w_path);
 	}

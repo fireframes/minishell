@@ -2,4 +2,4 @@
 minishell
 *.dSYM
 .vscode
-minishell_tester
+~/42/minishell/minishell_tester
