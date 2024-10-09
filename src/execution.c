@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/08 14:25:41 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/09 22:18:44 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	execute_builtin(t_cmd *cmd, t_env *envp)
 	if (ft_strcmp(cmd->args[0], "cd") == 0)
 		*exit_code = ft_cd(cmd);
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
-		*exit_code = ft_pwd(cmd);
+		*exit_code = ft_pwd();
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
 		*exit_code = ft_export(cmd, envp);
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)

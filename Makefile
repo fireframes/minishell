@@ -25,6 +25,7 @@ SRCS 		:=	minishell.c				\
 				util_others2.c			\
 				util_shlvl.c			\
 				execution.c				\
+				expander.c				\
 				ft_echo.c				\
 				ft_cd.c					\
 				ft_pwd.c				\
