@@ -67,6 +67,10 @@ typedef struct s_env
 
 // TODO: check if the env_struct, real_shlvl and env are really necessary and
 //	used, since they are also reachable via the s_env struct.
+// NOTE: those 3 elements have been removed (because unused) for now;
+//		t_env	env_struc;
+//		int		real_shlvl;
+//		char	***env;
 typedef struct s_cmd
 {
 	char	**cmds_splits;
@@ -78,14 +82,12 @@ typedef struct s_cmd
 	bool	is_builtin;
 	bool	path_found;
 	bool	minishell_call;
-	// t_env	env_struc;
-	// int		real_shlvl;
-	// char	***env;
 	int		(*pipes)[2];
 	pid_t	pid;
 	int		read_fd;
 	int		write_fd;
 	int		redir_amount;
+	char	*redir_part;
 }	t_cmd;
 
 // checker.c
@@ -93,8 +95,8 @@ bool	check_builtin(t_cmd *command);
 
 // parsing.c
 t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *commands);
-char	**cmds_parse(char *read_line);
-void	cmd_args_parse(t_cmd *commands, char **envp);
+// char	**cmds_parse(char *read_line);
+// void	cmd_args_parse(t_cmd *commands, char **envp);
 
 // redirections.c
 void	count_redirections(t_cmd *cmds_struc);

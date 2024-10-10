@@ -12,20 +12,7 @@
 
 #include "minishell.h"
 
-// TODO: PARSING FOR QUOTES SHOULD HAPPEN before the call of cmds_parse()
-t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
-{
-	char		**cmds_splits;
-
-	cmds_splits = NULL;
-	cmds_splits = cmds_parse(read_line);
-	cmds_struc = create_cmds_struc(cmds_splits, cmds_struc);
-	cmd_args_parse(cmds_struc, envp->env[envp->real_shlvl]);
-	count_redirections(cmds_struc);
-	return (cmds_struc);
-}
-
-char	**cmds_parse(char *read_line)
+static char	**cmds_parse(char *read_line)
 {
 	char		**cmds_splits;
 
@@ -34,7 +21,7 @@ char	**cmds_parse(char *read_line)
 	return (cmds_splits);
 }
 
-void	check_for_minishell_call(t_cmd *cmd_struc, char *arg, int i)
+static void	check_for_minishell_call(t_cmd *cmd_struc, char *arg, int i)
 {
 	if (ft_strnstr(arg, "/minishell", ft_strlen(arg)) != NULL)
 		cmd_struc[i].minishell_call = true;
@@ -49,7 +36,7 @@ void	check_for_minishell_call(t_cmd *cmd_struc, char *arg, int i)
 // If you unset PATH, you have this message:
 //		bash: ls: No such file or directory
 //	(not the command not found)
-void	cmd_args_parse(t_cmd *cmds_struc, char **envp)
+static void	cmd_args_parse(t_cmd *cmds_struc, char **envp)
 {
 	int	i;
 
@@ -76,4 +63,43 @@ void	cmd_args_parse(t_cmd *cmds_struc, char **envp)
 		}
 		i++;
 	}
+}
+
+static void	redir_parse(t_cmd *cmds_struc)
+{
+	int		i;
+	char	*first_redir_found;
+
+	i = 0;
+	while (i < cmds_struc->total_cmds)
+	{
+		first_redir_found = 0;
+		first_redir_found = ft_strchr(cmds_struc[i].cmds_splits[i], '>');
+		if (first_redir_found == NULL)
+			first_redir_found = ft_strchr(cmds_struc[i].cmds_splits[i], '<');
+		if (first_redir_found != NULL)
+		{
+			cmds_struc->redir_part = ft_strdup(first_redir_found);
+			while (*first_redir_found != '\0')
+			{
+				*first_redir_found = '\0';
+				first_redir_found++;
+			}
+		}
+		i++;
+	}
+}
+
+// TODO: PARSING FOR QUOTES SHOULD HAPPEN before the call of cmds_parse()
+t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
+{
+	char		**cmds_splits;
+
+	cmds_splits = NULL;
+	cmds_splits = cmds_parse(read_line);
+	cmds_struc = create_cmds_struc(cmds_splits, cmds_struc);
+	redir_parse(cmds_struc);
+	cmd_args_parse(cmds_struc, envp->env[envp->real_shlvl]);
+	count_redirections(cmds_struc);
+	return (cmds_struc);
 }

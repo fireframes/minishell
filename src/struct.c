@@ -26,9 +26,14 @@ void	init_cmds_struc(t_cmd *cmd_struc, int index)
 	cmd_struc[index].write_fd = 0;
 	cmd_struc[index].redir_amount = 0;
 	cmd_struc[index].total_args = 0;
+	cmd_struc[index].redir_part = NULL;
 }
 
 // QUESTION: protection needed after split call (if (!prompt_split)...)?
+// NOTE: those 3 lines have been removed from the second while loop:
+//		cmds_struc[i].env_struc = *envp;
+//		cmds_struc[i].real_shlvl = envp->real_shlvl;
+//		cmds_struc[i].env = envp->env;
 t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc)
 {
 	int			cmd_count;
@@ -45,9 +50,6 @@ t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc)
 	{
 		cmds_struc[i].cmds_splits = cmds_splits;
 		cmds_struc[i].total_cmds = cmd_count;
-		// cmds_struc[i].env_struc = *envp;
-		// cmds_struc[i].real_shlvl = envp->real_shlvl;
-		// cmds_struc[i].env = envp->env;
 		init_cmds_struc(cmds_struc, i);
 		i++;
 	}
