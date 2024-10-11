@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:41:40 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/09 22:50:27 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/11 21:35:05 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,13 @@ int	ft_cd(t_cmd *cmd)
 	}
 	else if (cmd->args[2])
 	{
-		write(2, " too many arguments", 20);
+		ft_putstr_fd(" too many arguments\n", 2);
 		return (1);
 	}
 	else if (chdir(cmd->args[1]) != 0)
 	{
-		printf("cd:  %s: No such file or directory\n", cmd->args[1]);
+		ft_putstr_fd(" No such file or directory\n", 2);
+		// printf("cd:  %s: No such file or directory\n", cmd->args[1]);
 		return (1);
 	}
 	return (0);

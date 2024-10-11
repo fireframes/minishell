@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/05 15:46:20 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/11 21:36:02 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,15 @@ void	ft_exit(t_cmd *cmd, t_env *envp)
 	printf("exit\n");
 	if (check_error(cmd) == 1)
 	{
-		printf("minishell: exit: too many arguments\n");
+		ft_putstr_fd(": too many arguments\n", 2);
+		// printf("minishell: exit: too many arguments\n");
 		exit_code = 1;
 	}
 	if (check_error(cmd) == 2)
 	{
-		printf("minishell: exit: %s: numeric argument required\n",
-			cmd->args[1]);
+		ft_putstr_fd(": numeric argument required\n", 2);
+		// printf("minishell: exit: %s: numeric argument required\n",
+		// 	cmd->args[1]);
 		exit_code = 2;
 	}
 	if (envp->real_shlvl == 0)

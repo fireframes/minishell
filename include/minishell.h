@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/09 23:00:10 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/11 20:57:05 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,5 +131,6 @@ void	execute_builtin(t_cmd *cmd, t_env *envp);
 
 // expander.c
 char	*expander(char *str, t_env *envp);
+void 	expand_cmd(char **cmd_args, t_env *envp);
 
 #endif

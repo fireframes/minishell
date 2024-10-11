@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:34:56 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/11 19:30:28 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/11 21:13:55 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,17 @@ bool	isvalid_arg(char *arg)
 
 	if (*arg == '=')
 	{
-		printf("export: `%s`: not a valid identifier\n", arg);
+		// ft_putstr_fd(arg, 1);
+		ft_putstr_fd(": not a valid identifier\n", 2);
+		// printf("export: `%s`:
+		// printf("export: `%s`: not a valid identifier\n", arg);
 		return (false);
 	}
 	arg_tmp = arg;
 	if (!(ft_isalpha(*arg_tmp) || *arg_tmp == '_'))
 	{
-		printf("export: `%s` not a valid identifier\n", arg);
+		ft_putstr_fd(": not a valid identifier\n", 2);
+		// printf("export: `%s` not a valid identifier\n", arg);
 		return (false);
 	}
 	arg_tmp++;
@@ -99,7 +103,8 @@ bool	isvalid_arg(char *arg)
 	{
 		if (!(ft_isalnum(*arg_tmp) || *arg_tmp == '_'))
 		{
-			printf("export: `%s` not a valid identifier\n", arg);
+			ft_putstr_fd(": not a valid identifier\n", 2);
+			// printf("export: `%s` not a valid identifier\n", arg);
 			return (false);
 		}
 		arg_tmp++;
