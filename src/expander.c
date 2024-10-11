@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:21:21 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/11 22:26:06 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/11 22:43:31 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ static char	*copy_expanded(char expanded[])
 	return (copy);
 }
 
-static int	check_quotes(char c)
-{
-	if (c == '\"' || c == '\'')
-		return (1);
-	return (0);
-}
+// static int	check_quotes(char c)
+// {
+// 	if (c == '\"' || c == '\'')
+// 		return (1);
+// 	return (0);
+// }
 
 char	*expander(char *str, t_env *envp)
 {
@@ -79,6 +79,12 @@ char	*expander(char *str, t_env *envp)
 		if ((str[i]) == '\"' && !double_quote_statement)
 		{
 			double_quote_statement = true;
+			i++;
+			continue ;
+		}
+		else if ((str[i]) == '\"' && double_quote_statement)
+		{
+			double_quote_statement = false;
 			i++;
 			continue ;
 		}
