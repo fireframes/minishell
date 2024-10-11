@@ -12,49 +12,33 @@
 
 #include "minishell.h"
 
-static void count_args(t_cmd *cmds_struc)
-{
-    int i;
-    int j;
+// static bool is_a_redir(char *arg)
+// {
+//     if (strncmp_v2(arg, ">", 1) == 0 || strncmp_v2(arg, ">>", 2) == 0
+//         || strncmp_v2(arg, "<", 1) == 0)
+//     {
+//         return (true);
+//     }
+//     else
+//         return (false);
+// }
 
-    i = 0;
-    while (i < cmds_struc->total_cmds)
-    {
-        j = 0;
-        while (cmds_struc[i].args[j] != NULL)
-            j++;
-        cmds_struc[i].total_args = j;
-        i++;
-    }
-}
+// void    count_redirections(t_cmd *cmds_struc)
+// {
+//     int i;
+//     int j;
 
-static bool is_a_redir(char *arg)
-{
-    if (strncmp_v2(arg, ">", 1) == 0 || strncmp_v2(arg, ">>", 2) == 0
-        || strncmp_v2(arg, "<", 1) == 0)
-    {
-        return (true);
-    }
-    else
-        return (false);
-}
-
-void    count_redirections(t_cmd *cmds_struc)
-{
-    int i;
-    int j;
-
-    i = 0;
-    count_args(cmds_struc);
-    while (i < cmds_struc->total_cmds)
-    {
-        j = 0;
-        while (j < cmds_struc[i].total_args)
-        {
-            if (is_a_redir(cmds_struc[i].args[j]) == true)
-                cmds_struc[i].redir_amount++;
-            j++;
-        }
-        i++;
-    }
-}
+//     i = 0;
+//     count_args(cmds_struc);
+//     while (i < cmds_struc->total_cmds)
+//     {
+//         j = 0;
+//         while (j < cmds_struc[i].total_args)
+//         {
+//             if (is_a_redir(cmds_struc[i].args[j]) == true)
+//                 cmds_struc[i].redir_amount++;
+//             j++;
+//         }
+//         i++;
+//     }
+// }

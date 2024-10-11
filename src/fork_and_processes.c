@@ -122,7 +122,7 @@ void	forking(t_cmd *cmds_struc, t_env *envp)
 	{
 		if ((cmds_struc[i].path_found == true
 				|| cmds_struc[i].is_builtin == true)
-			&& cmds_struc[i].minishell_call != true)
+			&& cmds_struc[i].is_minishell_call != true)
 		{
 			cmds_struc[i].pid = fork();
 			if (cmds_struc[i].pid == -1)
