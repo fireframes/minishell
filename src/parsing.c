@@ -45,7 +45,12 @@ static void	cmd_args_parse(t_cmd *cmds_struc, char **envp)
 	{
 		cmds_struc[i].command_index = i;
 		cmds_struc[i].args = split_v2(cmds_struc->cmds_splits[i], ' ');
-		if (check_builtin(&cmds_struc[i]))
+		if (cmds_struc[i].redir_syntax_err == true)
+		{
+			i++;
+			continue;
+		}
+		else if (check_builtin(&cmds_struc[i]))
 			cmds_struc[i].is_builtin = true;
 		else
 		{
