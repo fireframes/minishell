@@ -78,6 +78,9 @@ static int	check_error(t_cmd *cmd)
 // void    ft_exit(char **envp)
 // TODO: the last line in the last else was:
 //		incr_or_decr_env_shlvl(envp->env[envp->real_shlvl], false);
+// TODO IMPORTANT: when you there is an error code and you exit totally minishell
+// the exit status displayed in bash should be the error code and not the success
+// of the exit command!
 void	ft_exit(t_cmd *cmd, t_env *envp)
 {
 	int	exit_code;
