@@ -46,12 +46,13 @@ typedef struct s_cmd
 	int		command_index;
 	bool	is_builtin;
 	bool	path_found;
-	bool	is_minishell_call;
+	bool	minishell_call;
 	int		(*pipes)[2];
 	pid_t	pid;
 	int		read_fd;
 	int		write_fd;
 	char	*redir_part;
+	bool	redir_syntax_err;
 }	t_cmd;
 
 // checker.c
@@ -61,7 +62,7 @@ bool	check_builtin(t_cmd *command);
 t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *commands);
 
 // redirections.c
-void	count_redirections(t_cmd *cmds_struc);
+void	redir_parsing_module(t_cmd *cmds_struc);
 
 // freeing.c
 void	free_module(t_cmd *cmds_struc, char *read_line, char *prmpt_path);

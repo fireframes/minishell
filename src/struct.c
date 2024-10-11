@@ -19,13 +19,14 @@ void	init_cmds_struc(t_cmd *cmd_struc, int index)
 	cmd_struc[index].command_index = 0;
 	cmd_struc[index].is_builtin = false;
 	cmd_struc[index].path_found = false;
-	cmd_struc[index].is_minishell_call = false;
+	cmd_struc[index].minishell_call = false;
 	cmd_struc[index].pipes = NULL;
 	cmd_struc[index].pid = 0;
 	cmd_struc[index].read_fd = 0;
 	cmd_struc[index].write_fd = 0;
 	cmd_struc[index].total_args = 0;
 	cmd_struc[index].redir_part = NULL;
+	cmd_struc[index].redir_syntax_err = false;
 }
 
 // QUESTION: protection needed after split call (if (!prompt_split)...)?

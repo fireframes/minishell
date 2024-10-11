@@ -64,6 +64,7 @@ static int	has_only_sp_or_tab_chars(char *read_line)
 // QUESTION: - should we free envp in the end of main?
 //			 - need to print error on envp error?
 // 			 - where to free when exiting with signals?
+// IMPORTANT QUESTION: should the error message be output to fd 1 or 2?
 int	main(int argc, char **argv, char **envp)
 {
 	char	*read_line;

@@ -24,7 +24,7 @@ static char	**cmds_parse(char *read_line)
 static void	check_for_minishell_call(t_cmd *cmd_struc, char *arg, int i)
 {
 	if (ft_strnstr(arg, "/minishell", ft_strlen(arg)) != NULL)
-		cmd_struc[i].is_minishell_call = true;
+		cmd_struc[i].minishell_call = true;
 }
 
 // TODO wrap the if(...) into command_error()
@@ -65,31 +65,6 @@ static void	cmd_args_parse(t_cmd *cmds_struc, char **envp)
 	}
 }
 
-static void	redir_parse(t_cmd *cmds_struc)
-{
-	int		i;
-	char	*first_redir_found;
-
-	i = 0;
-	while (i < cmds_struc->total_cmds)
-	{
-		first_redir_found = 0;
-		first_redir_found = ft_strchr(cmds_struc[i].cmds_splits[i], '>');
-		if (first_redir_found == NULL)
-			first_redir_found = ft_strchr(cmds_struc[i].cmds_splits[i], '<');
-		if (first_redir_found != NULL)
-		{
-			cmds_struc->redir_part = ft_strdup(first_redir_found);
-			while (*first_redir_found != '\0')
-			{
-				*first_redir_found = '\0';
-				first_redir_found++;
-			}
-		}
-		i++;
-	}
-}
-
 static void count_args(t_cmd *cmds_struc)
 {
     int i;
@@ -114,7 +89,7 @@ t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 	cmds_splits = NULL;
 	cmds_splits = cmds_parse(read_line);
 	cmds_struc = create_cmds_struc(cmds_splits, cmds_struc);
-	redir_parse(cmds_struc);
+	redir_parsing_module(cmds_struc);
 	cmd_args_parse(cmds_struc, envp->env[envp->real_shlvl]);
 	count_args(cmds_struc);
 	return (cmds_struc);
