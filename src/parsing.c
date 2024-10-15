@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/15 20:20:00 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/15 23:57:46 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,7 @@ static void	count_args(t_cmd *cmds_struc)
 	}
 }
 
-// TODO: PARSING FOR QUOTES SHOULD HAPPEN before the call of cmds_parse()
-// TO YANNICK: are you sure about the above assumption?
-
-// PROBLEM: cmd[0] at this point is first validated in parsing module
-// 			and isn't expanded when checked for command existance
-// FIX:		added expansion to cmd_args_parse()
-//			but need to add error code before expanding somehow
+// PROBLEM: for input like: "$EMPTY" must do nothing with exit code 0
 t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 {
 	char	**cmds_splits;

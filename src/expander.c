@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:21:21 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/15 20:43:09 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/15 23:47:32 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,47 +41,6 @@ static char	*copy_expanded(char expanded[])
 	return (copy);
 }
 
-// static int	check_quotes(char c)
-// {
-// 	if (c == '\"' || c == '\'')
-// 		return (1);
-// 	return (0);
-// }
-
-// char*	quoter(char *line)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (line[i])
-// 	{
-// 		if ((line[i]) == '\'' && !single_quote && !double_quote)
-// 		{
-// 			single_quote = true;
-// 			i++;
-// 			continue ;
-// 		}
-// 		else if (line[i] == '\'' && single_quote)
-// 		{
-// 			single_quote = false;
-// 			i++;
-// 			continue ;
-// 		}
-// 		if ((line[i]) == '\"' && !double_quote)
-// 		{
-// 			double_quote = true;
-// 			i++;
-// 			continue ;
-// 		}
-// 		else if ((line[i]) == '\"' && double_quote)
-// 		{
-// 			double_quote = false;
-// 			i++;
-// 			continue ;
-// 		}
-// 	}
-// }
-
 char	*expander(char *line, t_env *envp)
 {
 	char	expanded[PATH_MAX];
@@ -103,7 +62,7 @@ char	*expander(char *line, t_env *envp)
 			i++;
 			continue ;
 		}
-		else if (line[i] == '\'' && single_quote)
+		else if (line[i] == '\'' && single_quote)// && !double_quote)
 		{
 			single_quote = false;
 			i++;
@@ -115,7 +74,7 @@ char	*expander(char *line, t_env *envp)
 			i++;
 			continue ;
 		}
-		else if ((line[i]) == '\"' && double_quote)
+		else if ((line[i]) == '\"' && double_quote)// && !single_quote)
 		{
 			double_quote = false;
 			i++;
@@ -124,11 +83,7 @@ char	*expander(char *line, t_env *envp)
 		if (line[i] == '$' && !single_quote)
 		{
 			if (line[i + 1] == '\0' || line[i + 1] == '\"')
-			{
 				expanded[j] = '$';
-				// expanded[j + 1] = '\0';
-				// return (copy_expanded(expanded));
-			}
 			else if (line[i + 1] == '?')
 			{
 				expanded[j] = '\0';
@@ -143,6 +98,11 @@ char	*expander(char *line, t_env *envp)
 				j += mini_strcat(&expanded[j], ++env_value);
 				i += env_value - *env_exists(&line[i + 1], *envp->env);
 				continue ;
+			}
+			else if (!env_exists(&line[i + 1], *envp->env))
+			{
+				expanded[j] = '\0';
+				return (copy_expanded(expanded));
 			}
 			else if (ft_strchr(&line[i + 1], '$'))
 			{
@@ -160,6 +120,7 @@ char	*expander(char *line, t_env *envp)
 	expanded[j] = '\0';
 	return (copy_expanded(expanded));
 }
+
 
 char	*dequote_expand(char *read_line, t_env *envp)
 {
