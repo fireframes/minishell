@@ -99,10 +99,11 @@ t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 {
 	char		**cmds_splits;
 
+	envp->redir_syntax_err = false;
 	cmds_splits = NULL;
 	cmds_splits = cmds_parse(read_line);
 	cmds_struc = create_cmds_struc(cmds_splits, cmds_struc);
-	redir_parsing_module(cmds_struc);
+	redir_parsing_module(cmds_struc, envp);
 	cmd_args_parse(cmds_struc, envp);
 	// expand_cmds(cmds_struc, envp);
 	count_args(cmds_struc);

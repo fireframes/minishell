@@ -12,11 +12,6 @@
 
 #include "minishell.h"
 
-// bool	check_minishell_call(t_cmd *command)
-// {
-// 	if (ft_strcmp(command->args[0], "") == 0)
-// }
-
 bool	check_builtin(t_cmd *command)
 {
 	if (ft_strcmp(command->args[0], "echo") == 0)

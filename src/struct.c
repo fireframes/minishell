@@ -62,4 +62,5 @@ void	init_env_struc(t_env *global, char **envp)
 	if (global->env[global->real_shlvl] == NULL)
 		exit(2);
 	global->exit_code = 0;
+	global->redir_syntax_err = false;
 }

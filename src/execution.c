@@ -12,9 +12,11 @@
 
 #include "minishell.h"
 
+// Redirections handling (not parsing, which is already done), should be done
+//	in the following function.
 void	execution_module(t_cmd *cmds_struc, t_env *envp)
 {
-	if (cmds_struc->redir_syntax_err == true)
+	if (envp->redir_syntax_err == true)
 	{
 		envp->exit_code = 2;
 		printf("minishell: syntax error near unexpected redirection token\n");
@@ -60,6 +62,6 @@ void	execute_builtin(t_cmd *cmd, t_env *envp)
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 		ft_exit(cmd, envp);
 	else if (ft_strcmp(cmd->args[0], "echo") == 0)
-		*exit_code = ft_echo(cmd, envp);
+		*exit_code = ft_echo(cmd);
 	return ;
 }

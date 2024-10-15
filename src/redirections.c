@@ -78,7 +78,7 @@ static void	isolate_redir_part(t_cmd *cmds_struc)
 	}
 }
 
-void	redir_parsing_module(t_cmd *cmds_struc)
+void	redir_parsing_module(t_cmd *cmds_struc, t_env *envp)
 {
 	int	i;
 
@@ -87,7 +87,10 @@ void	redir_parsing_module(t_cmd *cmds_struc)
 	while (i < cmds_struc->total_cmds)
 	{
 		if (is_syntax_err(cmds_struc, i) == true)
+		{
 			cmds_struc[i].redir_syntax_err = true;
+			envp->redir_syntax_err = true;
+		}
 		i++;
 	}
 }

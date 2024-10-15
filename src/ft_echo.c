@@ -29,7 +29,7 @@
 
 // EXPANDER should expand $ in any case!
 
-int	ft_echo(t_cmd *cmd, t_env *envp)
+int	ft_echo(t_cmd *cmd)
 {
 	int		i;
 	int		newline;
