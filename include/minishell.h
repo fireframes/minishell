@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/11 20:57:05 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/15 20:20:05 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,12 @@ bool	check_builtin(t_cmd *command);
 
 // parsing.c
 t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *commands);
+
+// dequoter.c
+
+// expander.c
+char	*expander(char *str, t_env *envp);
+char	*dequote_expand(char *read_line, t_env *envp);
 
 // redirections.c
 void	redir_parsing_module(t_cmd *cmds_struc, t_env *envp);
@@ -129,9 +135,5 @@ void	ft_exit(t_cmd *cmd, t_env *envp);
 // execution.c
 void	execution_module(t_cmd *commands, t_env *envp);
 void	execute_builtin(t_cmd *cmd, t_env *envp);
-
-// expander.c
-char	*expander(char *str, t_env *envp);
-void 	expand_cmd(char **cmd_args, t_env *envp);
 
 #endif

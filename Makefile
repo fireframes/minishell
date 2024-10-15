@@ -12,6 +12,8 @@ SRCS_DIR	:=	./src/
 SRCS 		:=	minishell.c				\
 				checker.c				\
 				parsing.c				\
+				dequoter.c				\
+				expander.c				\
 				redirections.c			\
 				freeing.c				\
 				fork_and_processes.c	\
@@ -25,7 +27,6 @@ SRCS 		:=	minishell.c				\
 				util_others2.c			\
 				util_shlvl.c			\
 				execution.c				\
-				expander.c				\
 				ft_echo.c				\
 				ft_cd.c					\
 				ft_pwd.c				\
