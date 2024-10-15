@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/15 15:19:45 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/15 20:20:00 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static void	cmd_args_parse(t_cmd *cmds_struc, t_env *envp)
 	{
 		cmds_struc[i].command_index = i;
 		cmds_struc[i].args = split_v2(cmds_struc->cmds_splits[i], ' ');
-		expand_cmd(cmds_struc[i].args, envp);
 		if (cmds_struc[i].redir_syntax_err == true)
 		{
 			i++;
@@ -97,14 +96,21 @@ static void	count_args(t_cmd *cmds_struc)
 //			but need to add error code before expanding somehow
 t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 {
-	char		**cmds_splits;
+	char	**cmds_splits;
+	char	*expanded_line;
 
 	cmds_splits = NULL;
-	cmds_splits = cmds_parse(read_line);
+	expanded_line = dequote_expand(read_line, envp);
+	if (expanded_line)
+	{
+		cmds_splits = cmds_parse(expanded_line);
+		free(expanded_line);
+	}
+	else
+		cmds_splits = cmds_parse(read_line);
 	cmds_struc = create_cmds_struc(cmds_splits, cmds_struc);
 	redir_parsing_module(cmds_struc);
 	cmd_args_parse(cmds_struc, envp);
-	// expand_cmds(cmds_struc, envp);
 	count_args(cmds_struc);
 	return (cmds_struc);
 }

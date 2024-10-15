@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 16:08:11 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/15 15:24:38 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/15 16:04:10 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 
 // EXPANDER should expand $ in any case!
 
-int	ft_echo(t_cmd *cmd, t_env *envp)
+int	ft_echo(t_cmd *cmd)
 {
 	int		i;
 	int		newline;

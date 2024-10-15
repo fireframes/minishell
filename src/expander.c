@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:21:21 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/11 22:43:31 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/15 20:43:09 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,79 +48,112 @@ static char	*copy_expanded(char expanded[])
 // 	return (0);
 // }
 
-char	*expander(char *str, t_env *envp)
+// char*	quoter(char *line)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (line[i])
+// 	{
+// 		if ((line[i]) == '\'' && !single_quote && !double_quote)
+// 		{
+// 			single_quote = true;
+// 			i++;
+// 			continue ;
+// 		}
+// 		else if (line[i] == '\'' && single_quote)
+// 		{
+// 			single_quote = false;
+// 			i++;
+// 			continue ;
+// 		}
+// 		if ((line[i]) == '\"' && !double_quote)
+// 		{
+// 			double_quote = true;
+// 			i++;
+// 			continue ;
+// 		}
+// 		else if ((line[i]) == '\"' && double_quote)
+// 		{
+// 			double_quote = false;
+// 			i++;
+// 			continue ;
+// 		}
+// 	}
+// }
+
+char	*expander(char *line, t_env *envp)
 {
 	char	expanded[PATH_MAX];
 	char	*env_value;
 	int		j;
 	int		i;
-	bool	single_quote_statement;
-	bool	double_quote_statement;
+	bool	single_quote;
+	bool	double_quote;
 
-	ft_memset(expanded, '$', PATH_MAX);
+	single_quote = false;
+	double_quote = false;
 	i = 0;
 	j = 0;
-	single_quote_statement = false;
-	double_quote_statement = false;
-	while (str[i])
+	while (line[i])
 	{
-		if ((str[i]) == '\'' && !single_quote_statement && !double_quote_statement)
+		if ((line[i]) == '\'' && !single_quote)
 		{
-			single_quote_statement = true;
+			single_quote = true;
 			i++;
 			continue ;
 		}
-		else if (str[i] == '\'' && single_quote_statement)
+		else if (line[i] == '\'' && single_quote)
 		{
-			single_quote_statement = false;
+			single_quote = false;
 			i++;
 			continue ;
 		}
-		if ((str[i]) == '\"' && !double_quote_statement)
+		if ((line[i]) == '\"' && !double_quote)
 		{
-			double_quote_statement = true;
+			double_quote = true;
 			i++;
 			continue ;
 		}
-		else if ((str[i]) == '\"' && double_quote_statement)
+		else if ((line[i]) == '\"' && double_quote)
 		{
-			double_quote_statement = false;
+			double_quote = false;
 			i++;
 			continue ;
 		}
-		if (str[i] == '$' && !single_quote_statement)
+		if (line[i] == '$' && !single_quote)
 		{
-			if (!str[i + 1])
+			if (line[i + 1] == '\0' || line[i + 1] == '\"')
 			{
 				expanded[j] = '$';
-				expanded[j + 1] = '\0';
-				return (copy_expanded(expanded));
+				// expanded[j + 1] = '\0';
+				// return (copy_expanded(expanded));
 			}
-			else if (str[i + 1] == '?')
+			else if (line[i + 1] == '?')
 			{
 				expanded[j] = '\0';
 				j += mini_strcat(&expanded[j], ft_itoa(envp->exit_code));
 				i += 2;
 				continue ;
 			}
-			else if (env_exists(&str[i + 1], *envp->env))
+			else if (env_exists(&line[i + 1], *envp->env))
 			{
 				expanded[j] = '\0';
-				env_value = ft_strchr(*env_exists(&str[i + 1], *envp->env), '=');
+				env_value = ft_strchr(*env_exists(&line[i + 1], *envp->env), '=');
 				j += mini_strcat(&expanded[j], ++env_value);
-				i += env_value - *env_exists(&str[i + 1], *envp->env);
+				i += env_value - *env_exists(&line[i + 1], *envp->env);
 				continue ;
 			}
-			else if (ft_strchr(&str[i + 1], '$'))
+			else if (ft_strchr(&line[i + 1], '$'))
 			{
-				i += ft_strchr(&str[i + 1], '$') - str;
+				i += ft_strchr(&line[i + 1], '$') - line;
 				continue ;
 			}
 			else
 				break ;
 		}
 		else
-			expanded[j] = str[i];
+			expanded[j] = line[i];
 		i++;
 		j++;
 	}
@@ -128,22 +161,17 @@ char	*expander(char *str, t_env *envp)
 	return (copy_expanded(expanded));
 }
 
-void expand_cmd(char **cmd_args, t_env *envp)
+char	*dequote_expand(char *read_line, t_env *envp)
 {
-	int		i;
-	char	*expand_str;
+	char	*expanded_line;
 
-	i = 0;
-	while (cmd_args[i])
+	expanded_line = NULL;
+	if (ft_strchr(read_line, '$') || ft_strchr(read_line, '\'')
+		|| ft_strchr(read_line, '\"'))
 	{
-		if (ft_strchr(cmd_args[i], '$') ||
-			ft_strchr(cmd_args[i], '\'') ||
-			ft_strchr(cmd_args[i], '\"'))
-		{
-			expand_str = expander(cmd_args[i], envp);
-			free(cmd_args[i]);
-			cmd_args[i] = expand_str;
-		}
-		i++;
+		expanded_line = expander(read_line, envp);
+		if (!expanded_line)
+			return (NULL);
 	}
+	return (expanded_line);
 }
