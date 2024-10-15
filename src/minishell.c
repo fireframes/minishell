@@ -45,9 +45,9 @@ static void	check_nb_of_args(int argc)
 	}
 }
 
-static int	has_only_sp_or_tab_chars(char *read_line)
+static int	has_only_sp_or_tab_chars(char *read_line, char *prompt_w_path)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (read_line[i] != '\0')
@@ -56,6 +56,8 @@ static int	has_only_sp_or_tab_chars(char *read_line)
 			return (0);
 		i++;
 	}
+	free(prompt_w_path);
+	free(read_line);
 	return (1);
 }
 
@@ -82,12 +84,8 @@ int	main(int argc, char **argv, char **envp)
 		read_line = readline(prompt_w_path);
 		if (!read_line)
 			break ;
-		if (has_only_sp_or_tab_chars(read_line) == 1)
-		{
-			free(prompt_w_path);
-			free(read_line);
-			continue;
-		}
+		if (has_only_sp_or_tab_chars(read_line, prompt_w_path) == 1)
+			continue ;
 		if (*read_line)
 			main_module(env, read_line, prompt_w_path);
 	}

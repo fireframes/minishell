@@ -44,7 +44,7 @@ char	*copy_expanded(char expanded[])
 char	*expander(char *str, t_env *envp)
 {
 	char	expanded[PATH_MAX];
-	char 	*env_value;
+	char	*env_value;
 	int		j;
 	int		i;
 

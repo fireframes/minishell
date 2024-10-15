@@ -12,27 +12,6 @@
 
 #include "minishell.h"
 
-// static bool	is_first_levels(char **envp)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (envp[i] != NULL)
-// 	{
-// 		if (strnstr_v2(envp[i], "SHLVL=", 6) && envp[i])
-// 			break ;
-// 		i++;
-// 	}
-// 	if (ft_strcmp(envp[i], "SHLVL=2") == 0)
-// 		return (true);
-// 	else if (ft_strcmp(envp[i], "SHLVL=1") == 0)
-// 		return (true);
-// 	else if (ft_strcmp(envp[i], "SHLVL=3") == 0)
-// 		return (true);
-// 	else
-// 		return (false);
-// }
-
 // QUESTIONS: what is the maximum exit code number possible? What happens if
 //  you have value higher? A negative value?
 // TODO: Implement behavior to overflow (to 0) when higher or equal to 256;
@@ -78,9 +57,9 @@ static int	check_error(t_cmd *cmd)
 // void    ft_exit(char **envp)
 // TODO: the last line in the last else was:
 //		incr_or_decr_env_shlvl(envp->env[envp->real_shlvl], false);
-// TODO IMPORTANT: when you there is an error code and you exit totally minishell
-// the exit status displayed in bash should be the error code and not the success
-// of the exit command!
+// TODO IMPORTANT: when you there is an error code and you exit totally
+//	minishell the exit status displayed in bash should be the error code and
+//	not the success of the exit command!
 void	ft_exit(t_cmd *cmd, t_env *envp)
 {
 	int	exit_code;

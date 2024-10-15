@@ -60,7 +60,7 @@ void	exec_cmd(t_cmd cmds_struc, int read_fd, int write_fd, t_env *envp)
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
-}	
+}
 
 // TODO: the returned code is not good when the command is not found
 //	(it should be 127 and is currently some number)
