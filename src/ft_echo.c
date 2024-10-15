@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 16:08:11 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/09 22:48:41 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:24:38 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	ft_echo(t_cmd *cmd, t_env *envp)
 {
 	int		i;
 	int		newline;
-	char	*expand_str;
 
 	i = 1;
 	newline = 1;
@@ -44,15 +43,7 @@ int	ft_echo(t_cmd *cmd, t_env *envp)
 	}
 	while (cmd->args[i])
 	{
-		if (ft_strchr(cmd->args[i], '$'))
-		{
-			expand_str = expander(cmd->args[i], envp);
-			write(1, expand_str, ft_strlen(expand_str));
-			free(expand_str);
-			expand_str = NULL;
-		}
-		else
-			write(1, cmd->args[i], ft_strlen(cmd->args[i]));
+		write(1, cmd->args[i], ft_strlen(cmd->args[i]));
 		if (cmd->args[i + 1])
 			write(1, " ", 1);
 		i++;

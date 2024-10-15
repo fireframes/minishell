@@ -6,13 +6,13 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:21:21 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/09 22:57:39 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/11 22:43:31 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	mini_strcat(char *dest, const char *src)
+static int	mini_strcat(char *dest, const char *src)
 {
 	int	i;
 	int	j;
@@ -31,7 +31,7 @@ int	mini_strcat(char *dest, const char *src)
 	return (ft_strlen(src));
 }
 
-char	*copy_expanded(char expanded[])
+static char	*copy_expanded(char expanded[])
 {
 	char	*copy;
 
@@ -41,19 +41,54 @@ char	*copy_expanded(char expanded[])
 	return (copy);
 }
 
+// static int	check_quotes(char c)
+// {
+// 	if (c == '\"' || c == '\'')
+// 		return (1);
+// 	return (0);
+// }
+
 char	*expander(char *str, t_env *envp)
 {
 	char	expanded[PATH_MAX];
 	char	*env_value;
 	int		j;
 	int		i;
+	bool	single_quote_statement;
+	bool	double_quote_statement;
 
 	ft_memset(expanded, '$', PATH_MAX);
 	i = 0;
 	j = 0;
+	single_quote_statement = false;
+	double_quote_statement = false;
 	while (str[i])
 	{
-		if (str[i] == '$')
+		if ((str[i]) == '\'' && !single_quote_statement && !double_quote_statement)
+		{
+			single_quote_statement = true;
+			i++;
+			continue ;
+		}
+		else if (str[i] == '\'' && single_quote_statement)
+		{
+			single_quote_statement = false;
+			i++;
+			continue ;
+		}
+		if ((str[i]) == '\"' && !double_quote_statement)
+		{
+			double_quote_statement = true;
+			i++;
+			continue ;
+		}
+		else if ((str[i]) == '\"' && double_quote_statement)
+		{
+			double_quote_statement = false;
+			i++;
+			continue ;
+		}
+		if (str[i] == '$' && !single_quote_statement)
 		{
 			if (!str[i + 1])
 			{
@@ -91,4 +126,24 @@ char	*expander(char *str, t_env *envp)
 	}
 	expanded[j] = '\0';
 	return (copy_expanded(expanded));
+}
+
+void expand_cmd(char **cmd_args, t_env *envp)
+{
+	int		i;
+	char	*expand_str;
+
+	i = 0;
+	while (cmd_args[i])
+	{
+		if (ft_strchr(cmd_args[i], '$') ||
+			ft_strchr(cmd_args[i], '\'') ||
+			ft_strchr(cmd_args[i], '\"'))
+		{
+			expand_str = expander(cmd_args[i], envp);
+			free(cmd_args[i]);
+			cmd_args[i] = expand_str;
+		}
+		i++;
+	}
 }

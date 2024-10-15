@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:34:56 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/09 22:29:14 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:24:05 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,21 @@ bool	isvalid_arg(char *arg)
 
 	if (*arg == '=')
 	{
-		printf("export: `%s`: not a valid identifier\n", arg);
+		ft_putstr_fd(": not a valid identifier\n", 2);;
 		return (false);
 	}
 	arg_tmp = arg;
+	if (!(ft_isalpha(*arg_tmp) || *arg_tmp == '_'))
+	{
+		ft_putstr_fd(": not a valid identifier\n", 2);
+		return (false);
+	}
+	arg_tmp++;
 	while (*arg_tmp != '=' && *arg_tmp)
 	{
-		if (!ft_isalnum(*arg_tmp))
+		if (!(ft_isalnum(*arg_tmp) || *arg_tmp == '_'))
 		{
-			printf("export: `%s` not a valid identifier\n", arg);
+			ft_putstr_fd(": not a valid identifier\n", 2);
 			return (false);
 		}
 		arg_tmp++;
