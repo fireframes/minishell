@@ -53,7 +53,9 @@ typedef struct s_cmd
 	int		read_fd;
 	int		write_fd;
 	char	*redir_part;
+	char	**redirs;
 	bool	redir_syntax_err;
+	int		redir_amount;
 }	t_cmd;
 
 // checker.c
@@ -70,6 +72,9 @@ char	*dequote_expand(char *read_line, t_env *envp);
 
 // redirections.c
 void	redir_parsing_module(t_cmd *cmds_struc, t_env *envp);
+
+// redirections_2.c
+void    alloc_redir_arr(t_cmd *cmds_struc, int i);
 
 // freeing.c
 void	free_module(t_cmd *cmds_struc, char *read_line, char *prmpt_path);

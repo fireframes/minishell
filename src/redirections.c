@@ -12,6 +12,38 @@
 
 #include "minishell.h"
 
+static int	is_a_redir(char *arg)
+{
+    if (strncmp_v2(arg, ">>", 2) == 0)
+        return (2);
+	else if (strncmp_v2(arg, ">", 1) == 0 || strncmp_v2(arg, "<", 1) == 0)
+		return (1);
+    else
+        return (0);
+}
+
+static void	count_redirections(t_cmd *cmds_struc, int i)
+{
+    int j;
+
+    j = 0;
+    while (cmds_struc[i].redir_part[j] != '\0')
+	{
+		if (is_a_redir(&cmds_struc[i].redir_part[j]) == 2)
+		{
+			cmds_struc[i].redir_amount++;
+			j = j + 2;
+		}
+		else
+		{
+			if (is_a_redir(&cmds_struc[i].redir_part[j]) == 1)
+				cmds_struc[i].redir_amount++;
+		j++;
+		}
+	}
+	i++;
+}
+
 static bool	erroneous_next_c(t_cmd *c, int i, int j)
 {
 	if (c[i].redir_part[j + 1] == '\0')
@@ -91,37 +123,8 @@ void	redir_parsing_module(t_cmd *cmds_struc, t_env *envp)
 			cmds_struc[i].redir_syntax_err = true;
 			envp->redir_syntax_err = true;
 		}
+		else if (cmds_struc[i].redir_part != NULL)
+			count_redirections(cmds_struc, i);
 		i++;
 	}
 }
-
-// static bool is_a_redir(char *arg)
-// {
-//     if (strncmp_v2(arg, ">", 1) == 0 || strncmp_v2(arg, ">>", 2) == 0
-//         || strncmp_v2(arg, "<", 1) == 0)
-//     {
-//         return (true);
-//     }
-//     else
-//         return (false);
-// }
-
-// void    count_redirections(t_cmd *cmds_struc)
-// {
-//     int i;
-//     int j;
-
-//     i = 0;
-//     count_args(cmds_struc);
-//     while (i < cmds_struc->total_cmds)
-//     {
-//         j = 0;
-//         while (j < cmds_struc[i].total_args)
-//         {
-//             if (is_a_redir(cmds_struc[i].args[j]) == true)
-//                 cmds_struc[i].redir_amount++;
-//             j++;
-//         }
-//         i++;
-//     }
-// }
