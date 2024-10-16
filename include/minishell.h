@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/15 20:20:05 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/16 23:20:15 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ typedef struct s_env
 	bool	redir_syntax_err;
 }	t_env;
 
+typedef struct s_expand
+{
+	char	*expanded;
+	int		*inquotes;
+}	t_expnd;
+
 typedef struct s_cmd
 {
 	char	**cmds_splits;
@@ -65,21 +71,21 @@ bool	check_builtin(t_cmd *command);
 t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *commands);
 
 // dequoter.c
-
 // expander.c
-char	*expander(char *str, t_env *envp);
-char	*dequote_expand(char *read_line, t_env *envp);
+// char	*expander(char *str, t_env *envp, t_cmd *t_qoute);
+t_expnd	*dequote_expand(char *read_line, t_env *envp);
 
 // redirections.c
 void	redir_parsing_module(t_cmd *cmds_struc, t_env *envp);
 
 // redirections_2.c
-void    alloc_redir_arr(t_cmd *cmds_struc, int i);
+void	alloc_redir_arr(t_cmd *cmds_struc, int i);
 
 // freeing.c
 void	free_module(t_cmd *cmds_struc, char *read_line, char *prmpt_path);
 void	free_arr_of_arr(char **split);
 void	free_structs(t_cmd *commands);
+void	free_expand(t_expnd *expand);
 
 // fork_and_processes.c
 void	exec_cmd(t_cmd cmd, int read_fd, int write_fd, t_env *envp);

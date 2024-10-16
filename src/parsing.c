@@ -6,16 +6,17 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/15 23:57:46 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/16 23:19:18 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**cmds_parse(char *read_line)
+static char	**cmds_parse(char *read_line, int *inquotes)
 {
 	char		**cmds_splits;
 
+	(void) inquotes;
 	cmds_splits = NULL;
 	cmds_splits = split_v2(read_line, '|');
 	return (cmds_splits);
@@ -90,19 +91,20 @@ static void	count_args(t_cmd *cmds_struc)
 // PROBLEM: for input like: "$EMPTY" must do nothing with exit code 0
 t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 {
-	char	**cmds_splits;
-	char	*expanded_line;
+	char		**cmds_splits;
+	t_expnd		*expand;
 
 	envp->redir_syntax_err = false;
 	cmds_splits = NULL;
-	expanded_line = dequote_expand(read_line, envp);
-	if (expanded_line)
+	expand = dequote_expand(read_line, envp);
+	if (expand)
 	{
-		cmds_splits = cmds_parse(expanded_line);
-		free(expanded_line);
+		cmds_splits = cmds_parse(expand->expanded, expand->inquotes);
+		free_expand(expand);
+		expand = NULL;
 	}
 	else
-		cmds_splits = cmds_parse(read_line);
+		cmds_splits = cmds_parse(read_line, NULL);
 	cmds_struc = create_cmds_struc(cmds_splits, cmds_struc);
 	redir_parsing_module(cmds_struc, envp);
 	cmd_args_parse(cmds_struc, envp);

@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 11:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/08 13:38:03 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/16 23:26:04 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void	incr_or_decr_env_shlvl(t_env *envp, bool increase)
 		return ;
 	}
 	substr_1 = substr_v2(envp->env[envp->real_shlvl][i], 0, 6);
-	substr_2 = substr_v2(envp->env[envp->real_shlvl][i], 6, strlen_v2(envp->env[envp->real_shlvl][i]) - 6);
+	substr_2 = substr_v2(envp->env[envp->real_shlvl][i], 6, \
+				strlen_v2(envp->env[envp->real_shlvl][i]) - 6);
 	shell_level_integer = atoi_v2(substr_2);
 	shell_level_integer = update_shlvl_int(shell_level_integer, increase);
 	free(substr_2);

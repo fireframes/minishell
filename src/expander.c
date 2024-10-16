@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:21:21 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/15 23:47:32 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/16 23:20:57 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,55 +31,105 @@ static int	mini_strcat(char *dest, const char *src)
 	return (ft_strlen(src));
 }
 
-static char	*copy_expanded(char expanded[])
+int	*init_inquotes(int inquotes[])
 {
-	char	*copy;
+	int	*inq_arr;
+	int	i;
 
-	copy = ft_strdup(expanded);
-	if (!copy)
+	i = 0;
+	while (inquotes[i] != -1)
+		i++;
+	inq_arr = malloc(sizeof(int) * (i + 1));
+	if (!inq_arr)
 		return (NULL);
-	return (copy);
+	i = 0;
+	while (inquotes[i] != -1)
+	{
+		inq_arr[i] = inquotes[i];
+		i++;	
+	}
+	inq_arr[i] = -1;
+	return (inq_arr);
 }
 
-char	*expander(char *line, t_env *envp)
+static t_expnd	*alloc_expand(char expanded[], int inquotes[])
+{
+	t_expnd		*expand;
+
+	expand = malloc(sizeof(t_expnd));
+	if (!expand)
+		return (NULL);
+	expand->expanded = ft_strdup(expanded);
+	if (!expand->expanded)
+	{
+		free(expand);
+		return (NULL);
+	}
+	expand->inquotes = init_inquotes(inquotes);
+	if (!expand->inquotes)
+	{
+		free(expand->expanded);
+		free(expand);
+		return (NULL);
+	}
+	return (expand);
+}
+// PROBLEM: line can be any size.
+//			need to allocate instead of using fixed-size?
+static t_expnd	*expander(char *line, t_env *envp)
 {
 	char	expanded[PATH_MAX];
+	int		inqoutes[PATH_MAX];
 	char	*env_value;
 	int		j;
 	int		i;
 	bool	single_quote;
 	bool	double_quote;
+	bool	isquoted;
 
+	if (!line || ft_strlen(line) > PATH_MAX)
+	{
+		ft_putstr_fd(": input is too long", 2);
+		return (NULL);
+	}
+	ft_memset(inqoutes, 0, PATH_MAX);
 	single_quote = false;
 	double_quote = false;
+	isquoted = false;
 	i = 0;
 	j = 0;
 	while (line[i])
 	{
-		if ((line[i]) == '\'' && !single_quote)
+		if ((line[i]) == '\'' && !single_quote && !double_quote)
 		{
 			single_quote = true;
+			isquoted = true;
 			i++;
 			continue ;
 		}
-		else if (line[i] == '\'' && single_quote)// && !double_quote)
+		else if (line[i] == '\'' && single_quote && !double_quote)
 		{
 			single_quote = false;
+			isquoted = false;
 			i++;
 			continue ;
 		}
-		if ((line[i]) == '\"' && !double_quote)
+		else if ((line[i]) == '\"' && !double_quote && !single_quote)
 		{
 			double_quote = true;
+			isquoted = true;
 			i++;
 			continue ;
 		}
-		else if ((line[i]) == '\"' && double_quote)// && !single_quote)
+		else if ((line[i]) == '\"' && double_quote && !single_quote)
 		{
 			double_quote = false;
+			isquoted = false;
 			i++;
 			continue ;
 		}
+		if (isquoted)
+			inqoutes[j] = 1;
 		if (line[i] == '$' && !single_quote)
 		{
 			if (line[i + 1] == '\0' || line[i + 1] == '\"')
@@ -102,7 +152,8 @@ char	*expander(char *line, t_env *envp)
 			else if (!env_exists(&line[i + 1], *envp->env))
 			{
 				expanded[j] = '\0';
-				return (copy_expanded(expanded));
+				inqoutes[j] = -1;
+				return (alloc_expand(expanded, inqoutes));
 			}
 			else if (ft_strchr(&line[i + 1], '$'))
 			{
@@ -118,13 +169,14 @@ char	*expander(char *line, t_env *envp)
 		j++;
 	}
 	expanded[j] = '\0';
-	return (copy_expanded(expanded));
+	inqoutes[j] = -1;
+	return (alloc_expand(expanded, inqoutes));
 }
 
 
-char	*dequote_expand(char *read_line, t_env *envp)
+t_expnd	*dequote_expand(char *read_line, t_env *envp)
 {
-	char	*expanded_line;
+	t_expnd	*expanded_line;
 
 	expanded_line = NULL;
 	if (ft_strchr(read_line, '$') || ft_strchr(read_line, '\'')

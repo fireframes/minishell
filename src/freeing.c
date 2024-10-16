@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/15 23:53:13 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/16 23:23:53 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	free_arr_of_arr(char **split)
 	int	i;
 
 	i = 0;
-	if (*split)
 	while (split[i])
 	{
 		free(split[i]);
@@ -53,4 +52,13 @@ void	free_structs(t_cmd *cmds_struc)
 	free(cmds_struc->pipes);
 	free(cmds_struc);
 	cmds_struc = NULL;
+}
+
+void	free_expand(t_expnd *expand)
+{
+	free(expand->expanded);
+	expand->expanded = NULL;
+	free(expand->inquotes);
+	expand->inquotes = NULL;
+	free(expand);
 }

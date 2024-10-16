@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:34:56 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/15 23:31:32 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/16 23:25:25 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ bool	isvalid_arg(char *arg)
 
 	if (*arg == '=')
 	{
-		ft_putstr_fd(": not a valid identifier\n", 2);;
+		ft_putstr_fd(": not a valid identifier\n", 2);
 		return (false);
 	}
 	arg_tmp = arg;
