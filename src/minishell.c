@@ -77,7 +77,8 @@ int	main(int argc, char **argv, char **envp)
 	check_nb_of_args(argc);
 	env = malloc(sizeof(t_env) * 1);
 	init_env_struc(env, envp);
-	incr_or_decr_env_shlvl(env->env[env->real_shlvl], true);
+	// incr_or_decr_env_shlvl(env->env[env->real_shlvl], true);
+	incr_or_decr_env_shlvl(env, true);
 	while (1)
 	{
 		prompt_w_path = get_curr_dir();

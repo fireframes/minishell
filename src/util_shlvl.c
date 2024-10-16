@@ -44,7 +44,7 @@ static int	update_shlvl_int(int shell_level_integer, bool increase)
 
 // TODO: handle the case in which SHLVL has been unset (in that case, opening
 //	another level of shell should resume to SHLVL=1)
-void	incr_or_decr_env_shlvl(char **envp, bool increase)
+void	incr_or_decr_env_shlvl(t_env *envp, bool increase)
 {
 	int		i;
 	char	*substr_1;
@@ -52,15 +52,20 @@ void	incr_or_decr_env_shlvl(char **envp, bool increase)
 	int		shell_level_integer;
 
 	i = 0;
-	i = search_shlvl_line(envp, i);
-	substr_1 = substr_v2(envp[i], 0, 6);
-	substr_2 = substr_v2(envp[i], 6, strlen_v2(envp[i]) - 6);
+	i = search_shlvl_line(envp->env[envp->real_shlvl], i);
+	if (i == -1)
+	{
+		add_env("SHLVL=1", envp);
+		return ;
+	}
+	substr_1 = substr_v2(envp->env[envp->real_shlvl][i], 0, 6);
+	substr_2 = substr_v2(envp->env[envp->real_shlvl][i], 6, strlen_v2(envp->env[envp->real_shlvl][i]) - 6);
 	shell_level_integer = atoi_v2(substr_2);
 	shell_level_integer = update_shlvl_int(shell_level_integer, increase);
 	free(substr_2);
 	substr_2 = itoa_v2(shell_level_integer);
-	free(envp[i]);
-	envp[i] = strjoin_v2(substr_1, substr_2);
+	free(envp->env[envp->real_shlvl][i]);
+	envp->env[envp->real_shlvl][i] = strjoin_v2(substr_1, substr_2);
 	free(substr_1);
 	free(substr_2);
 }

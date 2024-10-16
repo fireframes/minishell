@@ -103,7 +103,7 @@ int		print_sorted_env(char **envp);
 char	**split_v2(char const *s, char c);
 
 // util_shlvl.c
-void	incr_or_decr_env_shlvl(char **envp, bool increase);
+void	incr_or_decr_env_shlvl(t_env *envp, bool increase);
 
 // util_path.c
 char	*find_cmd_path(char *command, char **envp);
@@ -128,6 +128,7 @@ int		ft_echo(t_cmd *cmd);
 int		ft_cd(t_cmd *cmd);
 int		ft_pwd(void);
 int		ft_export(t_cmd *cmd, t_env *envp);
+int		add_env(char *arg, t_env *envp);
 int		ft_unset(t_cmd *cmd, t_env *envp);
 int		ft_env(t_cmd *cmd, char **envp);
 void	ft_exit(t_cmd *cmd, t_env *envp);

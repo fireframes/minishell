@@ -30,7 +30,7 @@ void	execution_module(t_cmd *cmds_struc, t_env *envp)
 		envp->env[envp->real_shlvl] = copy_env(envp->env[envp->real_shlvl - 1]);
 		if (envp->env[envp->real_shlvl] == NULL)
 			exit(2);
-		incr_or_decr_env_shlvl(envp->env[envp->real_shlvl], true);
+		incr_or_decr_env_shlvl(envp, true);
 	}
 	else
 	{

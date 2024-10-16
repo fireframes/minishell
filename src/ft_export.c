@@ -34,7 +34,7 @@ static int	update_envp(char *arg, char **env_ptr)
 }
 
 // QUESTION: the function is almost the same as copy_envp. maybe do it with one?
-static int	add_env(char *arg, t_env *envp)
+int	add_env(char *arg, t_env *envp)
 {
 	char	**envp_old;
 	char	**envp_new;
