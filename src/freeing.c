@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/17 16:06:05 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:24:26 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	free_on_exit(t_env **envp, char *prompt)
 {
 	free_arr_of_arr((*envp)->env[(*envp)->real_shlvl]);
 	free((*envp)->env);
+	(*envp)->env = NULL;
 	free(*envp);
+	*envp = NULL;
 	free(prompt);
 }

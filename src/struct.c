@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:58:50 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/15 20:18:46 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:27:06 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,28 @@ t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc)
 	return (cmds_struc);
 }
 
-void	init_env_struc(t_env *global, char **envp)
+t_env	*init_env_struc(char **envp)
 {
+	t_env	*global;
+
+	global = malloc(sizeof(t_env) * 1);
+	if (global == NULL)
+		exit(2);
 	global->real_shlvl = 0;
 	global->env = malloc(sizeof(char **) * MAX_SHLVL);
 	if (global->env == NULL)
+	{
+		free(global);
 		exit(2);
+	}
 	global->env[global->real_shlvl] = copy_env(envp);
 	if (global->env[global->real_shlvl] == NULL)
+	{
+		free(global->env);
+		free(global);
 		exit(2);
+	}
 	global->exit_code = 0;
 	global->redir_syntax_err = false;
+	return (global);
 }

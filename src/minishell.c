@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:16:31 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/17 16:06:09 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:16:18 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void) argv;
 	check_nb_of_args(argc);
-	env = malloc(sizeof(t_env));
-	init_env_struc(env, envp);
+	env = init_env_struc(envp);
 	incr_or_decr_env_shlvl(env, true);
 	while (1)
 	{

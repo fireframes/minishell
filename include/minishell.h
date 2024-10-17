@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/17 16:06:38 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:16:08 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	forking(t_cmd *commands, t_env *envp);
 //struct.c
 void	init_cmds_struc(t_cmd *cmd_struc, int index);
 t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc);
-void	init_env_struc(t_env *global, char **envp);
+t_env	*init_env_struc(char **envp);
 
 // util_env.c
 char	**copy_env(char **envp);
