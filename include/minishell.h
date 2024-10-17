@@ -80,6 +80,7 @@ void	redir_parsing_module(t_cmd *cmds_struc, t_env *envp);
 
 // redirections_2.c
 void	alloc_redir_arr(t_cmd *cmds_struc, int i);
+int		find_1st_redir_type(char *str);
 
 // freeing.c
 void	free_module(t_cmd *cmds_struc, char *read_line, char *prmpt_path);

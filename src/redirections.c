@@ -93,10 +93,11 @@ static void	isolate_redir_part(t_cmd *cmds_struc)
 	i = 0;
 	while (i < cmds_struc->total_cmds)
 	{
-		first_redir_found = 0;
-		first_redir_found = ft_strchr(cmds_struc[i].cmds_splits[i], '>');
-		if (first_redir_found == NULL)
+		first_redir_found = NULL;
+		if (find_1st_redir_type(cmds_struc[i].cmds_splits[i]) == 1)
 			first_redir_found = ft_strchr(cmds_struc[i].cmds_splits[i], '<');
+		if (find_1st_redir_type(cmds_struc[i].cmds_splits[i]) == 2)
+			first_redir_found = ft_strchr(cmds_struc[i].cmds_splits[i], '>');
 		if (first_redir_found != NULL)
 		{
 			cmds_struc[i].redir_part = ft_strdup(first_redir_found);
@@ -124,7 +125,10 @@ void	redir_parsing_module(t_cmd *cmds_struc, t_env *envp)
 			envp->redir_syntax_err = true;
 		}
 		else if (cmds_struc[i].redir_part != NULL)
+		{
 			count_redirections(cmds_struc, i);
+			alloc_redir_arr(cmds_struc, i);
+		}
 		i++;
 	}
 }

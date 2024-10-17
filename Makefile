@@ -15,6 +15,7 @@ SRCS 		:=	minishell.c				\
 				dequoter.c				\
 				expander.c				\
 				redirections.c			\
+				redirections_2.c		\
 				freeing.c				\
 				fork_and_processes.c	\
 				struct.c				\

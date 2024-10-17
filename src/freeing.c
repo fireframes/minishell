@@ -46,6 +46,9 @@ void	free_structs(t_cmd *cmds_struc)
 		free_arr_of_arr(cmds_struc[i].args);
 		free(cmds_struc[i].cmd_path);
 		cmds_struc[i].cmd_path = NULL;
+		if (cmds_struc[i].redirs != NULL)
+			free_arr_of_arr(cmds_struc[i].redirs);
+		free(cmds_struc[i].redir_part);
 		i++;
 	}
 	free_arr_of_arr(cmds_struc->cmds_splits);

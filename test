@@ -1,8 +1,0 @@
-include
-lib
-Makefile
-minishell
-minishell_tester
-src
-test
-TODO
