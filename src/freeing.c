@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/16 23:23:53 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:56:59 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,14 @@ void	free_expand(t_expnd *expand)
 	free(expand->inquotes);
 	expand->inquotes = NULL;
 	free(expand);
+}
+
+void	free_on_exit(t_env **envp, char *prompt)
+{
+	free_arr_of_arr((*envp)->env[(*envp)->real_shlvl]);
+	free((*envp)->env);
+	(*envp)->env = NULL;
+	free(*envp);
+	*envp = NULL;
+	free(prompt);
 }

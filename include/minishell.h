@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/16 23:20:15 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:57:26 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	free_module(t_cmd *cmds_struc, char *read_line, char *prmpt_path);
 void	free_arr_of_arr(char **split);
 void	free_structs(t_cmd *commands);
 void	free_expand(t_expnd *expand);
+void	free_on_exit(t_env **envp, char *prompt);
 
 // fork_and_processes.c
 void	exec_cmd(t_cmd cmd, int read_fd, int write_fd, t_env *envp);
@@ -98,7 +99,7 @@ void	forking(t_cmd *commands, t_env *envp);
 //struct.c
 void	init_cmds_struc(t_cmd *cmd_struc, int index);
 t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc);
-void	init_env_struc(t_env *global, char **envp);
+t_env	*init_env_struc(char **envp);
 
 // util_env.c
 char	**copy_env(char **envp);

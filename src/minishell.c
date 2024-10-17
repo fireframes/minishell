@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:16:31 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/09 17:00:05 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:58:07 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,22 @@ int	main(int argc, char **argv, char **envp)
 
 	(void) argv;
 	check_nb_of_args(argc);
-	env = malloc(sizeof(t_env) * 1);
-	init_env_struc(env, envp);
+	env = init_env_struc(envp);
 	incr_or_decr_env_shlvl(env, true);
 	while (1)
 	{
 		prompt_w_path = get_curr_dir();
 		read_line = readline(prompt_w_path);
 		if (!read_line)
+		{
+			printf("exit\n");
 			break ;
+		}
 		if (has_only_sp_or_tab_chars(read_line, prompt_w_path) == 1)
 			continue ;
 		if (*read_line)
 			main_module(env, read_line, prompt_w_path);
 	}
-	free_arr_of_arr(env->env[env->real_shlvl]);
-	free(env->env);
+	free_on_exit(&env, prompt_w_path);
 	return (0);
 }
