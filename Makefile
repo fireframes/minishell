@@ -34,7 +34,8 @@ SRCS 		:=	minishell.c				\
 				ft_export.c				\
 				ft_unset.c				\
 				ft_env.c				\
-				ft_exit.c
+				ft_exit.c				\
+				signals.c
 
 SRCS		:=	$(addprefix $(SRCS_DIR), $(SRCS))
 

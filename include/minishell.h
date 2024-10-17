@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/17 16:57:26 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/17 17:48:54 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "linux/limits.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -149,5 +150,8 @@ void	ft_exit(t_cmd *cmd, t_env *envp);
 // execution.c
 void	execution_module(t_cmd *commands, t_env *envp);
 void	execute_builtin(t_cmd *cmd, t_env *envp);
+
+// signals.c
+void	sigint_handler(int signum);
 
 #endif
