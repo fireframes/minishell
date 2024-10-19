@@ -86,30 +86,30 @@ void	parent_process(t_cmd *cmds_struc, t_env *envp)
 	}
 }
 
-void	child_process(t_cmd *cmds_struc, int i, t_env *envp)
+void	child_process(t_cmd *c_struc, int i, t_env *envp)
 {
 	int		j;
 
+	handle_files(c_struc, i);
 	if (i == 0)
-		cmds_struc[i].read_fd = STDIN_FILENO;
+		c_struc[i].read_fd = STDIN_FILENO;
 	else
-		cmds_struc[i].read_fd = cmds_struc->pipes[i - 1][0];
-	if (i == cmds_struc->total_cmds - 1)
-		cmds_struc[i].write_fd = STDOUT_FILENO;
+		c_struc[i].read_fd = c_struc->pipes[i - 1][0];
+	if (i == c_struc->total_cmds - 1)
+		c_struc[i].write_fd = STDOUT_FILENO;
 	else
-		cmds_struc[i].write_fd = cmds_struc->pipes[i][1];
+		c_struc[i].write_fd = c_struc->pipes[i][1];
 	j = 0;
-	while (j < cmds_struc->total_cmds - 1)
+	while (j < c_struc->total_cmds - 1)
 	{
 		if (j != i - 1)
-			close(cmds_struc->pipes[j][0]);
+			close(c_struc->pipes[j][0]);
 		if (j != i)
-			close(cmds_struc->pipes[j][1]);
+			close(c_struc->pipes[j][1]);
 		j++;
 	}
-	if (cmds_struc[i].path_found == true || cmds_struc[i].is_builtin == true)
-		exec_cmd(cmds_struc[i], cmds_struc[i].read_fd, cmds_struc[i].write_fd,
-			envp);
+	if (c_struc[i].path_found == true || c_struc[i].is_builtin == true)
+		exec_cmd(c_struc[i], c_struc[i].read_fd, c_struc[i].write_fd, envp);
 }
 
 // TODO: execute builtin without forking it

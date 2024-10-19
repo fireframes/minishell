@@ -26,8 +26,11 @@ void	init_cmds_struc(t_cmd *cmd_struc, int index)
 	cmd_struc[index].write_fd = 0;
 	cmd_struc[index].total_args = 0;
 	cmd_struc[index].redir_part = NULL;
+	cmd_struc[index].redirs = NULL;
 	cmd_struc[index].redir_syntax_err = false;
 	cmd_struc[index].redir_amount = 0;
+	cmd_struc[index].last_fd_in = 0;
+	cmd_struc[index].last_fd_out = 0;
 }
 
 // QUESTION: protection needed after split call (if (!prompt_split)...)?

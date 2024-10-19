@@ -63,6 +63,8 @@ typedef struct s_cmd
 	char	**redirs;
 	bool	redir_syntax_err;
 	int		redir_amount;
+	int		last_fd_in;
+	int		last_fd_out;
 }	t_cmd;
 
 // checker.c
@@ -96,6 +98,9 @@ void	init_pipes(t_cmd *commands);
 void	parent_process(t_cmd *commands, t_env *envp);
 void	child_process(t_cmd *commands, int i, t_env *envp);
 void	forking(t_cmd *commands, t_env *envp);
+
+// fork_and_processes_2.c
+void	handle_files(t_cmd *c_struc, int i);
 
 //struct.c
 void	init_cmds_struc(t_cmd *cmd_struc, int index);

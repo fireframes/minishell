@@ -18,6 +18,7 @@ SRCS 		:=	minishell.c				\
 				redirections_2.c		\
 				freeing.c				\
 				fork_and_processes.c	\
+				fork_and_processes_2.c	\
 				struct.c				\
 				util_env.c				\
 				util_export.c			\
