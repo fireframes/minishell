@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/17 17:48:54 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/19 16:56:18 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,5 +158,6 @@ void	execute_builtin(t_cmd *cmd, t_env *envp);
 
 // signals.c
 void	sigint_handler(int signum);
+void	sigquit_handler(int signum);
 
 #endif
