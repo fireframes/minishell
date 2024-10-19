@@ -14,20 +14,20 @@
 
 static int	is_a_redir(char *arg)
 {
-    if (strncmp_v2(arg, ">>", 2) == 0)
-        return (2);
+	if (strncmp_v2(arg, ">>", 2) == 0)
+		return (2);
 	else if (strncmp_v2(arg, ">", 1) == 0 || strncmp_v2(arg, "<", 1) == 0)
 		return (1);
-    else
-        return (0);
+	else
+		return (0);
 }
 
 static void	count_redirections(t_cmd *cmds_struc, int i)
 {
-    int j;
+	int	j;
 
-    j = 0;
-    while (cmds_struc[i].redir_part[j] != '\0')
+	j = 0;
+	while (cmds_struc[i].redir_part[j] != '\0')
 	{
 		if (is_a_redir(&cmds_struc[i].redir_part[j]) == 2)
 		{
@@ -38,7 +38,7 @@ static void	count_redirections(t_cmd *cmds_struc, int i)
 		{
 			if (is_a_redir(&cmds_struc[i].redir_part[j]) == 1)
 				cmds_struc[i].redir_amount++;
-		j++;
+			j++;
 		}
 	}
 	i++;
@@ -83,32 +83,6 @@ static bool	is_syntax_err(t_cmd *c, int i)
 		j++;
 	}
 	return (false);
-}
-
-static void	isolate_redir_part(t_cmd *cmds_struc)
-{
-	int		i;
-	char	*first_redir_found;
-
-	i = 0;
-	while (i < cmds_struc->total_cmds)
-	{
-		first_redir_found = NULL;
-		if (find_1st_redir_type(cmds_struc[i].cmds_splits[i]) == 1)
-			first_redir_found = ft_strchr(cmds_struc[i].cmds_splits[i], '<');
-		if (find_1st_redir_type(cmds_struc[i].cmds_splits[i]) == 2)
-			first_redir_found = ft_strchr(cmds_struc[i].cmds_splits[i], '>');
-		if (first_redir_found != NULL)
-		{
-			cmds_struc[i].redir_part = ft_strdup(first_redir_found);
-			while (*first_redir_found != '\0')
-			{
-				*first_redir_found = '\0';
-				first_redir_found++;
-			}
-		}
-		i++;
-	}
 }
 
 void	redir_parsing_module(t_cmd *cmds_struc, t_env *envp)

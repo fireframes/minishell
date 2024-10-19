@@ -14,7 +14,7 @@
 
 static char	**cmds_parse(char *read_line, int *inquotes)
 {
-	char		**cmds_splits;
+	char	**cmds_splits;
 
 	(void) inquotes;
 	cmds_splits = NULL;
