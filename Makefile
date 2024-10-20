@@ -1,11 +1,9 @@
 NAME		:=	minishell
-
 CFLAGS		:=	-Wextra -Wall -Werror -g
 LDFLAGS		:=	-lreadline
-
 HEADERS		:=	-Iinclude
-
-LIBFT		:=	./lib/libft.a
+LIBFT_DIR 	:=	./lib/Libft
+LIBFT		:=	./lib/Libft/libft.a
 LIBS		:=	$(LIBFT)
 
 SRCS_DIR	:=	./src/
@@ -39,14 +37,17 @@ SRCS 		:=	minishell.c				\
 				signals.c
 
 SRCS		:=	$(addprefix $(SRCS_DIR), $(SRCS))
-
 OBJS		:=	${SRCS:.c=.o}
 
-all: $(NAME)
+all: $(LIBFT) $(NAME)
+
+$(LIBFT):
+	@echo "Building libft..."
+	@$(MAKE) -C $(LIBFT_DIR)
 
 %.o: %.c
 	@echo "Compiling $< to $@..."
-	$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS)
+	@$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS)
 
 $(NAME): $(OBJS) $(LIBS)
 	@$(CC) $(OBJS) $(LIBS) $(LDFLAGS) -o $(NAME)
@@ -55,12 +56,14 @@ $(NAME): $(OBJS) $(LIBS)
 
 clean:
 	@echo "Cleaning object files..."
-	rm -rf $(OBJS)
+	@rm -f $(OBJS)
+	@$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	@echo "\nPerforming full clean..."
-	rm -rf $(NAME)
+	@rm -f $(NAME)
+	@$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
-.PHONY: all, clean, fclean, re
+.PHONY: all clean fclean re
