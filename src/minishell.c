@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:16:31 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/19 16:54:46 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/21 19:21:13 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	check_nb_of_args(int argc)
 {
 	if (argc != 1)
 	{
-		printf("minishell: program should be started without arguments\n");
+		printf("minishell: program should be run without arguments\n");
 		exit (1);
 	}
 }

@@ -22,6 +22,7 @@ SRCS 		:=	minishell.c				\
 				util_export.c			\
 				util_path.c				\
 				util_split.c			\
+				util_split2.c			\
 				util_strjoin.c			\
 				util_others.c			\
 				util_others2.c			\

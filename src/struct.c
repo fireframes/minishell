@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:58:50 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/17 16:46:33 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/21 19:11:31 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	init_cmds_struc(t_cmd *cmd_struc, int index)
 // QUESTION: protection needed after split call (if (!prompt_split)...)?
 t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc)
 {
-	int			cmd_count;
-	int			i;
+	int	cmd_count;
+	int	i;
 
 	cmd_count = 0;
 	while (cmds_splits[cmd_count])
