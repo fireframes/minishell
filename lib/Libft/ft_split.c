@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:50:02 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/02/29 03:08:18 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:03:37 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ char	**ft_split(char const *s, char c)
 	char	**split;
 	size_t	i;
 	size_t	word_cnt = 0;
-	// int 	is_word = 0;
 
 	if (s == NULL)
 		return (NULL);
@@ -64,11 +63,9 @@ char	**ft_split(char const *s, char c)
 		}
 		i++;
 	}
-	printf("WORD CNT: %zu\n", word_cnt);
 	split = (char **) malloc(sizeof(char *) * (word_cnt + 1));
-	if (split == NULL)// || s == NULL)
+	if (split == NULL)
 		return (NULL);
 	pop_arr(split, s, c, 0);
-	// free(s);
 	return (split);
 }

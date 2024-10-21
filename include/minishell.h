@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/19 16:56:18 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:28:51 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ int		print_sorted_env(char **envp);
 
 // util_split.c
 char	**split_v2(char const *s, char c);
+char	**split_v3(char const *s, char c, int *inquotes);
 
 // util_shlvl.c
 void	incr_or_decr_env_shlvl(t_env *envp, bool increase);
