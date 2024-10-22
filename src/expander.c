@@ -168,7 +168,6 @@ static t_expnd	*expander(char *line, t_env *envp)
 		i++;
 		j++;
 	}
-	// if j < PATH_MAX
 	expanded[j] = '\0';
 	inqoutes[j] = -1;
 	return (alloc_expand(expanded, inqoutes));
@@ -179,10 +178,6 @@ t_expnd	*dequote_expand(char *read_line, t_env *envp)
 {
 	t_expnd	*expanded_line;
 
-	// expanded_line = NULL;
-	// if (ft_strchr(read_line, '$') || ft_strchr(read_line, '\'')
-	// 	|| ft_strchr(read_line, '\"'))
-	// {
 	expanded_line = expander(read_line, envp);
 	if (!expanded_line)
 		return (NULL);

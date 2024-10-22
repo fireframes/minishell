@@ -94,13 +94,13 @@ void	free_on_exit(t_env **envp, char *prompt);
 
 // fork_and_processes.c
 void	exec_cmd(t_cmd cmd, int read_fd, int write_fd, t_env *envp);
-void	init_pipes(t_cmd *commands);
 void	parent_process(t_cmd *commands, t_env *envp);
 void	child_process(t_cmd *commands, int i, t_env *envp);
 void	forking(t_cmd *commands, t_env *envp);
 
 // fork_and_processes_2.c
-void	handle_files(t_cmd *c_struc, int i);
+void	handle_files_redir(t_cmd *c_struc, int i);
+void	init_pipes(t_cmd *commands);
 
 //struct.c
 void	init_cmds_struc(t_cmd *cmd_struc, int index);

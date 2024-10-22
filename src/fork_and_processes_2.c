@@ -12,6 +12,30 @@
 
 #include "minishell.h"
 
+// QUESTION: do we have to call this function when only one command (no pipes)?
+// QUESTION: if there is no pipes, shouldn't it be null (and not malloced?)?
+void	init_pipes(t_cmd *cmds_struc)
+{
+	int	(*pipes)[2];
+	int	i;
+
+	pipes = NULL;
+	pipes = malloc(sizeof(*pipes) * (cmds_struc->total_cmds - 1));
+	if (!pipes)
+		free_structs(cmds_struc);
+	cmds_struc->pipes = pipes;
+	i = 0;
+	while (i < cmds_struc->total_cmds - 1)
+	{
+		if (pipe(pipes[i]) == -1)
+		{
+			perror("pipe");
+			free_structs(cmds_struc);
+		}
+		i++;
+	}
+}
+
 static void	out_write(t_cmd *cm, int i, int j, bool is_append)
 {
 	if (is_append == false)
@@ -43,7 +67,7 @@ void	in_read(t_cmd *cm, int i, int j)
 	}
 }
 
-void	handle_files(t_cmd *cm, int i)
+void	handle_files_redir(t_cmd *cm, int i)
 {
 	int	j;
 
