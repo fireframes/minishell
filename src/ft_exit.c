@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/15 15:24:55 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:16:57 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,27 +60,35 @@ static int	check_error(t_cmd *cmd)
 // TODO IMPORTANT: when you there is an error code and you exit totally
 //	minishell the exit status displayed in bash should be the error code and
 //	not the success of the exit command!
-void	ft_exit(t_cmd *cmd, t_env *envp)
+int	ft_exit(t_cmd *cmd, t_env *envp)
 {
 	int	exit_code;
 
-	exit_code = get_2nd_arg(cmd);
 	printf("exit\n");
-	if (check_error(cmd) == 1)
+	if (cmd)
 	{
-		ft_putstr_fd(": too many arguments\n", 2);
-		exit_code = 1;
-	}
-	if (check_error(cmd) == 2)
-	{
-		ft_putstr_fd(": numeric argument required\n", 2);
-		exit_code = 2;
+		exit_code = get_2nd_arg(cmd);
+		if (check_error(cmd) == 1)
+		{
+			ft_putstr_fd(": too many arguments\n", 2);
+			exit_code = 1;
+		}
+		if (check_error(cmd) == 2)
+		{
+			ft_putstr_fd(": numeric argument required\n", 2);
+			exit_code = 2;
+		}
 	}
 	if (envp->real_shlvl == 0)
-		exit (exit_code);
+	{
+		// free_all();
+		exit(exit_code);
+	}
 	else
 	{
+		// free_all();
 		envp->env[envp->real_shlvl] = NULL;
 		envp->real_shlvl--;
 	}
+	return (exit_code);
 }
