@@ -54,7 +54,7 @@ static void	out_write(t_cmd *cm, int i, int j, bool is_append)
 	}
 }
 
-void	in_read(t_cmd *cm, int i, int j)
+static void	in_read(t_cmd *cm, int i, int j)
 {
 	cm[i].last_fd_in = open(cm[i].redirs[j], O_RDONLY);
 	if (cm[i].last_fd_in <= 0)

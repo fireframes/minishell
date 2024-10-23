@@ -12,19 +12,31 @@
 
 #include "minishell.h"
 
+static void	duplicate_and_close(int file_descriptor, int in_or_out)
+{
+	int	new_fd;
+
+	new_fd = 0;
+	if (in_or_out == STDIN_FILENO)
+		new_fd = dup2(file_descriptor, STDIN_FILENO);
+	else if (in_or_out == STDOUT_FILENO)
+		new_fd = dup2(file_descriptor, STDOUT_FILENO);
+	if (new_fd < 0)
+		perror(NULL);
+	close(file_descriptor);
+}
+
 // TODO: handle error, close pipes, free resources, etc...
 void	exec_cmd(t_cmd cmds_struc, int read_fd, int write_fd, t_env *envp)
 {
-	if (read_fd != STDIN_FILENO)
-	{
-		dup2(read_fd, STDIN_FILENO);
-		close(read_fd);
-	}
-	if (write_fd != STDOUT_FILENO)
-	{
-		dup2(write_fd, STDOUT_FILENO);
-		close(write_fd);
-	}
+	if (cmds_struc.last_fd_in > 0)
+		duplicate_and_close(cmds_struc.last_fd_in, STDIN_FILENO);
+	else if (read_fd != STDIN_FILENO)
+		duplicate_and_close(read_fd, STDIN_FILENO);
+	if (cmds_struc.last_fd_out > 0)
+		duplicate_and_close(cmds_struc.last_fd_out, STDOUT_FILENO);
+	else if (write_fd != STDOUT_FILENO)
+		duplicate_and_close(write_fd, STDOUT_FILENO);
 	if (cmds_struc.is_builtin)
 	{
 		execute_builtin(&cmds_struc, envp);
@@ -66,7 +78,7 @@ void	child_process(t_cmd *c_struc, int i, t_env *envp)
 {
 	int		j;
 
-	handle_files(c_struc, i);
+	handle_files_redir(c_struc, i);
 	if (i == 0)
 		c_struc[i].read_fd = STDIN_FILENO;
 	else
