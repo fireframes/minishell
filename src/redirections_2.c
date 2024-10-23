@@ -96,6 +96,7 @@ void	isolate_redir_part(t_cmd *cmds_struc)
 {
 	int		i;
 	char	*first_redir_found;
+	// char	*first_space_char;
 
 	i = 0;
 	while (i < cmds_struc->total_cmds)
@@ -108,6 +109,21 @@ void	isolate_redir_part(t_cmd *cmds_struc)
 		if (first_redir_found != NULL)
 		{
 			cmds_struc[i].redir_part = ft_strdup(first_redir_found);
+			// first_space_char = NULL;
+			// if (*first_redir_found == ' ')
+			// 	first_redir_found++;
+			// first_space_char = ft_strchr(first_redir_found, ' ');
+			// if (first_space_char != NULL)
+			// {
+			// 	*first_redir_found = ' ';
+			// 	first_redir_found++;
+			// 	while (*first_space_char != '\0')
+			// 	{
+			// 		*first_redir_found = *first_space_char;
+			// 		first_redir_found++;
+			// 		first_space_char++;
+			// 	}
+			// }
 			while (*first_redir_found != '\0')
 			{
 				*first_redir_found = '\0';
