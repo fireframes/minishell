@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/16 12:04:20 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:49:26 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,36 +76,39 @@ void	alloc_redir_arr(t_cmd *c, int i)
 	c[i].redirs[j] = NULL;
 }
 
-static int	find_1st_redir_type(char *str)
+static int	find_1st_redir_type(char *str, int *inquoutes)
 {
 	int	i;
 
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == '<')
+		if (str[i] == '<' && !inquoutes[i])
 			return (1);
-		if (str[i] == '>')
+		if (str[i] == '>' && !inquoutes[i])
 			return (2);
 		i++;
 	}
 	return (0);
 }
 
-void	isolate_redir_part(t_cmd *cmds_struc)
+void	isolate_redir_part(t_cmd *cmds_struc, int *inquotes)
 {
 	int		i;
+	int		inq_offset;
 	char	*first_redir_found;
 	// char	*first_space_char;
 
 	i = 0;
+	inq_offset = 0;
 	while (i < cmds_struc->total_cmds)
 	{
 		first_redir_found = NULL;
-		if (find_1st_redir_type(cmds_struc[i].cmds_splits[i]) == 1)
+		if (find_1st_redir_type(cmds_struc[i].cmds_splits[i], &inquotes[inq_offset]) == 1)
 			first_redir_found = ft_strchr(cmds_struc[i].cmds_splits[i], '<');
-		if (find_1st_redir_type(cmds_struc[i].cmds_splits[i]) == 2)
+		if (find_1st_redir_type(cmds_struc[i].cmds_splits[i], &inquotes[inq_offset]) == 2)
 			first_redir_found = ft_strchr(cmds_struc[i].cmds_splits[i], '>');
+		inq_offset += ft_strlen(cmds_struc->cmds_splits[i]) + 1;
 		if (first_redir_found != NULL)
 		{
 			cmds_struc[i].redir_part = ft_strdup(first_redir_found);

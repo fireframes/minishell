@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/21 23:07:33 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:44:14 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 	//if (!cmds_splits)
 	cmds_struc = create_cmds_struc(cmds_splits, cmds_struc);
 	//if (!cmds_struc)
-	redir_parsing_module(cmds_struc, envp);
+	redir_parsing_module(cmds_struc, envp, expand->inquotes);
 	cmd_args_parse(cmds_struc, envp, expand->inquotes);
 	count_args(cmds_struc);
 	free_expand(expand);

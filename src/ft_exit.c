@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/23 15:16:57 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:08:41 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	ft_exit(t_cmd *cmd, t_env *envp)
 	}
 	else
 	{
-		// free_all();
+		// free_module(cmd, envp->read_line,
 		envp->env[envp->real_shlvl] = NULL;
 		envp->real_shlvl--;
 	}

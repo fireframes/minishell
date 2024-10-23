@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/23 15:14:55 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:06:36 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 typedef struct s_env
 {
 	char	***env;
+	char	*prompt_w_path;
+	char	*read_line;
 	int		real_shlvl;
 	int		exit_code;
 	bool	redir_syntax_err;
@@ -79,11 +81,11 @@ t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *commands);
 t_expnd	*dequote_expand(char *read_line, t_env *envp);
 
 // redirections.c
-void	redir_parsing_module(t_cmd *cmds_struc, t_env *envp);
+void	redir_parsing_module(t_cmd *cmds_struc, t_env *envp, int *inquotes);
 
 // redirections_2.c
 void	alloc_redir_arr(t_cmd *cmds_struc, int i);
-void	isolate_redir_part(t_cmd *cmds_struc);
+void	isolate_redir_part(t_cmd *cmds_struc, int *inquotes);
 
 // freeing.c
 void	free_module(t_cmd *cmds_struc, char *read_line, char *prmpt_path);
