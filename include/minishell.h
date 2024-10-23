@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/21 15:28:51 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:14:55 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ int		ft_export(t_cmd *cmd, t_env *envp);
 int		add_env(char *arg, t_env *envp);
 int		ft_unset(t_cmd *cmd, t_env *envp);
 int		ft_env(t_cmd *cmd, char **envp);
-void	ft_exit(t_cmd *cmd, t_env *envp);
+int		ft_exit(t_cmd *cmd, t_env *envp);
 
 // execution.c
 void	execution_module(t_cmd *commands, t_env *envp);
