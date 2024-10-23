@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-// QUESTION: should freeing mallocated memory have its own module instead
-//	of being inside execution module?
 void	main_module(t_env *envp, char *read_line, char *prompt_with_path)
 {
 	t_cmd	*cmds_struc;
@@ -25,8 +23,6 @@ void	main_module(t_env *envp, char *read_line, char *prompt_with_path)
 	free_module(cmds_struc, read_line, prompt_with_path);
 }
 
-// NOTE: based on current implementation of ft_pwd, taking the same assumptions
-// -> should be modified if ft_pwd (esp. regarding buffer size)
 static char	*get_curr_dir(void)
 {
 	static char	curr_dir[PATH_MAX + 1];
@@ -36,11 +32,12 @@ static char	*get_curr_dir(void)
 	return (full_prompt);
 }
 
-static void	check_nb_of_args(int argc)
+static void	check_nb_of_args(int argc, char **argv)
 {
+	(void) argv;
 	if (argc != 1)
 	{
-		printf("minishell: program should be run without arguments\n");
+		ft_putstr_fd("minishell: program should be run without arguments\n", 2);
 		exit (1);
 	}
 }
@@ -61,24 +58,17 @@ static int	has_only_sp_or_tab_chars(char *read_line, char *prompt_w_path)
 	return (1);
 }
 
-// TODO: exit the infinite loop with SIGNALS;
-// EOF (Ctrl+D) is dealt with the if (!read_line) {break} ; is that enough?
-// QUESTION: - should we free envp in the end of main?
-//			 - need to print error on envp error?
-// 			 - where to free when exiting with signals?
 // IMPORTANT QUESTION: should the error message be output to fd 1 or 2?
 // volatile sig_atomic_t	interrupt = 0;
-
 int	main(int argc, char **argv, char **envp)
 {
 	char	*read_line;
 	char	*prompt_w_path;
 	t_env	*env;
 
-	(void) argv;
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, sigquit_handler);
-	check_nb_of_args(argc);
+	check_nb_of_args(argc, argv);
 	env = init_env_struc(envp);
 	incr_or_decr_env_shlvl(env, true);
 	while (1)
