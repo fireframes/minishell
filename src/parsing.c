@@ -50,7 +50,7 @@ static void	cmd_args_parse(t_cmd *cmds_struc, t_env *envp, int *inquotes)
 		cmds_struc[i].command_index = i;
 		cmds_struc[i].args = split_v3(cmds_struc->cmds_splits[i], ' ', &inquotes[inq_offset]);
 		inq_offset += ft_strlen(cmds_struc->cmds_splits[i]) + 1;
-		if (cmds_struc[i].redir_syntax_err == true || cmds_struc[i].total_args == 0)
+		if (cmds_struc[i].redir_syntax_err == true)
 		{
 			i++;
 			continue ;
