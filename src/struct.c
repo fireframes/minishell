@@ -31,10 +31,11 @@ void	init_cmds_struc(t_cmd *cmd_struc, int index)
 	cmd_struc[index].redir_amount = 0;
 	cmd_struc[index].last_fd_in = 0;
 	cmd_struc[index].last_fd_out = 0;
+	cmd_struc[index].env = NULL;
 }
 
 // QUESTION: protection needed after split call (if (!prompt_split)...)?
-t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc)
+t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc, t_env *env)
 {
 	int	cmd_count;
 	int	i;
@@ -50,6 +51,7 @@ t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc)
 	{
 		cmds_struc[i].cmds_splits = cmds_splits;
 		cmds_struc[i].total_cmds = cmd_count;
+		cmds_struc[i].env = env;
 		init_cmds_struc(cmds_struc, i);
 		i++;
 	}
@@ -76,6 +78,7 @@ t_env	*init_env_struc(char **envp)
 	global = malloc(sizeof(t_env) * 1);
 	if (global == NULL)
 		exit(2);
+	global->final_exit = false;
 	global->real_shlvl = 0;
 	global->env = malloc(sizeof(char **) * MAX_SHLVL);
 	if (global->env == NULL)

@@ -50,7 +50,7 @@ static void	cmd_args_parse(t_cmd *cmds_struc, t_env *envp, int *inquotes)
 		cmds_struc[i].command_index = i;
 		cmds_struc[i].args = split_v3(cmds_struc->cmds_splits[i], ' ', &inquotes[inq_offset]);
 		inq_offset += ft_strlen(cmds_struc->cmds_splits[i]) + 1;
-		if (cmds_struc[i].redir_syntax_err == true)
+		if (cmds_struc[i].redir_syntax_err == true || cmds_struc[i].args == NULL)
 		{
 			i++;
 			continue ;
@@ -82,13 +82,16 @@ static void	count_args(t_cmd *cmds_struc)
 	int	j;
 
 	i = 0;
-	while (i < cmds_struc->total_cmds)
+	if (cmds_struc[i].args != NULL)
 	{
-		j = 0;
-		while (cmds_struc[i].args[j] != NULL)
-			j++;
-		cmds_struc[i].total_args = j;
-		i++;
+		while (i < cmds_struc->total_cmds)
+		{
+			j = 0;
+			while (cmds_struc[i].args[j] != NULL)
+				j++;
+			cmds_struc[i].total_args = j;
+			i++;
+		}
 	}
 }
 
@@ -105,7 +108,7 @@ t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 	//if (!expand)
 	cmds_splits = cmds_parse(expand->expanded, expand->inquotes);
 	//if (!cmds_splits)
-	cmds_struc = create_cmds_struc(cmds_splits, cmds_struc);
+	cmds_struc = create_cmds_struc(cmds_splits, cmds_struc, envp);
 	//if (!cmds_struc)
 	redir_parsing_module(cmds_struc, envp, expand->inquotes);
 	cmd_args_parse(cmds_struc, envp, expand->inquotes);

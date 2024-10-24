@@ -59,7 +59,7 @@ void	execute_builtin(t_cmd *cmd, t_env *envp)
 		*exit_code = ft_unset(cmd, envp);
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
 		*exit_code = ft_env(cmd, envp->env[envp->real_shlvl]);
-	else if (ft_strcmp(cmd->args[0], "exit") == 0)
+	else if (ft_strcmp(cmd->args[0], "exit") == 0 && cmd->total_cmds)
 		*exit_code = ft_exit(cmd, envp);
 	else if (ft_strcmp(cmd->args[0], "echo") == 0)
 		*exit_code = ft_echo(cmd);

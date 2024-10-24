@@ -14,7 +14,7 @@
 
 static int	is_a_redir(char *arg)
 {
-	if (strncmp_v2(arg, ">>", 2) == 0)
+	if (strncmp_v2(arg, ">>", 2) == 0 || strncmp_v2(arg, "<<", 2) == 0)
 		return (2);
 	else if (strncmp_v2(arg, ">", 1) == 0 || strncmp_v2(arg, "<", 1) == 0)
 		return (1);
@@ -70,6 +70,8 @@ static bool	is_syntax_err(t_cmd *c, int i)
 	{
 		if (c[i].redir_part[j] == '<')
 		{
+			if (c[i].redir_part[j + 1] == '<')
+				j++;
 			if (erroneous_next_c(c, i, j) == true)
 				return (true);
 		}

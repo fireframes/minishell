@@ -26,14 +26,17 @@ void	free_arr_of_arr(char **split)
 	int	i;
 
 	i = 0;
-	while (split[i])
+	if (split != NULL)
 	{
-		free(split[i]);
-		split[i] = NULL;
-		i++;
+		while (split[i])
+		{
+			free(split[i]);
+			split[i] = NULL;
+			i++;
+		}
+		free(split);
+		split = NULL;
 	}
-	free(split);
-	split = NULL;
 }
 
 void	free_structs(t_cmd *cmds_struc)

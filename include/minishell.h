@@ -38,6 +38,7 @@ typedef struct s_env
 	int		real_shlvl;
 	int		exit_code;
 	bool	redir_syntax_err;
+	bool	final_exit;
 }	t_env;
 
 typedef struct s_expand
@@ -67,6 +68,7 @@ typedef struct s_cmd
 	int		redir_amount;
 	int		last_fd_in;
 	int		last_fd_out;
+	t_env	*env;
 }	t_cmd;
 
 // checker.c
@@ -106,7 +108,7 @@ void	handle_files_redir(t_cmd *c_struc, int i);
 
 //struct.c
 void	init_cmds_struc(t_cmd *cmd_struc, int index);
-t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc);
+t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc, t_env *envp);
 t_env	*init_env_struc(char **envp);
 
 // util_env.c

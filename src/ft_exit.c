@@ -65,6 +65,7 @@ int	ft_exit(t_cmd *cmd, t_env *envp)
 	int	exit_code;
 
 	printf("exit\n");
+	exit_code = 0;
 	if (cmd)
 	{
 		exit_code = get_2nd_arg(cmd);
@@ -82,11 +83,12 @@ int	ft_exit(t_cmd *cmd, t_env *envp)
 	if (envp->real_shlvl == 0)
 	{
 		// free_all();
+		// free();
 		exit(exit_code);
 	}
 	else
 	{
-		// free_module(cmd, envp->read_line,
+		// Normally, it is freed (like other builtins) in that case
 		envp->env[envp->real_shlvl] = NULL;
 		envp->real_shlvl--;
 	}

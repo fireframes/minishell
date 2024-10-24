@@ -80,6 +80,8 @@ char	**split_v3(char const *s, char c, int *inquotes)
 
 	nb_of_splits = splits_count(s, c, inquotes);
 	// printf("NUM OF SPLITS: %lu\n", nb_of_splits);
+	if (nb_of_splits == 0)
+		return (NULL);
 	arr_of_str = (char **)malloc(sizeof(char *) * (nb_of_splits + 1));
 	if (arr_of_str == NULL)
 		return (NULL);
