@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/21 22:15:05 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/24 13:23:50 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ char	**split_v3(char const *s, char c, int *inquotes)
 	size_t	nb_of_splits;
 
 	nb_of_splits = splits_count(s, c, inquotes);
-	// printf("NUM OF SPLITS: %lu\n", nb_of_splits);
 	arr_of_str = (char **)malloc(sizeof(char *) * (nb_of_splits + 1));
 	if (arr_of_str == NULL)
 		return (NULL);

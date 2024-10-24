@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/21 19:47:26 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:30:04 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 // ANSWER: readline() function is doing that for us actually
 void	free_module(t_cmd *cmds_struc, char *read_line, char *prmpt_path)
 {
-	free_structs(cmds_struc);
+	if (cmds_struc)
+		free_structs(cmds_struc);
 	free(prmpt_path);
 	free(read_line);
 }

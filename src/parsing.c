@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/23 15:44:14 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:06:19 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static char	**cmds_parse(char *read_line, int *inquotes)
 
 	cmds_splits = NULL;
 	cmds_splits = split_v3(read_line, '|', inquotes);
+	if (!cmds_splits)
+		return (NULL);
 	return (cmds_splits);
 }
 
@@ -102,11 +104,25 @@ t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 	envp->redir_syntax_err = false;
 	cmds_splits = NULL;
 	expand = dequote_expand(read_line, envp);
-	//if (!expand)
+	// if (!expand || !expand->expanded)
+	// {
+	// 	printf("NOT\n");
+	// 	return (NULL);
+	// }
 	cmds_splits = cmds_parse(expand->expanded, expand->inquotes);
-	//if (!cmds_splits)
+	if (!cmds_splits)
+	{
+		free_expand(expand);
+		printf("NOT cmds_splits\n");
+		return (NULL);
+	}
 	cmds_struc = create_cmds_struc(cmds_splits, cmds_struc);
-	//if (!cmds_struc)
+	if (!cmds_struc)
+	{
+		free_expand(expand);
+		printf("NOT cmds_struc\n");
+		return (NULL);
+	}
 	redir_parsing_module(cmds_struc, envp, expand->inquotes);
 	cmd_args_parse(cmds_struc, envp, expand->inquotes);
 	count_args(cmds_struc);

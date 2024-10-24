@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:21:21 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/21 19:47:30 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:57:21 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	*init_inquotes(int inquotes[])
 	while (inquotes[i] != -1)
 	{
 		inq_arr[i] = inquotes[i];
-		i++;	
+		i++;
 	}
 	inq_arr[i] = -1;
 	return (inq_arr);
@@ -151,9 +151,28 @@ static t_expnd	*expander(char *line, t_env *envp)
 			}
 			else if (!env_exists(&line[i + 1], *envp->env))
 			{
-				expanded[j] = '\0';
-				inqoutes[j] = -1;
-				return (alloc_expand(expanded, inqoutes));
+				expanded[j] = ' ';
+				char *end;
+
+				end = &line[i];
+
+				if (ft_strchr(&line[i], ' '))
+					end = ft_strchr(&line[i], ' ');
+				else if (ft_strchr(&line[i + 1], '|'))
+					end = ft_strchr(&line[i + 1], '|');
+				else if (ft_strchr(&line[i + 1], '<'))
+					end = ft_strchr(&line[i + 1], '<');
+				else if (ft_strchr(&line[i + 1], '>'))
+					end = ft_strchr(&line[i + 1], '>');
+				else
+				{
+					while (*end)
+						end++;
+				}
+				j += end - &line[i] - 1;
+				// printf("j is : %d\n", j);
+				// inqoutes[j] = -1;
+				// return (alloc_expand(expanded, inqoutes));
 			}
 			else if (ft_strchr(&line[i + 1], '$'))
 			{
