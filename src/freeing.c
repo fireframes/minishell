@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/24 15:30:04 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/25 22:20:49 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,6 @@ void	free_on_exit(t_env **envp, char *prompt)
 	(*envp)->env = NULL;
 	free(*envp);
 	*envp = NULL;
-	free(prompt);
+	if (prompt)
+		free(prompt);
 }

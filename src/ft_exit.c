@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/23 16:08:41 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/25 22:19:47 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,30 +60,30 @@ static int	check_error(t_cmd *cmd)
 // TODO IMPORTANT: when you there is an error code and you exit totally
 //	minishell the exit status displayed in bash should be the error code and
 //	not the success of the exit command!
-int	ft_exit(t_cmd *cmd, t_env *envp)
+int	ft_exit(t_cmd *cmd, t_env *envp, char *read_line, char *prompt)
 {
 	int	exit_code;
 
-	printf("exit\n");
 	exit_code = 0;
+	printf("exit\n");
 	if (cmd)
 	{
 		exit_code = get_2nd_arg(cmd);
 		if (check_error(cmd) == 1)
 		{
-			ft_putstr_fd(": too many arguments\n", 2);
+			ft_putstr_fd(": too many arguments\n", STDERR_FILENO);
 			exit_code = 1;
 		}
 		if (check_error(cmd) == 2)
 		{
-			ft_putstr_fd(": numeric argument required\n", 2);
+			ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 			exit_code = 2;
 		}
 	}
 	if (envp->real_shlvl == 0)
 	{
-		// free_all();
-		// free();
+		free_on_exit(&envp, NULL);
+		free_module(cmd, read_line, prompt);
 		exit(exit_code);
 	}
 	else

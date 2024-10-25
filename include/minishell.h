@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/23 16:06:36 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/25 22:15:28 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@
 
 # include "libft.h"
 
+extern volatile sig_atomic_t sigint;
+
 typedef struct s_env
 {
 	char	***env;
-	char	*prompt_w_path;
+	char	*prompt;
 	char	*read_line;
 	int		real_shlvl;
 	int		exit_code;
@@ -155,7 +157,7 @@ int		ft_export(t_cmd *cmd, t_env *envp);
 int		add_env(char *arg, t_env *envp);
 int		ft_unset(t_cmd *cmd, t_env *envp);
 int		ft_env(t_cmd *cmd, char **envp);
-int		ft_exit(t_cmd *cmd, t_env *envp);
+int		ft_exit(t_cmd *cmd, t_env *envp, char *read_line, char *prompt);
 
 // execution.c
 void	execution_module(t_cmd *commands, t_env *envp);

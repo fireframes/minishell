@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:16:31 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/24 13:41:44 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/25 22:27:00 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,12 @@ static void	check_args(int argc, char **argv)
 	}
 }
 
-static int	has_only_sp_or_tab_chars(char *read_line, char *prompt_w_path)
+static int	has_only_sp_or_tab_chars(char *read_line, char *prompt)
 {
 	int	i;
 
+	if (!read_line)
+		return (-1);
 	i = 0;
 	while (read_line[i] != '\0')
 	{
@@ -54,7 +56,7 @@ static int	has_only_sp_or_tab_chars(char *read_line, char *prompt_w_path)
 			return (0);
 		i++;
 	}
-	free(prompt_w_path);
+	free(prompt);
 	free(read_line);
 	return (1);
 }
@@ -65,28 +67,42 @@ static int	has_only_sp_or_tab_chars(char *read_line, char *prompt_w_path)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*read_line;
-	char	*prompt_w_path;
+	char	*prompt;
 	t_env	*env;
 
 	signal_module();
 	read_line = NULL;
-	prompt_w_path = NULL;
+	prompt = NULL;
 	check_args(argc, argv);
 	env = init_env_struc_and_shlvl(envp);
 	while (1)
 	{
-		prompt_w_path = get_curr_dir();
-		read_line = readline(prompt_w_path);
+		prompt = get_curr_dir();
+		read_line = readline(prompt);
 		if (!read_line)
 		{
-			ft_exit(NULL, env);
-			if (env->real_shlvl != 0)
+			ft_exit(NULL, env, read_line, prompt);
+			if (env->real_shlvl > 0)
 				continue ;
 		}
-		if (has_only_sp_or_tab_chars(read_line, prompt_w_path) == 1)
+		if (sigint)
+		{
+			sigint = 0;
+			free(read_line);
+			free(prompt);
 			continue ;
+		}
+		if (has_only_sp_or_tab_chars(read_line, prompt) == 1)
+			continue ;
+		else if (has_only_sp_or_tab_chars(read_line, prompt) == -1)
+		{
+			printf("something broke\n");
+			break ;
+		}
 		if (*read_line)
-			main_module(env, read_line, prompt_w_path);
+			main_module(env, read_line, prompt);
 	}
-	free_on_exit(&env, prompt_w_path);
+	if (read_line)
+		free(read_line);
+	free_on_exit(&env, prompt);
 }
