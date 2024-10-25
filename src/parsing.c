@@ -82,16 +82,16 @@ static void	count_args(t_cmd *cmds_struc)
 	int	j;
 
 	i = 0;
-	if (cmds_struc[i].args != NULL)
+	while (i < cmds_struc->total_cmds)
 	{
-		while (i < cmds_struc->total_cmds)
+		if (cmds_struc[i].args != NULL)
 		{
 			j = 0;
 			while (cmds_struc[i].args[j] != NULL)
 				j++;
 			cmds_struc[i].total_args = j;
-			i++;
 		}
+		i++;
 	}
 }
 
