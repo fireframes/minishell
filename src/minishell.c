@@ -32,7 +32,7 @@ static char	*get_curr_dir(void)
 	return (full_prompt);
 }
 
-static void	check_nb_of_args(int argc, char **argv)
+static void	check_args(int argc, char **argv)
 {
 	(void) argv;
 	if (argc != 1)
@@ -60,17 +60,18 @@ static int	has_only_sp_or_tab_chars(char *read_line, char *prompt_w_path)
 
 // IMPORTANT QUESTION: should the error message be output to fd 1 or 2?
 // volatile sig_atomic_t	interrupt = 0;
+// NOTE: no need to return (0) at the end of the main, is seems (?)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*read_line;
 	char	*prompt_w_path;
 	t_env	*env;
 
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, sigquit_handler);
-	check_nb_of_args(argc, argv);
-	env = init_env_struc(envp);
-	incr_or_decr_env_shlvl(env, true);
+	signal_module();
+	read_line = NULL;
+	prompt_w_path = NULL;
+	check_args(argc, argv);
+	env = init_env_struc_and_shlvl(envp);
 	while (1)
 	{
 		prompt_w_path = get_curr_dir();
@@ -87,5 +88,4 @@ int	main(int argc, char **argv, char **envp)
 			main_module(env, read_line, prompt_w_path);
 	}
 	free_on_exit(&env, prompt_w_path);
-	return (0);
 }

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	sigint_handler(int signum)
+static void	sigint_handler(int signum)
 {
 	(void) signum;
 	printf("\n");
@@ -20,8 +20,14 @@ void	sigint_handler(int signum)
 	rl_redisplay();
 }
 
-void	sigquit_handler(int signum)
+static void	sigquit_handler(int signum)
 {
 	(void) signum;
 	return ;
+}
+
+void	signal_module(void)
+{
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigquit_handler);
 }

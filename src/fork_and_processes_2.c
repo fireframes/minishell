@@ -67,6 +67,11 @@ static void	in_read(t_cmd *cm, int i, int j)
 	}
 }
 
+static void	heredoc(t_cmd *cm, int i, int j)
+{
+	printf("Heredoc handling under construction w/ arg %p %d and %d", cm, i, j);
+}
+
 void	handle_files_redir(t_cmd *cm, int i)
 {
 	int	j;
@@ -76,7 +81,9 @@ void	handle_files_redir(t_cmd *cm, int i)
 	{
 		while (cm[i].redirs[j] != NULL)
 		{
-			if (cm[i].redirs[j][0] == '>' && cm[i].redirs[j][1] == '>')
+			if (cm[i].redirs[j][0] == '<' && cm[i].redirs[j][1] == '<')
+				heredoc(cm, i, j);
+			else if (cm[i].redirs[j][0] == '>' && cm[i].redirs[j][1] == '>')
 				out_write(cm, i, (j + 1), true);
 			else if (cm[i].redirs[j][0] == '>')
 				out_write(cm, i, (j + 1), false);

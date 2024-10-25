@@ -25,6 +25,14 @@ static int	copy_redir_sign(t_cmd *c, int i, int j, int k)
 		l++;
 		k = k + 2;
 	}
+	else if (c[i].redir_part[k] == '<' && c[i].redir_part[k + 1] == '<')
+	{
+		c[i].redirs[j][l] = '<';
+		l++;
+		c[i].redirs[j][l] = '<';
+		l++;
+		k = k + 2;
+	}
 	else
 	{
 		c[i].redirs[j][l] = c[i].redir_part[k];
@@ -76,16 +84,16 @@ void	alloc_redir_arr(t_cmd *c, int i)
 	c[i].redirs[j] = NULL;
 }
 
-static int	find_1st_redir_type(char *str, int *inquoutes)
+static int	find_1st_redir_type(char *str, int *inquotes)
 {
 	int	i;
 
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == '<' && !inquoutes[i])
+		if (str[i] == '<' && !inquotes[i])
 			return (1);
-		if (str[i] == '>' && !inquoutes[i])
+		if (str[i] == '>' && !inquotes[i])
 			return (2);
 		i++;
 	}

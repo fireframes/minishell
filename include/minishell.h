@@ -109,7 +109,7 @@ void	handle_files_redir(t_cmd *c_struc, int i);
 //struct.c
 void	init_cmds_struc(t_cmd *cmd_struc, int index);
 t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc, t_env *envp);
-t_env	*init_env_struc(char **envp);
+t_env	*init_env_struc_and_shlvl(char **envp);
 
 // util_env.c
 char	**copy_env(char **envp);
@@ -162,7 +162,6 @@ void	execution_module(t_cmd *commands, t_env *envp);
 void	execute_builtin(t_cmd *cmd, t_env *envp);
 
 // signals.c
-void	sigint_handler(int signum);
-void	sigquit_handler(int signum);
+void	signal_module(void);
 
 #endif

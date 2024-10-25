@@ -71,7 +71,7 @@ t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc, t_env *env)
 // 	global->redir_syntax_err = false;
 // }
 
-t_env	*init_env_struc(char **envp)
+t_env	*init_env_struc_and_shlvl(char **envp)
 {
 	t_env	*global;
 
@@ -95,5 +95,6 @@ t_env	*init_env_struc(char **envp)
 	}
 	global->exit_code = 0;
 	global->redir_syntax_err = false;
+	incr_or_decr_env_shlvl(global, true);
 	return (global);
 }

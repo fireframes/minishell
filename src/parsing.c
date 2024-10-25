@@ -97,6 +97,8 @@ static void	count_args(t_cmd *cmds_struc)
 
 // PROBLEM: for input like: "$EMPTY" must do nothing with exit code 0
 // LACKS ERROR CHECKS
+// PROBLEM: SEGFAULT WHEN INPUTTING only "" or """ in the prompt (in that
+//	case cmd_struc is still NULL / empty)
 t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 {
 	char		**cmds_splits;
