@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:16:31 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/25 22:27:00 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/25 23:03:14 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ int	main(int argc, char **argv, char **envp)
 		{
 			ft_exit(NULL, env, read_line, prompt);
 			if (env->real_shlvl > 0)
+			{
+				free(prompt);
 				continue ;
+			}
 		}
 		if (sigint)
 		{
