@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:16:31 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/23 16:10:26 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/24 13:41:44 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	main_module(t_env *envp, char *read_line, char *prompt_with_path)
 	cmds_struc = NULL;
 	add_history(read_line);
 	cmds_struc = parsing_module(envp, read_line, cmds_struc);
-	execution_module(cmds_struc, envp);
+	if (cmds_struc)
+		execution_module(cmds_struc, envp);
 	free_module(cmds_struc, read_line, prompt_with_path);
 }
 
