@@ -70,6 +70,7 @@ typedef struct s_cmd
 	int		redir_amount;
 	int		last_fd_in;
 	int		last_fd_out;
+	int		total_heredocs;
 	t_env	*env;
 }	t_cmd;
 

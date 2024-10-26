@@ -14,14 +14,14 @@
 
 static void	duplicate_and_close(int file_descriptor, int in_or_out)
 {
-	int	new_fd;
+	int	new_fd_for_check_only;
 
-	new_fd = 0;
+	new_fd_for_check_only = 0;
 	if (in_or_out == STDIN_FILENO)
-		new_fd = dup2(file_descriptor, STDIN_FILENO);
+		new_fd_for_check_only = dup2(file_descriptor, STDIN_FILENO);
 	else if (in_or_out == STDOUT_FILENO)
-		new_fd = dup2(file_descriptor, STDOUT_FILENO);
-	if (new_fd < 0)
+		new_fd_for_check_only = dup2(file_descriptor, STDOUT_FILENO);
+	if (new_fd_for_check_only < 0)
 		perror(NULL);
 	close(file_descriptor);
 }
@@ -72,6 +72,7 @@ void	parent_process(t_cmd *cmds_struc, t_env *envp)
 		if (i == cmds_struc->total_cmds)
 			envp->exit_code = WEXITSTATUS(child_status_info);
 	}
+	unlink("test");
 }
 
 void	child_process(t_cmd *c_struc, int i, t_env *envp)

@@ -31,6 +31,7 @@ void	init_cmds_struc(t_cmd *cmd_struc, int index)
 	cmd_struc[index].redir_amount = 0;
 	cmd_struc[index].last_fd_in = 0;
 	cmd_struc[index].last_fd_out = 0;
+	cmd_struc[index].total_heredocs = 0;
 	cmd_struc[index].env = NULL;
 }
 
@@ -57,19 +58,6 @@ t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc, t_env *env)
 	}
 	return (cmds_struc);
 }
-
-// void	init_env_struc(t_env *global, char **envp)
-// {
-// 	global->real_shlvl = 0;
-// 	global->env = malloc(sizeof(char **) * MAX_SHLVL);
-// 	if (global->env == NULL)
-// 		exit(2);
-// 	global->env[global->real_shlvl] = copy_env(envp);
-// 	if (global->env[global->real_shlvl] == NULL)
-// 		exit(2);
-// 	global->exit_code = 0;
-// 	global->redir_syntax_err = false;
-// }
 
 t_env	*init_env_struc_and_shlvl(char **envp)
 {
