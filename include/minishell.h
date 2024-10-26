@@ -17,7 +17,7 @@
 
 # include <errno.h>
 # include <fcntl.h>
-# include "limits.h"
+# include "linux/limits.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
