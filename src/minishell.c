@@ -6,11 +6,13 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:16:31 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/25 23:03:14 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/26 18:29:32 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+volatile sig_atomic_t in_child = 0;
 
 void	main_module(t_env *envp, char *read_line, char *prompt_with_path)
 {
@@ -70,7 +72,7 @@ int	main(int argc, char **argv, char **envp)
 	char	*prompt;
 	t_env	*env;
 
-	signal_module();
+	setup_main_signals();
 	read_line = NULL;
 	prompt = NULL;
 	check_args(argc, argv);
@@ -87,13 +89,6 @@ int	main(int argc, char **argv, char **envp)
 				free(prompt);
 				continue ;
 			}
-		}
-		if (sigint)
-		{
-			sigint = 0;
-			free(read_line);
-			free(prompt);
-			continue ;
 		}
 		if (has_only_sp_or_tab_chars(read_line, prompt) == 1)
 			continue ;

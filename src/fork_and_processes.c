@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/05 15:21:15 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/26 18:46:37 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,12 @@ void	parent_process(t_cmd *cmds_struc, t_env *envp)
 		i++;
 		if (i == cmds_struc->total_cmds)
 			envp->exit_code = WEXITSTATUS(child_status_info);
+			
 	}
+	if (WIFSIGNALED(child_status_info)
+		&& WTERMSIG(child_status_info) == SIGQUIT)
+		write(STDOUT_FILENO, "Quit\n", 6);
+	in_child = 0;
 	unlink("test");
 }
 
@@ -104,9 +109,10 @@ void	child_process(t_cmd *c_struc, int i, t_env *envp)
 // TODO: execute builtin without forking it
 void	forking(t_cmd *cmds_struc, t_env *envp)
 {
-	int		i;
+	int	i;
 
 	i = 0;
+	in_child = 1;
 	while (i < cmds_struc->total_cmds)
 	{
 		if ((cmds_struc[i].path_found == true
@@ -120,7 +126,10 @@ void	forking(t_cmd *cmds_struc, t_env *envp)
 				free_structs(cmds_struc);
 			}
 			else if (cmds_struc[i].pid == 0)
+			{
+				setup_child_signals();
 				child_process(cmds_struc, i, envp);
+			}
 		}
 		i++;
 	}
