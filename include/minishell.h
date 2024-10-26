@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/25 22:15:28 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/26 16:45:41 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 
 # include "libft.h"
 
-extern volatile sig_atomic_t sigint;
+extern volatile sig_atomic_t in_child;
 
 typedef struct s_env
 {
@@ -165,6 +165,7 @@ void	execution_module(t_cmd *commands, t_env *envp);
 void	execute_builtin(t_cmd *cmd, t_env *envp);
 
 // signals.c
-void	signal_module(void);
+void	setup_main_signals(void);
+void	setup_child_signals(void);
 
 #endif
