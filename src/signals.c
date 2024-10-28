@@ -18,7 +18,7 @@ static void	sigint_handler(int signum)
 	
 	if (!in_child)
 	{
-		rl_replace_line("", 0);
+		// rl_replace_line("", 0);
 		// ^^ IMPORTANT, to be commented when not working on Yannick's Mac
 		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
