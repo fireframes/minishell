@@ -87,5 +87,7 @@ char	**split_v3(char const *s, char c, int *inquotes)
 		free_arr_of_arr(arr_of_str);
 		return (NULL);
 	}
+	if (nb_of_splits == 0)
+		return (NULL);
 	return (arr_of_str);
 }
