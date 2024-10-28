@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 15:24:06 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/05 15:24:09 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/28 22:19:00 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,23 @@ char	*substr_v2(char const *s, unsigned int start, size_t len)
 	}
 	substr[i] = '\0';
 	return (substr);
+}
+
+int	mini_strcat(char *dest, const char *src)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (dest[i])
+		i++;
+	j = 0;
+	while (src[j])
+	{
+		dest[i] = src[j];
+		j++;
+		i++;
+	}
+	dest[i] = '\0';
+	return (ft_strlen(src));
 }

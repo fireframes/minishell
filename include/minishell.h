@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/26 16:45:41 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/29 01:06:11 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 # include "libft.h"
 
-extern volatile sig_atomic_t in_child;
+extern volatile sig_atomic_t g_in_child;
 
 typedef struct s_env
 {
@@ -50,6 +50,13 @@ typedef struct s_expand
 	char	*expanded;
 	int		*inquotes;
 }	t_expnd;
+
+typedef struct s_quote
+{
+	bool	sngl_quote;
+	bool	dbl_quote;
+	bool	isquoted;
+}	t_quote;
 
 typedef struct s_cmd
 {
@@ -83,8 +90,10 @@ bool	check_builtin(t_cmd *command);
 t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *commands);
 
 // dequoter.c
+bool	dequoter(char line_char, t_quote *quote);
+int		*init_inquotes(int inquotes[]);
+
 // expander.c
-// char	*expander(char *str, t_env *envp, t_cmd *t_qoute);
 t_expnd	*dequote_expand(char *read_line, t_env *envp);
 
 // redirections.c
@@ -151,6 +160,7 @@ int		atoi_v2(const char *str);
 // util_others2.c
 char	*strdup_v2(const char *s1);
 char	*substr_v2(char const *s, unsigned int start, size_t len);
+int		mini_strcat(char *dest, const char *src);
 
 // built-ins
 int		ft_echo(t_cmd *cmd);

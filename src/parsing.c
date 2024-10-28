@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/25 19:34:20 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/28 22:21:46 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,11 +110,8 @@ t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 	envp->total_heredocs_in_all = 0;
 	cmds_splits = NULL;
 	expand = dequote_expand(read_line, envp);
-	// if (!expand || !expand->expanded)
-	// {
-	// 	printf("NOT\n");
-	// 	return (NULL);
-	// }
+	if (!expand)
+		return (NULL);
 	cmds_splits = cmds_parse(expand->expanded, expand->inquotes);
 	//if (!cmds_splits)
 	cmds_struc = create_cmds_struc(cmds_splits, cmds_struc, envp);
