@@ -17,8 +17,8 @@
 
 # include <errno.h>
 # include <fcntl.h>
-// # include "linux/limits.h" IMPORTANT to be uncommented when not on Mac device
-# include "limits.h"
+# include "linux/limits.h" //IMPORTANT to be uncommented when not on Mac device
+// # include "limits.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
