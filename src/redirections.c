@@ -14,7 +14,9 @@
 
 static int	is_a_redir(char *arg)
 {
-	if (strncmp_v2(arg, ">>", 2) == 0 || strncmp_v2(arg, "<<", 2) == 0)
+	if (strncmp_v2(arg, "<<", 2) == 0)
+		return (3);
+	else if (strncmp_v2(arg, ">>", 2) == 0)
 		return (2);
 	else if (strncmp_v2(arg, ">", 1) == 0 || strncmp_v2(arg, "<", 1) == 0)
 		return (1);
@@ -22,15 +24,20 @@ static int	is_a_redir(char *arg)
 		return (0);
 }
 
-static void	count_redirections(t_cmd *cmds_struc, int i)
+static void	count_redirections(t_cmd *cmds_struc, int i, t_env *envp)
 {
 	int	j;
 
 	j = 0;
 	while (cmds_struc[i].redir_part[j] != '\0')
 	{
-		if (is_a_redir(&cmds_struc[i].redir_part[j]) == 2)
+		if (is_a_redir(&cmds_struc[i].redir_part[j]) > 1)
 		{
+			if (is_a_redir(&cmds_struc[i].redir_part[j]) == 3)
+			{
+				cmds_struc[i].heredocs_amount++;
+				envp->total_heredocs_in_all++;
+			}
 			cmds_struc[i].redir_amount++;
 			j = j + 2;
 		}
@@ -102,7 +109,7 @@ void	redir_parsing_module(t_cmd *cmds_struc, t_env *envp, int *inquotes)
 		}
 		else if (cmds_struc[i].redir_part != NULL)
 		{
-			count_redirections(cmds_struc, i);
+			count_redirections(cmds_struc, i, envp);
 			alloc_redir_arr(cmds_struc, i);
 		}
 		i++;

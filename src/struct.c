@@ -31,7 +31,7 @@ void	init_cmds_struc(t_cmd *cmd_struc, int index)
 	cmd_struc[index].redir_amount = 0;
 	cmd_struc[index].last_fd_in = 0;
 	cmd_struc[index].last_fd_out = 0;
-	cmd_struc[index].total_heredocs = 0;
+	cmd_struc[index].heredocs_amount = 0;
 	cmd_struc[index].env = NULL;
 }
 
@@ -83,6 +83,7 @@ t_env	*init_env_struc_and_shlvl(char **envp)
 	}
 	global->exit_code = 0;
 	global->redir_syntax_err = false;
+	global->total_heredocs_in_all = 0;
 	incr_or_decr_env_shlvl(global, true);
 	return (global);
 }

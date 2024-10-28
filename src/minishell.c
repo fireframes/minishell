@@ -94,6 +94,7 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		else if (has_only_sp_or_tab_chars(read_line, prompt) == -1)
 		{
+// TODO: LOOK INTO THIS ISSUE
 			printf("something broke\n");
 			break ;
 		}

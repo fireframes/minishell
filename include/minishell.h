@@ -18,6 +18,7 @@
 # include <errno.h>
 # include <fcntl.h>
 # include "linux/limits.h"
+// # include "limits.h" NB: to be uncommented when not on Mac device
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
@@ -41,6 +42,7 @@ typedef struct s_env
 	int		exit_code;
 	bool	redir_syntax_err;
 	bool	final_exit;
+	int		total_heredocs_in_all;
 }	t_env;
 
 typedef struct s_expand
@@ -70,7 +72,7 @@ typedef struct s_cmd
 	int		redir_amount;
 	int		last_fd_in;
 	int		last_fd_out;
-	int		total_heredocs;
+	int		heredocs_amount;
 	t_env	*env;
 }	t_cmd;
 

@@ -107,6 +107,7 @@ t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 	t_expnd		*expand;
 
 	envp->redir_syntax_err = false;
+	envp->total_heredocs_in_all = 0;
 	cmds_splits = NULL;
 	expand = dequote_expand(read_line, envp);
 	// if (!expand || !expand->expanded)

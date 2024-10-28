@@ -71,33 +71,50 @@ static void	in_read(t_cmd *cm, int i, int j)
 
 static void	heredoc(t_cmd *cm, int i, int j)
 {
-	char	*read_heredoc;
+	char		*read_heredoc;
+	// static int	heredoc_in_all_pipes;
 
-	cm[i].last_fd_in = open("test", O_WRONLY | O_CREAT, 0644);
-	while (1)
-	{
-		read_heredoc = readline("> ");
-		if (ft_strcmp(read_heredoc, cm[i].redirs[j]) == 0)
-			break ;
-		ft_putstr_fd(read_heredoc, cm[i].last_fd_in);
-		ft_putstr_fd("\n", cm[i].last_fd_in);
-		free(read_heredoc);
-	}
-	close(cm[i].last_fd_in);
-	cm[i].last_fd_in = open("test", O_RDONLY, 0644);
+	// printf("heredocs_in_cmd to be compared to: %d\n", cm[i].heredocs_amount);
+	// printf("heredoc_in_all_pipes to be compared to: %p\n", cm[i].env);
+	// printf("---------\n");	
+	// printf("heredocs_in_cmd: %d\n", heredocs_in_cmd);
+	// printf("heredoc_in_all_pipes: %d\n", heredoc_in_all_pipes);
+	// heredoc_in_all_pipes++;
+	// printf("heredoc_in_all_pipes after ++: %d\n", heredoc_in_all_pipes);
+	// if (heredoc_in_all_pipes == cm->env->total_heredocs_in_all)
+	// {
+		cm[i].last_fd_in = open("test", O_WRONLY | O_CREAT, 0644);
+		while (1)
+		{
+			read_heredoc = readline("> ");
+			if (ft_strcmp(read_heredoc, cm[i].redirs[j]) == 0)
+				break ;
+			ft_putstr_fd(read_heredoc, cm[i].last_fd_in);
+			ft_putstr_fd("\n", cm[i].last_fd_in);
+			free(read_heredoc);
+		}
+		close(cm[i].last_fd_in);
+		cm[i].last_fd_in = open("test", O_RDONLY, 0644);
+	// }
 }
 
 void	handle_files_redir(t_cmd *cm, int i)
 {
 	int	j;
+	int	heredocs_in_cmd;
 
+	heredocs_in_cmd = 0;
 	j = 0;
 	if (cm[i].redirs != NULL)
 	{
 		while (cm[i].redirs[j] != NULL)
 		{
 			if (cm[i].redirs[j][0] == '<' && cm[i].redirs[j][1] == '<')
-				heredoc(cm, i, (j + 1));
+			{
+				heredocs_in_cmd++;
+				if (heredocs_in_cmd == cm[i].heredocs_amount)
+					heredoc(cm, i, (j + 1));
+			}
 			else if (cm[i].redirs[j][0] == '>' && cm[i].redirs[j][1] == '>')
 				out_write(cm, i, (j + 1), true);
 			else if (cm[i].redirs[j][0] == '>')
