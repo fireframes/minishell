@@ -58,15 +58,19 @@ static int	copy_filename(t_cmd *c, int i, int j, int k)
 		k++;
 	}
 	c[i].redirs[j][l] = '\0';
-	// l = 0;
-	// while (c[i].cmds_splits[i][l] != '\0')
-	// 	l++;
-	// c[i].cmds_splits[i][l] = ' ';
+// Newly introduced to deal with commands/args after redirs
+	l = 0;
+	while (c[i].cmds_splits[i][l] != '\0')
+		l++;
+	c[i].cmds_splits[i][l] = ' ';
+//^^
 	while (c[i].redir_part[k] != '<' && c[i].redir_part[k] != '>'
 		&& c[i].redir_part[k] != '\0')
 	{
-		// c[i].cmds_splits[i][l] = c[i].redir_part[k];
-		// l++;
+//same as above:
+		c[i].cmds_splits[i][l] = c[i].redir_part[k];
+		l++;
+//^^
 		k++;
 	}
 	return (k);
