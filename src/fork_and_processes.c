@@ -77,7 +77,7 @@ void	parent_process(t_cmd *cmds_struc, t_env *envp)
 		&& WTERMSIG(child_status_info) == SIGQUIT)
 		write(STDOUT_FILENO, "Quit\n", 6);
 	g_in_child = 0;
-	unlink("test");
+	unlink(" ");
 }
 
 void	child_process(t_cmd *c_struc, int i, t_env *envp)
@@ -115,9 +115,10 @@ void	forking(t_cmd *cmds_struc, t_env *envp)
 	g_in_child = 1;
 	while (i < cmds_struc->total_cmds)
 	{
-		if ((cmds_struc[i].path_found == true
-				|| cmds_struc[i].is_builtin == true)
-			&& cmds_struc[i].minishell_call != true)
+		// if ((cmds_struc[i].path_found == true
+		// 		|| cmds_struc[i].is_builtin == true)
+		// 	&& cmds_struc[i].minishell_call != true)
+		if (cmds_struc[i].minishell_call != true)
 		{
 			cmds_struc[i].pid = fork();
 			if (cmds_struc[i].pid == -1)
