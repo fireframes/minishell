@@ -1,4 +1,5 @@
 *.o
+a.out
 minishell
 *.dSYM
 .vscode

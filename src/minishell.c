@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:16:31 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/29 01:06:11 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/29 19:20:49 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	main(int argc, char **argv, char **envp)
 		else if (has_only_sp_or_tab_chars(read_line, prompt) == -1)
 		{
 // TODO: LOOK INTO THIS ISSUE
-			printf("something broke\n");
+			// printf("something broke\n");
 			break ;
 		}
 		if (*read_line)

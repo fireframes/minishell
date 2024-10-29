@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:21:21 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/29 00:51:57 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/29 23:24:38 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,6 @@ static t_expnd	*expander(char *line, t_env *envp, t_quote *quote)
 	inqoutes[j] = -1;
 	return (alloc_expand(expanded, inqoutes));
 }
-
 
 t_expnd	*dequote_expand(char *read_line, t_env *envp)
 {

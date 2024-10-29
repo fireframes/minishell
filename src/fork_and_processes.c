@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/29 01:06:11 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/29 19:18:15 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,10 @@ void	parent_process(t_cmd *cmds_struc, t_env *envp)
 		i++;
 		if (i == cmds_struc->total_cmds)
 			envp->exit_code = WEXITSTATUS(child_status_info);
-			
 	}
 	if (WIFSIGNALED(child_status_info)
 		&& WTERMSIG(child_status_info) == SIGQUIT)
-		write(STDOUT_FILENO, "Quit\n", 6);
+		write(STDOUT_FILENO, "Quit\n", 5);
 	g_in_child = 0;
 	unlink(" ");
 }

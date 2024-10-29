@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/25 19:34:47 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/29 23:17:17 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static size_t	splits_count(char const *str, char delim, int *inquotes)
 		if (str[i] == delim && !inquotes[i])
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		splits++;
 		while (str[i])
@@ -60,7 +60,7 @@ static int	pop_arr(char **split, const char *s, char c, int *inquotes)
 		}
 		if (word)
 		{
-			split[j] = (char *)malloc(sizeof(char) * (sub_len + 1));
+			split[j] = (char *) malloc(sizeof(char) * (sub_len + 1));
 			if (!split[j])
 				return (-1);
 			ft_strlcpy(split[j], &s[i - sub_len], sub_len + 1);

@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 14:49:12 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/02/26 20:11:48 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/29 23:06:50 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
-	t_list *node;
+	t_list	*node;
 
 	node = *lst;
 	if (node == NULL)
@@ -24,5 +24,3 @@ void	ft_lstclear(t_list **lst, void (*del)(void*))
 	free(node);
 	*lst = NULL;
 }
-
-// DO WITH WHILE LOOP AND WRITE TESTS!

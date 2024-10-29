@@ -1,5 +1,5 @@
 NAME		:=	minishell
-CFLAGS		:=	-Wextra -Wall -Werror -g
+CFLAGS		:=	-Wall -Wextra -Werror -g
 LDFLAGS		:=	-lreadline
 HEADERS		:=	-Iinclude
 LIBFT_DIR 	:=	./lib/Libft

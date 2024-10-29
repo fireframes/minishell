@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/25 22:19:47 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/29 23:20:45 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int	ft_exit(t_cmd *cmd, t_env *envp, char *read_line, char *prompt)
 	}
 	else
 	{
-		// Normally, it is freed (like other builtins) in that case
 		envp->env[envp->real_shlvl] = NULL;
 		envp->real_shlvl--;
 	}
