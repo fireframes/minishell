@@ -54,8 +54,6 @@ static void	out_write(t_cmd *cm, int i, int j, bool is_append)
 	}
 }
 
-
-
 static void	in_read(t_cmd *cm, int i, int j)
 {
 	cm[i].last_fd_in = open(cm[i].redirs[j], O_RDONLY, 0644);
@@ -73,18 +71,18 @@ static void	heredoc(t_cmd *cm, int i, int j)
 {
 	char		*read_heredoc;
 
-		cm[i].last_fd_in = open(" ", O_WRONLY | O_CREAT, 0644);
-		while (1)
-		{
-			read_heredoc = readline("> ");
-			if (ft_strcmp(read_heredoc, cm[i].redirs[j]) == 0)
-				break ;
-			ft_putstr_fd(read_heredoc, cm[i].last_fd_in);
-			ft_putstr_fd("\n", cm[i].last_fd_in);
-			free(read_heredoc);
-		}
-		close(cm[i].last_fd_in);
-		cm[i].last_fd_in = open(" ", O_RDONLY, 0644);
+	cm[i].last_fd_in = open(" ", O_WRONLY | O_CREAT, 0644);
+	while (1)
+	{
+		read_heredoc = readline("> ");
+		if (ft_strcmp(read_heredoc, cm[i].redirs[j]) == 0)
+			break ;
+		ft_putstr_fd(read_heredoc, cm[i].last_fd_in);
+		ft_putstr_fd("\n", cm[i].last_fd_in);
+		free(read_heredoc);
+	}
+	close(cm[i].last_fd_in);
+	cm[i].last_fd_in = open(" ", O_RDONLY, 0644);
 }
 
 void	handle_files_redir(t_cmd *cm, int i)

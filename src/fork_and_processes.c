@@ -26,7 +26,6 @@ static void	duplicate_and_close(int file_descriptor, int in_or_out)
 	close(file_descriptor);
 }
 
-// TODO: handle error, close pipes, free resources, etc...
 void	exec_cmd(t_cmd cmds_struc, int read_fd, int write_fd, t_env *envp)
 {
 	if (cmds_struc.last_fd_in > 0)
@@ -71,7 +70,6 @@ void	parent_process(t_cmd *cmds_struc, t_env *envp)
 		i++;
 		if (i == cmds_struc->total_cmds)
 			envp->exit_code = WEXITSTATUS(child_status_info);
-			
 	}
 	if (WIFSIGNALED(child_status_info)
 		&& WTERMSIG(child_status_info) == SIGQUIT)
@@ -115,9 +113,6 @@ void	forking(t_cmd *cmds_struc, t_env *envp)
 	g_in_child = 1;
 	while (i < cmds_struc->total_cmds)
 	{
-		// if ((cmds_struc[i].path_found == true
-		// 		|| cmds_struc[i].is_builtin == true)
-		// 	&& cmds_struc[i].minishell_call != true)
 		if (cmds_struc[i].minishell_call != true)
 		{
 			cmds_struc[i].pid = fork();

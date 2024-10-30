@@ -129,7 +129,6 @@ static t_expnd	*expander(char *line, t_env *envp, t_quote *quote)
 	return (alloc_expand(expanded, inqoutes));
 }
 
-
 t_expnd	*dequote_expand(char *read_line, t_env *envp)
 {
 	t_expnd	*expanded_line;

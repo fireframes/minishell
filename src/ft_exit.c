@@ -88,7 +88,6 @@ int	ft_exit(t_cmd *cmd, t_env *envp, char *read_line, char *prompt)
 	}
 	else
 	{
-		// Normally, it is freed (like other builtins) in that case
 		envp->env[envp->real_shlvl] = NULL;
 		envp->real_shlvl--;
 	}
