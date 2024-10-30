@@ -6,66 +6,66 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:50:02 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/21 14:03:37 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/30 14:09:44 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "libft.h"
 
-static void	pop_arr(char **split, const char *s, char c, size_t i)
+static int	pop_arr(char **split, char *s_cpy, char const *s, size_t i)
 {
 	size_t	j;
-	size_t	word;
-	size_t	sub_len;
+	size_t	word_len;
 
 	j = 0;
-	word = 1;
-	sub_len = 0;
-	while (s[i])
+	word_len = 0;
+	while (i <= ft_strlen(s))
 	{
-		if (s[i] == c || s[i+1] == '\0')
+		if (s_cpy[i] == '\0' || i == ft_strlen(s))
 		{
-			if (word)
+			if (word_len)
 			{
-				split[j] = (char*) malloc(sizeof(char) * (sub_len + 1));
-				ft_strlcpy(split[j], &s[i - sub_len], sub_len + 1);
+				split[j] = ft_strdup(&s_cpy[i - word_len]);
+				if (split[j] == NULL)
+					return (0);
 				j++;
-				word = 0;
-				sub_len = 0;
+				word_len = 0;
 			}
 		}
 		else
-		{
-			word = 1;
-			sub_len++;
-		}
+			word_len++;
 		i++;
 	}
 	split[j] = NULL;
+	return (1);
 }
 
 char	**ft_split(char const *s, char c)
 {
 	char	**split;
+	char	*s_cpy;
 	size_t	i;
-	size_t	word_cnt = 0;
+	size_t	word_cnt;
 
-	if (s == NULL)
+	s_cpy = ft_strdup(s);
+	if (s_cpy == NULL || s == NULL)
 		return (NULL);
 	i = 0;
+	word_cnt = 0;
 	while (s[i])
 	{
-		if (s[i] != c)
-		{
-			if (i == 0 || s[i - 1] == c)
-				word_cnt++;
-		}
+		if (s[i] != c && (i == 0 || s[i - 1] == c))
+			word_cnt++;
+		if (s[i] == c)
+			s_cpy[i] = '\0';
 		i++;
 	}
 	split = (char **) malloc(sizeof(char *) * (word_cnt + 1));
 	if (split == NULL)
 		return (NULL);
-	pop_arr(split, s, c, 0);
+	if (!pop_arr(split, s_cpy, s, 0))
+		return (NULL);
+	free(s_cpy);
 	return (split);
 }
+

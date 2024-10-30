@@ -1,5 +1,5 @@
 *.o
-minishell
 *.dSYM
 .vscode
 minishell_tester
+lib/Libft/libft.a
