@@ -50,6 +50,22 @@ static int	check_error(t_cmd *cmd)
 	return (0);
 }
 
+static int	error_module(int exit_code, t_cmd *cmd)
+	{
+		exit_code = get_2nd_arg(cmd);
+		if (check_error(cmd) == 1)
+		{
+			ft_putstr_fd("minishell : too many arguments\n", 2);
+			exit_code = 1;
+		}
+		if (check_error(cmd) == 2)
+		{
+			ft_putstr_fd("minishell: numeric argument required\n", 2);
+			exit_code = 2;
+		}
+		return (exit_code);
+	}
+
 // TODO: implement the value that can be passed as parameters (exit code)
 // TODO: finish behavior when not on the lower SLVL value
 // TODO: see for the max value of SLVL and what happens when overflow
@@ -67,19 +83,7 @@ int	ft_exit(t_cmd *cmd, t_env *envp, char *read_line, char *prompt)
 	exit_code = 0;
 	printf("exit\n");
 	if (cmd)
-	{
-		exit_code = get_2nd_arg(cmd);
-		if (check_error(cmd) == 1)
-		{
-			ft_putstr_fd(": too many arguments\n", STDERR_FILENO);
-			exit_code = 1;
-		}
-		if (check_error(cmd) == 2)
-		{
-			ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-			exit_code = 2;
-		}
-	}
+		exit_code = error_module(exit_code, cmd);
 	if (envp->real_shlvl == 0)
 	{
 		free_on_exit(&envp, NULL);

@@ -41,16 +41,17 @@ void	exec_cmd(t_cmd cmds_struc, int read_fd, int write_fd, t_env *envp)
 		execute_builtin(&cmds_struc, envp);
 		exit(EXIT_SUCCESS);
 	}
+	else if (cmds_struc.path_found == false && access(cmds_struc.args[0], F_OK) == 0)
+		exit(126);
+	else if (cmds_struc.path_found == false && cmds_struc.is_builtin == false)
+		exit(127);
 	else
 	{
 		execve(cmds_struc.cmd_path, cmds_struc.args, envp->env[0]);
 		perror("execve");
-		exit(EXIT_FAILURE);
 	}
 }
 
-// TODO: the returned code is not good when the command is not found
-//	(it should be 127 and is currently some number)
 void	parent_process(t_cmd *cmds_struc, t_env *envp)
 {
 	int	i;
@@ -100,7 +101,7 @@ void	child_process(t_cmd *c_struc, int i, t_env *envp)
 			close(c_struc->pipes[j][1]);
 		j++;
 	}
-	if (c_struc[i].path_found == true || c_struc[i].is_builtin == true)
+	// if (c_struc[i].path_found == true || c_struc[i].is_builtin == true)
 		exec_cmd(c_struc[i], c_struc[i].read_fd, c_struc[i].write_fd, envp);
 }
 
