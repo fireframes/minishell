@@ -29,7 +29,7 @@ void	free_arr_of_arr(char **split)
 	i = 0;
 	if (split != NULL)
 	{
-		while (split[i])
+		while (split[i] != NULL)
 		{
 			free(split[i]);
 			split[i] = NULL;
@@ -38,6 +38,18 @@ void	free_arr_of_arr(char **split)
 		free(split);
 		split = NULL;
 	}
+}
+
+void	free_struct(t_cmd cmds_struc)
+{
+	free_arr_of_arr(cmds_struc.args);
+	free(cmds_struc.cmd_path);
+	cmds_struc.cmd_path = NULL;
+	if (cmds_struc.redirs != NULL)
+		free_arr_of_arr(cmds_struc.redirs);
+	free(cmds_struc.redir_part);
+	free_arr_of_arr(cmds_struc.cmds_splits);
+	free(cmds_struc.pipes);
 }
 
 void	free_structs(t_cmd *cmds_struc)

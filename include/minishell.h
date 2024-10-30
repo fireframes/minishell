@@ -106,6 +106,7 @@ void	isolate_redir_part(t_cmd *cmds_struc, int *inquotes);
 // freeing.c
 void	free_module(t_cmd *cmds_struc, char *read_line, char *prmpt_path);
 void	free_arr_of_arr(char **split);
+void	free_struct(t_cmd cmds_struc);
 void	free_structs(t_cmd *commands);
 void	free_expand(t_expnd *expand);
 void	free_on_exit(t_env **envp, char *prompt);
