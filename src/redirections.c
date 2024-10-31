@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/31 12:45:27 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/31 15:13:56 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	redir_parsing_module(t_cmd *cmds_struc, t_env *envp, int *inquotes)
 
 	i = 0;
 	redir_offset = 0;
-	isolate_redir_part(cmds_struc, inquotes, &redir_offset);
+	isolate_redir_part(cmds_struc, inquotes);
 	while (i < cmds_struc->total_cmds)
 	{
 		if (is_syntax_err(cmds_struc, i) == true)

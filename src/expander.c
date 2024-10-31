@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:21:21 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/31 11:26:51 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/31 18:03:52 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ t_expnd	*dequote_expand(char *read_line, t_env *envp)
 
 	if (!read_line || ft_strlen(read_line) > PATH_MAX)
 	{
-		ft_putstr_fd(": input is too long", 2);
+		ft_putstr_fd(": input is too long\n", 2);
 		return (NULL);
 	}
 	quote.sngl_quote = false;
