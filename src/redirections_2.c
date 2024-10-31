@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/23 15:49:26 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/31 14:39:37 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	copy_filename(t_cmd *c, int i, int j, int k)
 	int	l;
 
 	l = 0;
-	while (c[i].redir_part[k] == ' ')
+	while (c[i].redir_part[k] == ' ' || c[i].redir_part[k] == '\t')
 		k++;
 	while (c[i].redir_part[k] != '<' && c[i].redir_part[k] != '>'
 		&& c[i].redir_part[k] != '\0' && c[i].redir_part[k] != ' ')
@@ -96,7 +96,7 @@ void	alloc_redir_arr(t_cmd *c, int i)
 	c[i].redirs[j] = NULL;
 }
 
-static int	find_1st_redir_type(char *str, int *inquotes)
+static int	find_redir(char *str, int *inquotes)
 {
 	int	i;
 
@@ -115,20 +115,18 @@ static int	find_1st_redir_type(char *str, int *inquotes)
 void	isolate_redir_part(t_cmd *cmds_struc, int *inquotes)
 {
 	int		i;
-	int		inq_offset;
+	int		offset;
 	char	*first_redir_found;
-	// char	*first_space_char;
 
 	i = 0;
-	inq_offset = 0;
+	offset = 0;
 	while (i < cmds_struc->total_cmds)
 	{
 		first_redir_found = NULL;
-		if (find_1st_redir_type(cmds_struc[i].cmds_splits[i], &inquotes[inq_offset]) == 1)
+		if (find_redir(cmds_struc[i].cmds_splits[i], &inquotes[offset]) == 1)
 			first_redir_found = ft_strchr(cmds_struc[i].cmds_splits[i], '<');
-		if (find_1st_redir_type(cmds_struc[i].cmds_splits[i], &inquotes[inq_offset]) == 2)
+		if (find_redir(cmds_struc[i].cmds_splits[i], &inquotes[offset]) == 2)
 			first_redir_found = ft_strchr(cmds_struc[i].cmds_splits[i], '>');
-		inq_offset += ft_strlen(cmds_struc->cmds_splits[i]) + 1;
 		if (first_redir_found != NULL)
 		{
 			cmds_struc[i].redir_part = ft_strdup(first_redir_found);
@@ -138,6 +136,7 @@ void	isolate_redir_part(t_cmd *cmds_struc, int *inquotes)
 				first_redir_found++;
 			}
 		}
+		offset += ft_strlen(cmds_struc->cmds_splits[i]) + 1;
 		i++;
 	}
 }

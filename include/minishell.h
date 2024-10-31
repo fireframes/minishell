@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/30 19:20:46 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/31 14:31:45 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int		*init_inquotes(int inquotes[]);
 t_expnd	*dequote_expand(char *read_line, t_env *envp);
 
 // redirections.c
-void	redir_parsing_module(t_cmd *cmds_struc, t_env *envp, int *inquotes);
+int		redir_parsing_module(t_cmd *cmds_struc, t_env *envp, int *inquotes);
 
 // redirections_2.c
 void	alloc_redir_arr(t_cmd *cmds_struc, int i);

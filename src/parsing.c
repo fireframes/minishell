@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/30 16:55:11 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:12:12 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	check_for_minishell_call(t_cmd *cmd_struc, char *arg, int i)
 //		bash: ls: No such file or directory
 //	(not the command not found)
 // + 1 for already skipped delimiters
-static void	cmd_args_parse(t_cmd *cmds_struc, t_env *envp, int *inquotes)
+static void	cmd_args_parse(t_cmd *cmds_struc, t_env *envp, int *inquotes)//, int redir_offset)
 {
 	int	i;
 	size_t	inq_offset;
@@ -52,6 +52,8 @@ static void	cmd_args_parse(t_cmd *cmds_struc, t_env *envp, int *inquotes)
 		cmds_struc[i].command_index = i;
 		cmds_struc[i].args = split_v3(cmds_struc->cmds_splits[i], ' ', &inquotes[inq_offset]);
 		inq_offset += ft_strlen(cmds_struc->cmds_splits[i]) + 1;
+		if (cmds_struc[i].redir_part)
+			inq_offset += ft_strlen(cmds_struc[i].redir_part);
 		if (cmds_struc[i].redir_syntax_err == true || cmds_struc[i].args == NULL)
 		{
 			i++;
@@ -105,6 +107,7 @@ t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 {
 	char		**cmds_splits;
 	t_expnd		*expand;
+	int 		redir_offset;
 
 	envp->redir_syntax_err = false;
 	envp->total_heredocs_in_all = 0;
@@ -112,14 +115,14 @@ t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 	expand = dequote_expand(read_line, envp);
 	if (!expand)
 		return (NULL);
-	// printf("line: %s\n", expand->expanded);
-	// printf("inquotes: %s\n", expand->inquotes);
 	cmds_splits = cmds_parse(expand->expanded, expand->inquotes);
 	//if (!cmds_splits)
 	cmds_struc = create_cmds_struc(cmds_splits, cmds_struc, envp);
 	//if (!cmds_struc)
-	redir_parsing_module(cmds_struc, envp, expand->inquotes);
-	cmd_args_parse(cmds_struc, envp, expand->inquotes);
+	redir_offset = redir_parsing_module(cmds_struc, envp, expand->inquotes);
+	(void) redir_offset;
+	// printf("redir_offset: %d\n", redir_offset);
+	cmd_args_parse(cmds_struc, envp, expand->inquotes);//, redir_offset);
 	count_args(cmds_struc);
 	free_expand(expand);
 	return (cmds_struc);
