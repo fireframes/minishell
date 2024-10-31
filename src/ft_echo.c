@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 16:08:11 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/15 16:04:10 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/30 16:07:30 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 
 int	ft_echo(t_cmd *cmd)
 {
-	int		i;
-	int		newline;
+	int	i;
+	int	newline;
 
 	i = 1;
 	newline = 1;

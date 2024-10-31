@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:21:21 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/29 00:51:57 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/30 19:20:24 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static t_expnd	*expander(char *line, t_env *envp, t_quote *quote)
 	j = 0;
 	while (line[i])
 	{
-		if (dequoter(line[i], quote))
+		if (dequoter(&line[i], quote))
 		{
 			i++;
 			continue ;
@@ -124,6 +124,8 @@ static t_expnd	*expander(char *line, t_env *envp, t_quote *quote)
 		i++;
 		j++;
 	}
+	// if (quote->isquoted)
+	// 	ft_memset(inqoutes, 0, PATH_MAX);
 	expanded[j] = '\0';
 	inqoutes[j] = -1;
 	return (alloc_expand(expanded, inqoutes));

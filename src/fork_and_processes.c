@@ -41,21 +41,10 @@ void	exec_cmd(t_cmd cmds_struc, int read_fd, int write_fd, t_env *envp)
 		execute_builtin(&cmds_struc, envp);
 		exit(EXIT_SUCCESS);
 	}
-	else if (cmds_struc.args == NULL)
-	{
-		free_struct(cmds_struc);
-		exit(0);
-	}
 	else if (cmds_struc.path_found == false && access(cmds_struc.args[0], F_OK) == 0)
-	{
-		free_struct(cmds_struc);
 		exit(126);
-	}
 	else if (cmds_struc.path_found == false && cmds_struc.is_builtin == false)
-	{
-		free_struct(cmds_struc);
 		exit(127);
-	}
 	else
 	{
 		execve(cmds_struc.cmd_path, cmds_struc.args, envp->env[0]);
@@ -69,7 +58,6 @@ void	parent_process(t_cmd *cmds_struc, t_env *envp)
 	int	child_status_info;
 
 	i = 0;
-	child_status_info = 0;
 	while (i < cmds_struc->total_cmds - 1)
 	{
 		close(cmds_struc->pipes[i][0]);
@@ -113,9 +101,11 @@ void	child_process(t_cmd *c_struc, int i, t_env *envp)
 			close(c_struc->pipes[j][1]);
 		j++;
 	}
-	exec_cmd(c_struc[i], c_struc[i].read_fd, c_struc[i].write_fd, envp);
+	// if (c_struc[i].path_found == true || c_struc[i].is_builtin == true)
+		exec_cmd(c_struc[i], c_struc[i].read_fd, c_struc[i].write_fd, envp);
 }
 
+// TODO: execute builtin without forking it
 void	forking(t_cmd *cmds_struc, t_env *envp)
 {
 	int	i;

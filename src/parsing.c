@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/28 22:21:46 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/30 16:55:11 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 	expand = dequote_expand(read_line, envp);
 	if (!expand)
 		return (NULL);
+	// printf("line: %s\n", expand->expanded);
+	// printf("inquotes: %s\n", expand->inquotes);
 	cmds_splits = cmds_parse(expand->expanded, expand->inquotes);
 	//if (!cmds_splits)
 	cmds_struc = create_cmds_struc(cmds_splits, cmds_struc, envp);

@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/29 01:06:11 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/30 19:20:46 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ bool	check_builtin(t_cmd *command);
 t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *commands);
 
 // dequoter.c
-bool	dequoter(char line_char, t_quote *quote);
+bool	dequoter(char *line, t_quote *quote);
 int		*init_inquotes(int inquotes[]);
 
 // expander.c
@@ -106,7 +106,6 @@ void	isolate_redir_part(t_cmd *cmds_struc, int *inquotes);
 // freeing.c
 void	free_module(t_cmd *cmds_struc, char *read_line, char *prmpt_path);
 void	free_arr_of_arr(char **split);
-void	free_struct(t_cmd cmds_struc);
 void	free_structs(t_cmd *commands);
 void	free_expand(t_expnd *expand);
 void	free_on_exit(t_env **envp, char *prompt);
