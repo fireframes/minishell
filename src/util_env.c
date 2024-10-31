@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:34:56 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/16 23:25:25 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/31 23:02:13 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	**copy_env(char **envp)
 
 	if (envp == NULL)
 		return (NULL);
-	envp_new = malloc(sizeof(char **) * (get_env_count(envp) + 1));
+	envp_new = malloc(sizeof(char *) * (get_env_count(envp) + 1));
 	if (envp_new == NULL)
 		return (NULL);
 	i = 0;
@@ -37,7 +37,12 @@ char	**copy_env(char **envp)
 	{
 		envp_new[i] = ft_strdup(envp[i]);
 		if (envp_new[i] == NULL)
+		{
+			while (i-- > 0)
+				free(envp_new[i]);
+			free(envp_new);
 			return (NULL);
+		}
 		i++;
 	}
 	envp_new[i] = NULL;
@@ -49,6 +54,8 @@ size_t	get_env_len(char *str)
 	size_t	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i])
 	{
 		if (str[i] == '=' || str[i] == '$'

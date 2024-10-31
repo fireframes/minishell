@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:21:21 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/31 18:03:52 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/31 22:24:02 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,12 @@ static t_expnd	*expander(char *line, t_env *envp, t_quote *quote)
 			else if (line[i + 1] == '?')
 			{
 				expanded[j] = '\0';
-				j += mini_strcat(&expanded[j], ft_itoa(envp->exit_code));
+				char *last_exit_code = ft_itoa(envp->exit_code);
+				if (!last_exit_code)
+					return (0);
+				j += mini_strcat(&expanded[j], last_exit_code);
 				i += 2;
+				free(last_exit_code);
 				continue ;
 			}
 			else if (env_exists(&line[i + 1], *envp->env))
