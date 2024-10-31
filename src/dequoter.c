@@ -6,27 +6,16 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:50:36 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/30 19:35:39 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/10/31 11:30:00 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	dequoter(char *line, t_quote *quote)
+bool	dbl_quotes(char *line, t_quote *quote)
 {
-	if ((*line) == '\'' && !quote->sngl_quote && !quote->dbl_quote && ft_strchr(line + 1, '\''))
-	{
-		quote->sngl_quote = true;
-		quote->isquoted = true;
-		return (true);
-	}
-	else if (*line == '\'' && quote->sngl_quote && !quote->dbl_quote)
-	{
-		quote->sngl_quote = false;
-		quote->isquoted = false;
-		return (true);
-	}
-	else if ((*line) == '\"' && !quote->dbl_quote && !quote->sngl_quote && ft_strchr(line + 1, '\"'))
+	if ((*line) == '\"' && !quote->dbl_quote && !quote->sngl_quote
+		&& ft_strchr(line + 1, '\"'))
 	{
 		quote->dbl_quote = true;
 		quote->isquoted = true;
@@ -38,6 +27,26 @@ bool	dequoter(char *line, t_quote *quote)
 		quote->isquoted = false;
 		return (true);
 	}
+	return (false);
+}
+
+bool	dequoter(char *line, t_quote *quote)
+{
+	if ((*line) == '\'' && !quote->sngl_quote && !quote->dbl_quote
+		&& ft_strchr(line + 1, '\''))
+	{
+		quote->sngl_quote = true;
+		quote->isquoted = true;
+		return (true);
+	}
+	else if (*line == '\'' && quote->sngl_quote && !quote->dbl_quote)
+	{
+		quote->sngl_quote = false;
+		quote->isquoted = false;
+		return (true);
+	}
+	else if (dbl_quotes(line, quote))
+		return (true);
 	return (false);
 }
 
