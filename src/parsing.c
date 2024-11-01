@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/01 16:17:21 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:38:54 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	cmd_args_parse(t_cmd *cm, t_env *envp, int *inquotes)
 	while (cm != NULL && (i < cm->total_cmds))
 	{
 		cm[i].command_index = i;
-		cm[i].args = split_v3(cm->cmds_splits[i], ' ', &inquotes[inq_offset]);
+		cm[i].args = split_v2(cm->cmds_splits[i], ' ', &inquotes[inq_offset]);
 		inq_offset += ft_strlen(cm->cmds_splits[i]) + 1;
 		if (cm[i].redir_part)
 			inq_offset += ft_strlen(cm[i].redir_part);

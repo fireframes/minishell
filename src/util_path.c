@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/27 01:28:00 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:38:46 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	*get_correct_cmd_path(char *cmd, char **envp)
 	}
 	if (envp[i] != NULL)
 	{
-		all_existing_paths = split_v2(envp[i], ':');
+		all_existing_paths = split_v1(envp[i], ':');
 		working_path_if_one = find_path_or_err(all_existing_paths, cmd);
 		return (working_path_if_one);
 	}

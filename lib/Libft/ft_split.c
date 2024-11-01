@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:50:02 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/30 14:09:44 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:36:03 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,3 @@ char	**ft_split(char const *s, char c)
 	free(s_cpy);
 	return (split);
 }
-

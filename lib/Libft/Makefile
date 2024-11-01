@@ -8,11 +8,7 @@ SRCS = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c f
 		ft_strlen.c ft_strmapi.c ft_strcmp.c ft_strncmp.c ft_strnstr.c ft_strrchr.c \
 		ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c
 
-BSRCS = ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c ft_lstdelone.c \
-		ft_lstiter.c ft_lstlast.c ft_lstmap.c ft_lstnew.c ft_lstsize.c
-		
 OBJS = $(SRCS:.c=.o)
-BOBJS = $(BSRCS:.c=.o)
 LIBFT_H = ../../include/libft.h
 NAME = libft.a
 
@@ -21,14 +17,14 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	ar rcs $@ $^
 
-bonus: $(OBJS) $(BOBJS)
+bonus: $(OBJS)
 	ar rcs $(NAME) $?
 
 %.o: %.c $(LIBFT_H)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) $(BOBJS)
+	rm -f $(OBJS)
 
 fclean: clean
 	rm -f $(NAME)

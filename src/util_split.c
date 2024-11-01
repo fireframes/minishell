@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/01 12:57:41 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:38:46 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	fr_str_arr_n_subs(char ***ptr_to_arr_of_str, size_t strs_filled)
 	*ptr_to_arr_of_str = NULL;
 }
 
-char	**split_v2(char const *s, char c)
+char	**split_v1(char const *s, char c)
 {
 	char	**arr_of_str;
 	size_t	index;
