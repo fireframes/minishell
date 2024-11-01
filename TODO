@@ -73,3 +73,24 @@ can be added to checker module for ft_cd
 // 	// return (false);
 // 	return (true);
 // }
+
+// UPDATE PWD ENV VAR AFTER CD
+/*
+char	curpath[PATH_MAX + 1];
+
+	if (getcwd(curpath, sizeof(curpath)) == NULL)
+	{
+		perror("pwd: getcwd() error");
+		return (1);
+	}
+	char *new_pwd = ft_strjoin("PWD=", curpath);
+	printf("NEW: new_pwd: %s\n", new_pwd);
+	char **env_ptr = env_exists("PWD", envp);
+	printf("ENVP: %s\n", *env_ptr);
+	if (env_ptr != NULL && ft_strchr("PWD", '='))
+		update_envp(new_pwd, env_ptr);
+	else if (!env_ptr)
+		add_env(new_pwd, envp);
+	free(new_pwd);
+	return (0);
+*/

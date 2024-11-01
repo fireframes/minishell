@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:21:21 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/31 22:24:02 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/01 15:35:11 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,13 @@ bool	non_expandable_env(char *line, int *index, t_env *envp)
 {
 	int	offset;
 
+	if (!line || !index || !envp || !envp->env)
+		return (false);
 	offset = 0;
 	if (!env_exists(&line[*index + 1], *envp->env))
 	{
-		if (ft_strchr(&line[*index], ' '))
-			offset = ft_strchr(&line[*index], ' ') - line;
+		if (ft_strchr(&line[*index + 1], ' '))
+			offset = ft_strchr(&line[*index + 1], ' ') - line;
 		else if (ft_strchr(&line[*index + 1], '|'))
 			offset = ft_strchr(&line[*index + 1], '|') - line;
 		else if (ft_strchr(&line[*index + 1], '<'))
@@ -128,8 +130,6 @@ static t_expnd	*expander(char *line, t_env *envp, t_quote *quote)
 		i++;
 		j++;
 	}
-	// if (quote->isquoted)
-	// 	ft_memset(inqoutes, 0, PATH_MAX);
 	expanded[j] = '\0';
 	inqoutes[j] = -1;
 	return (alloc_expand(expanded, inqoutes));
