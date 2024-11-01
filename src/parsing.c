@@ -47,7 +47,7 @@ static void	cmd_args_parse(t_cmd *cmds_struc, t_env *envp, int *inquotes)//, int
 
 	i = 0;
 	inq_offset = 0;
-	while (i < cmds_struc->total_cmds)
+	while (cmds_struc != NULL && (i < cmds_struc->total_cmds))
 	{
 		cmds_struc[i].command_index = i;
 		cmds_struc[i].args = split_v3(cmds_struc->cmds_splits[i], ' ', &inquotes[inq_offset]);
@@ -86,7 +86,7 @@ static void	count_args(t_cmd *cmds_struc)
 	int	j;
 
 	i = 0;
-	while (i < cmds_struc->total_cmds)
+	while (cmds_struc != NULL && (i < cmds_struc->total_cmds))
 	{
 		if (cmds_struc[i].args != NULL)
 		{
@@ -116,13 +116,10 @@ t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 	if (!expand)
 		return (NULL);
 	cmds_splits = cmds_parse(expand->expanded, expand->inquotes);
-	//if (!cmds_splits)
 	cmds_struc = create_cmds_struc(cmds_splits, cmds_struc, envp);
-	//if (!cmds_struc)
 	redir_offset = redir_parsing_module(cmds_struc, envp, expand->inquotes);
 	(void) redir_offset;
-	// printf("redir_offset: %d\n", redir_offset);
-	cmd_args_parse(cmds_struc, envp, expand->inquotes);//, redir_offset);
+	cmd_args_parse(cmds_struc, envp, expand->inquotes);
 	count_args(cmds_struc);
 	free_expand(expand);
 	return (cmds_struc);

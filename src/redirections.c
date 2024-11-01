@@ -102,7 +102,7 @@ int	redir_parsing_module(t_cmd *cmds_struc, t_env *envp, int *inquotes)
 	i = 0;
 	redir_offset = 0;
 	isolate_redir_part(cmds_struc, inquotes);
-	while (i < cmds_struc->total_cmds)
+	while (cmds_struc != NULL && (i < cmds_struc->total_cmds))
 	{
 		if (is_syntax_err(cmds_struc, i) == true)
 		{

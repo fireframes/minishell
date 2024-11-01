@@ -35,17 +35,17 @@ void	init_cmds_struc(t_cmd *cmd_struc, int index)
 	cmd_struc[index].env = NULL;
 }
 
-// QUESTION: protection needed after split call (if (!prompt_split)...)?
 t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc, t_env *env)
 {
 	int	cmd_count;
 	int	i;
 
 	cmd_count = 0;
-	while (cmds_splits[cmd_count])
+	while (cmds_splits != NULL && cmds_splits[cmd_count])
 		cmd_count++;
-	cmds_struc = malloc(sizeof(t_cmd) * cmd_count);
-	if (!cmds_struc)
+	if (cmds_splits != NULL)
+		cmds_struc = malloc(sizeof(t_cmd) * cmd_count);
+	if (!cmds_struc || cmds_splits == NULL)
 		free_arr_of_arr(cmds_splits);
 	i = 0;
 	while (i < cmd_count)

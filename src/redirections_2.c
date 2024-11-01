@@ -120,7 +120,7 @@ void	isolate_redir_part(t_cmd *cmds_struc, int *inquotes)
 
 	i = 0;
 	offset = 0;
-	while (i < cmds_struc->total_cmds)
+	while (cmds_struc != NULL && i < cmds_struc->total_cmds)
 	{
 		first_redir_found = NULL;
 		if (find_redir(cmds_struc[i].cmds_splits[i], &inquotes[offset]) == 1)
