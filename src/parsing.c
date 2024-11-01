@@ -12,61 +12,51 @@
 
 #include "minishell.h"
 
-// move inquotes init to a normal place
-static char	**cmds_parse(char *read_line, int *inquotes)
-{
-	char	**cmds_splits;
-
-	cmds_splits = NULL;
-	cmds_splits = split_v3(read_line, '|', inquotes);
-	if (!cmds_splits)
-		return (NULL);
-	return (cmds_splits);
-}
-
 static void	check_for_minishell_call(t_cmd *cmd_struc, char *arg, int i)
 {
 	if (ft_strnstr(arg, "/minishell", ft_strlen(arg)) != NULL)
 		cmd_struc[i].minishell_call = true;
 }
 
-
-static void	cmd_args_parse(t_cmd *cmds_struc, t_env *envp, int *inquotes)
+static void	deal_with_path(t_cmd *cm, t_env *envp, int i)
 {
-	int	i;
+	cm[i].cmd_path = find_cmd_path(cm[i].args[0], envp->env[envp->real_shlvl]);
+	if (!cm[i].cmd_path)
+	{
+		ft_putstr_fd(cm[i].args[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		cm[i].path_found = false;
+	}
+	else
+	{
+		cm[i].path_found = true;
+		check_for_minishell_call(cm, cm[i].args[0], i);
+	}
+}
+
+static void	cmd_args_parse(t_cmd *cm, t_env *envp, int *inquotes)
+{
+	int		i;
 	size_t	inq_offset;
 
 	i = 0;
 	inq_offset = 0;
-	while (cmds_struc != NULL && (i < cmds_struc->total_cmds))
+	while (cm != NULL && (i < cm->total_cmds))
 	{
-		cmds_struc[i].command_index = i;
-		cmds_struc[i].args = split_v3(cmds_struc->cmds_splits[i], ' ', &inquotes[inq_offset]);
-		inq_offset += ft_strlen(cmds_struc->cmds_splits[i]) + 1;
-		if (cmds_struc[i].redir_part)
-			inq_offset += ft_strlen(cmds_struc[i].redir_part);
-		if (cmds_struc[i].redir_syntax_err == true || cmds_struc[i].args == NULL)
+		cm[i].command_index = i;
+		cm[i].args = split_v3(cm->cmds_splits[i], ' ', &inquotes[inq_offset]);
+		inq_offset += ft_strlen(cm->cmds_splits[i]) + 1;
+		if (cm[i].redir_part)
+			inq_offset += ft_strlen(cm[i].redir_part);
+		if (cm[i].redir_syntax_err == true || cm[i].args == NULL)
 		{
 			i++;
 			continue ;
 		}
-		else if (check_builtin(&cmds_struc[i]))
-			cmds_struc[i].is_builtin = true;
+		else if (check_builtin(&cm[i]))
+			cm[i].is_builtin = true;
 		else
-		{
-			cmds_struc[i].cmd_path = find_cmd_path(cmds_struc[i].args[0], envp->env[envp->real_shlvl]);
-			if (!cmds_struc[i].cmd_path)
-			{
-				ft_putstr_fd(cmds_struc[i].args[0], 2);
-				ft_putstr_fd(": command not found\n", 2);
-				cmds_struc[i].path_found = false;
-			}
-			else
-			{
-				cmds_struc[i].path_found = true;
-				check_for_minishell_call(cmds_struc, cmds_struc[i].args[0], i);
-			}
-		}
+			deal_with_path(cm, envp, i);
 		i++;
 	}
 }
@@ -90,10 +80,6 @@ static void	count_args(t_cmd *cmds_struc)
 	}
 }
 
-// PROBLEM: for input like: "$EMPTY" must do nothing with exit code 0
-// LACKS ERROR CHECKS
-// PROBLEM: SEGFAULT WHEN INPUTTING only "" or """ in the prompt (in that
-//	case cmd_struc is still NULL / empty)
 t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 {
 	char		**cmds_splits;
@@ -112,7 +98,6 @@ t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *cmds_struc)
 		return (NULL);
 	}
 	cmds_struc = create_cmds_struc(cmds_splits, cmds_struc, envp);
-	//if (!cmds_struc)
 	redir_parsing_module(cmds_struc, envp, expand->inquotes);
 	cmd_args_parse(cmds_struc, envp, expand->inquotes);
 	count_args(cmds_struc);

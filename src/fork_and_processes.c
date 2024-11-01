@@ -26,28 +26,28 @@ static void	duplicate_and_close(int file_descriptor, int in_or_out)
 	close(file_descriptor);
 }
 
-void	exec_cmd(t_cmd cmds_struc, int read_fd, int write_fd, t_env *envp)
+void	exec_cmd(t_cmd cmd, int read_fd, int write_fd, t_env *envp)
 {
-	if (cmds_struc.last_fd_in > 0)
-		duplicate_and_close(cmds_struc.last_fd_in, STDIN_FILENO);
+	if (cmd.last_fd_in > 0)
+		duplicate_and_close(cmd.last_fd_in, STDIN_FILENO);
 	else if (read_fd != STDIN_FILENO)
 		duplicate_and_close(read_fd, STDIN_FILENO);
-	if (cmds_struc.last_fd_out > 0)
-		duplicate_and_close(cmds_struc.last_fd_out, STDOUT_FILENO);
+	if (cmd.last_fd_out > 0)
+		duplicate_and_close(cmd.last_fd_out, STDOUT_FILENO);
 	else if (write_fd != STDOUT_FILENO)
 		duplicate_and_close(write_fd, STDOUT_FILENO);
-	if (cmds_struc.is_builtin)
+	if (cmd.is_builtin)
 	{
-		execute_builtin(&cmds_struc, envp);
+		execute_builtin(&cmd, envp);
 		exit(EXIT_SUCCESS);
 	}
-	else if (cmds_struc.path_found == false && access(cmds_struc.args[0], F_OK) == 0)
+	else if (cmd.path_found == false && access(cmd.args[0], F_OK) == 0)
 		exit(126);
-	else if (cmds_struc.path_found == false && cmds_struc.is_builtin == false)
+	else if (cmd.path_found == false && cmd.is_builtin == false)
 		exit(127);
 	else
 	{
-		execve(cmds_struc.cmd_path, cmds_struc.args, envp->env[0]);
+		execve(cmd.cmd_path, cmd.args, envp->env[0]);
 		perror("execve");
 	}
 }
@@ -101,8 +101,7 @@ void	child_process(t_cmd *c_struc, int i, t_env *envp)
 			close(c_struc->pipes[j][1]);
 		j++;
 	}
-	// if (c_struc[i].path_found == true || c_struc[i].is_builtin == true)
-		exec_cmd(c_struc[i], c_struc[i].read_fd, c_struc[i].write_fd, envp);
+	exec_cmd(c_struc[i], c_struc[i].read_fd, c_struc[i].write_fd, envp);
 }
 
 // TODO: execute builtin without forking it

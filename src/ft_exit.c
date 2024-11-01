@@ -51,20 +51,20 @@ static int	check_error(t_cmd *cmd)
 }
 
 static int	error_module(int exit_code, t_cmd *cmd)
+{
+	exit_code = get_2nd_arg(cmd);
+	if (check_error(cmd) == 1)
 	{
-		exit_code = get_2nd_arg(cmd);
-		if (check_error(cmd) == 1)
-		{
-			ft_putstr_fd("minishell : too many arguments\n", 2);
-			exit_code = 1;
-		}
-		if (check_error(cmd) == 2)
-		{
-			ft_putstr_fd("minishell: numeric argument required\n", 2);
-			exit_code = 2;
-		}
-		return (exit_code);
+		ft_putstr_fd("minishell : too many arguments\n", 2);
+		exit_code = 1;
 	}
+	if (check_error(cmd) == 2)
+	{
+		ft_putstr_fd("minishell: numeric argument required\n", 2);
+		exit_code = 2;
+	}
+	return (exit_code);
+}
 
 // TODO: implement the value that can be passed as parameters (exit code)
 // TODO: finish behavior when not on the lower SLVL value

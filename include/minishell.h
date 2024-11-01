@@ -15,6 +15,7 @@
 
 # define MAX_SHLVL 999
 
+# include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
 # include "linux/limits.h"
@@ -88,6 +89,9 @@ bool	check_builtin(t_cmd *command);
 // parsing.c
 t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *commands);
 
+// parsing_2.c
+char	**cmds_parse(char *read_line, int *inquotes);
+
 // dequoter.c
 bool	dequoter(char *line, t_quote *quote);
 int		*init_inquotes(int inquotes[]);
@@ -99,8 +103,10 @@ t_expnd	*dequote_expand(char *read_line, t_env *envp);
 void	redir_parsing_module(t_cmd *cmds_struc, t_env *envp, int *inquotes);
 
 // redirections_2.c
-void	alloc_redir_arr(t_cmd *cmds_struc, int i);
 void	isolate_redir_part(t_cmd *cmds_struc, int *inquotes);
+
+// redirections_3.c
+void	alloc_redir_arr(t_cmd *cmds_struc, int i);
 
 // freeing.c
 void	free_module(t_cmd *cmds_struc, char *read_line, char *prmpt_path);
@@ -178,5 +184,10 @@ void	execute_builtin(t_cmd *cmd, t_env *envp);
 // signals.c
 void	setup_main_signals(void);
 void	setup_child_signals(void);
+
+// util_first_checks.c
+char	*get_curr_dir(void);
+void	check_args(int argc, char **argv);
+int		has_only_sp_or_tab_chars(char *read_line, char *prompt);
 
 #endif
