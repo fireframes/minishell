@@ -3,3 +3,5 @@
 .vscode
 minishell_tester
 lib/Libft/libft.a
+temp
+minishell

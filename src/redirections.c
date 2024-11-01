@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/31 15:13:56 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/01 13:10:50 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,11 @@ static bool	is_syntax_err(t_cmd *c, int i)
 	return (false);
 }
 
-int	redir_parsing_module(t_cmd *cmds_struc, t_env *envp, int *inquotes)
+void	redir_parsing_module(t_cmd *cmds_struc, t_env *envp, int *inquotes)
 {
 	int	i;
-	int	redir_offset;
 
 	i = 0;
-	redir_offset = 0;
 	isolate_redir_part(cmds_struc, inquotes);
 	while (cmds_struc != NULL && (i < cmds_struc->total_cmds))
 	{
@@ -116,5 +114,4 @@ int	redir_parsing_module(t_cmd *cmds_struc, t_env *envp, int *inquotes)
 		}
 		i++;
 	}
-	return (redir_offset);
 }
