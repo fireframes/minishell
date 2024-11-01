@@ -92,6 +92,7 @@ int	ft_exit(t_cmd *cmd, t_env *envp, char *read_line, char *prompt)
 	}
 	else
 	{
+		free_arr_of_arr(envp->env[envp->real_shlvl]);
 		envp->env[envp->real_shlvl] = NULL;
 		envp->real_shlvl--;
 	}
