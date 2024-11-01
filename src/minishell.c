@@ -6,19 +6,18 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 22:16:31 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/29 01:06:11 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:22:29 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-volatile sig_atomic_t g_in_child = 0;
 
 void	main_module(t_env *envp, char *read_line, char *prompt_with_path)
 {
 	t_cmd	*cmds_struc;
 
 	cmds_struc = NULL;
+	setup_child_signals();
 	add_history(read_line);
 	cmds_struc = parsing_module(envp, read_line, cmds_struc);
 	if (cmds_struc)
@@ -71,13 +70,13 @@ int	main(int argc, char **argv, char **envp)
 	char	*prompt;
 	t_env	*env;
 
-	setup_main_signals();
 	read_line = NULL;
 	prompt = NULL;
 	check_args(argc, argv);
 	env = init_env_struc_and_shlvl(envp);
 	while (1)
 	{
+		setup_main_signals();
 		prompt = get_curr_dir();
 		read_line = readline(prompt);
 		if (!read_line)

@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/29 01:06:11 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:22:21 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,6 @@ void	parent_process(t_cmd *cmds_struc, t_env *envp)
 		if (i == cmds_struc->total_cmds)
 			envp->exit_code = WEXITSTATUS(child_status_info);
 	}
-	if (WIFSIGNALED(child_status_info)
-		&& WTERMSIG(child_status_info) == SIGQUIT)
-		write(STDOUT_FILENO, "Quit\n", 6);
-	g_in_child = 0;
 	unlink(" ");
 }
 
@@ -111,7 +107,7 @@ void	forking(t_cmd *cmds_struc, t_env *envp)
 	int	i;
 
 	i = 0;
-	g_in_child = 1;
+	// g_in_child = 1;
 	while (i < cmds_struc->total_cmds)
 	{
 		if (cmds_struc[i].minishell_call != true)
@@ -124,7 +120,6 @@ void	forking(t_cmd *cmds_struc, t_env *envp)
 			}
 			else if (cmds_struc[i].pid == 0)
 			{
-				setup_child_signals();
 				child_process(cmds_struc, i, envp);
 			}
 		}

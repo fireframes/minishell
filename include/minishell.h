@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/01 13:11:03 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:22:02 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@
 # include <unistd.h>
 
 # include "libft.h"
-
-extern volatile sig_atomic_t g_in_child;
 
 typedef struct s_env
 {
