@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:21:21 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/14 22:43:38 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/15 00:34:55 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,18 @@ static t_expnd	*alloc_expand(char expanded[], int inquotes[])
 int	is_expandable_env(char *line_ptr, t_env *envp, char *expanded, int *j)
 {
 	char	*env_value;
+	char	*env_entry;
 
 	env_value = NULL;
 	*expanded = '\0';
-	env_value = ft_strchr(*env_exists(line_ptr, *envp->env), '=');
+	env_entry = *env_exists(line_ptr, *envp->env);
+	if (!env_entry)
+		return (0);
+	env_value = ft_strchr(env_entry, '=');
+	if (!env_value)
+		return (0);
 	*j += mini_strcat(expanded, ++env_value);
-	return (env_value - *env_exists(line_ptr, *envp->env));
+	return (env_value - env_entry);
 }
 
 bool non_expandable_env(char *line, int *index, t_env *envp)
