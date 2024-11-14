@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/01 20:40:16 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:46:54 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	execute_builtin(t_cmd *cmd, t_env *envp)
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
 		*exit_code = ft_env(cmd, envp->env[envp->real_shlvl]);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0 && cmd->total_cmds == 1)
-		*exit_code = ft_exit(cmd, envp, NULL, NULL);
+		*exit_code = ft_exit(cmd, envp, NULL);
 	else if (ft_strcmp(cmd->args[0], "echo") == 0)
 		*exit_code = ft_echo(cmd);
 	return ;

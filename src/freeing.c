@@ -6,19 +6,16 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/25 22:20:49 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:36:57 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// QUESTION: since we are not mallocing read_line, should we free it?
-// ANSWER: readline() function is doing that for us actually
-void	free_module(t_cmd *cmds_struc, char *read_line, char *prmpt_path)
+void	free_module(t_cmd *cmds_struc, char *read_line)
 {
 	if (cmds_struc)
 		free_structs(cmds_struc);
-	free(prmpt_path);
 	free(read_line);
 }
 
@@ -70,13 +67,11 @@ void	free_expand(t_expnd *expand)
 	free(expand);
 }
 
-void	free_on_exit(t_env **envp, char *prompt)
+void	free_on_exit(t_env **envp)
 {
 	free_arr_of_arr((*envp)->env[(*envp)->real_shlvl]);
 	free((*envp)->env);
 	(*envp)->env = NULL;
 	free(*envp);
 	*envp = NULL;
-	if (prompt)
-		free(prompt);
 }

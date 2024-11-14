@@ -55,8 +55,8 @@ $(LIBFT):
 
 $(NAME): $(OBJS) $(LIBS)
 	@$(CC) $(OBJS) $(LIBS) $(LDFLAGS) -o $(NAME)
-	@echo "Linking object files to create $(NAME)..."
-	@echo "\n'$(NAME)' binary successfully created."
+	@echo "Linking object files to create $(NAME)...\n"
+	@echo "'$(NAME)' executable successfully created"
 
 clean:
 	@echo "Cleaning object files..."
