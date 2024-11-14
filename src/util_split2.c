@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/01 20:49:26 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/14 21:34:11 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,6 @@ static size_t	splits_count(char const *str, char delim, int *inquotes)
 	}
 	return (splits);
 }
-
-// static size_t	cnt_wrd_len(const char *s, char c, int *inquotes, size_t start)
-// {
-// 	size_t	sub_len;
-// 	size_t	i;
-
-// 	sub_len = 0;
-// 	i = start;
-// 	while (s[i] && (s[i] != c || inquotes[i]))
-// 	{
-// 		sub_len++;
-// 		i++;
-// 	}
-// 	return (sub_len);
-// }
 
 static int	pop_arr(char **split, const char *s, char c, int *inquotes)
 {

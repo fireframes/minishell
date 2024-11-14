@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/31 14:39:37 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/14 21:14:06 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,23 @@ void	alloc_redir_arr(t_cmd *c, int i)
 		j++;
 	}
 	c[i].redirs[j] = NULL;
+}
+
+int	handle_builtin_redirections(t_cmd *cmd)
+{
+	int	original_stdout;
+	int	original_stdin;
+
+	original_stdout = dup(STDOUT_FILENO);
+	original_stdin = dup(STDIN_FILENO);
+	if (cmd && cmd->redirs)
+	{
+		if (apply_redirections(cmd->redirs) < 0)
+		{
+			close(original_stdout);
+			close(original_stdin);
+			return (1);
+		}
+	}
+	return (0);
 }

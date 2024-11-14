@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/14 15:34:38 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/14 22:47:29 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,14 @@ t_cmd	*parsing_module(t_env *envp, char *read_line, t_cmd *commands);
 char	**cmds_parse(char *read_line, int *inquotes);
 
 // dequoter.c
+t_expnd	*dequote_expand(char *read_line, t_env *envp);
 bool	dequoter(char *line, t_quote *quote);
 int		*init_inquotes(int inquotes[]);
 
 // expander.c
-t_expnd	*dequote_expand(char *read_line, t_env *envp);
+t_expnd	*expander(char *line, t_env *envp, t_quote *quote);
+bool	non_expandable_env(char *line, int *index, t_env *envp);
+int		is_expandable_env(char *line_ptr, t_env *envp, char *expanded, int *j);
 
 // redirections.c
 void	redir_parsing_module(t_cmd *cmds_struc, t_env *envp, int *inquotes);
@@ -105,6 +108,7 @@ void	isolate_redir_part(t_cmd *cmds_struc, int *inquotes);
 
 // redirections_3.c
 void	alloc_redir_arr(t_cmd *cmds_struc, int i);
+int		handle_builtin_redirections(t_cmd *cmd);
 
 // freeing.c
 void	free_module(t_cmd *cmds_struc, char *read_line);
@@ -112,6 +116,7 @@ void	free_arr_of_arr(char **split);
 void	free_structs(t_cmd *commands);
 void	free_expand(t_expnd *expand);
 void	free_on_exit(t_env **envp);
+
 // fork_and_processes.c
 void	exec_cmd(t_cmd cmd, int read_fd, int write_fd, t_env *envp);
 void	parent_process(t_cmd *commands, t_env *envp);
@@ -177,6 +182,7 @@ int		ft_exit(t_cmd *cmd, t_env *envp, char *read_line);
 // execution.c
 void	execution_module(t_cmd *commands, t_env *envp);
 void	execute_builtin(t_cmd *cmd, t_env *envp);
+int		apply_redirections(char **redirs);
 
 // signals.c
 void	setup_main_signals(void);
