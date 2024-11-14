@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:21:21 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/14 17:09:39 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/14 19:14:37 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,29 +55,21 @@ bool non_expandable_env(char *line, int *index, t_env *envp)
 
 	if (!line || !index || !envp || !envp->env)
 		return (false);
-	
 	len = ft_strlen(line);
 	if (*index < 0 || (size_t)*index >= len - 1)
 		return (false);
-
 	if (!env_exists(&line[*index + 1], *envp->env))
 	{
-		// Start from the character after '$'
 		char *start = &line[*index + 1];
 		char *end = start;
-		
-		// Find the end of the current token
 		while (*end && !ft_strchr(" |<>", *end))
 		{
 			if ((size_t)(end - line) >= len - 1)
 				break;
 			end++;
 		}
-		
 		offset = end - start;
 		*index += offset;
-		// Return true to indicate this is an undefined variable
-		// The caller will handle adding the space
 		return (true);
 	}
 	return (false);
@@ -133,8 +125,7 @@ static t_expnd	*expander(char *line, t_env *envp, t_quote *quote)
 			}
 			else
 			{
-				// Skip the undefined variable name without adding anything to expanded
-				i++; // Skip the '$'
+				i++;
 				while (line[i] && !ft_strchr(" |<>\"'$", line[i]))
 					i++;
 				continue;

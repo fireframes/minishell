@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/14 15:46:54 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/14 19:16:11 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	execution_module(t_cmd *cmds_struc, t_env *envp)
 }
 
 // TODO: error check to be added in the loops
-// TODO: this function is more than 25 lines and it messes with norm
 // IMPORTANT FOR MAXIM: please check if what is sent to ft_env (which should
 //	be the same as before switching to the struc_env instead of char ***envp)
 //	still make sense (and is up to date with the last existing copy of env)
