@@ -6,49 +6,11 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:50:36 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/14 22:48:17 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/15 00:17:53 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-bool	dbl_quotes(char *line, t_quote *quote)
-{
-	if ((*line) == '\"' && !quote->dbl_quote && !quote->sngl_quote
-		&& ft_strchr(line + 1, '\"'))
-	{
-		quote->dbl_quote = true;
-		quote->isquoted = true;
-		return (true);
-	}
-	else if ((*line) == '\"' && quote->dbl_quote && !quote->sngl_quote)
-	{
-		quote->dbl_quote = false;
-		quote->isquoted = false;
-		return (true);
-	}
-	return (false);
-}
-
-bool	dequoter(char *line, t_quote *quote)
-{
-	if ((*line) == '\'' && !quote->sngl_quote && !quote->dbl_quote
-		&& ft_strchr(line + 1, '\''))
-	{
-		quote->sngl_quote = true;
-		quote->isquoted = true;
-		return (true);
-	}
-	else if (*line == '\'' && quote->sngl_quote && !quote->dbl_quote)
-	{
-		quote->sngl_quote = false;
-		quote->isquoted = false;
-		return (true);
-	}
-	else if (dbl_quotes(line, quote))
-		return (true);
-	return (false);
-}
 
 int	*init_inquotes(int inquotes[])
 {
@@ -69,6 +31,53 @@ int	*init_inquotes(int inquotes[])
 	}
 	inq_arr[i] = -1;
 	return (inq_arr);
+}
+
+static bool	dbl_quotes(char *line, t_quote *quote)
+{
+	if ((*line) == '\"' && !quote->dbl_quote && !quote->sngl_quote
+		&& ft_strchr(line + 1, '\"'))
+	{
+		quote->dbl_quote = true;
+		quote->isquoted = true;
+		return (true);
+	}
+	else if ((*line) == '\"' && quote->dbl_quote && !quote->sngl_quote)
+	{
+		quote->dbl_quote = false;
+		quote->isquoted = false;
+		return (true);
+	}
+	return (false);
+}
+
+static bool	dequoter(char *line, t_quote *quote)
+{
+	if ((*line) == '\'' && !quote->sngl_quote && !quote->dbl_quote
+		&& ft_strchr(line + 1, '\''))
+	{
+		quote->sngl_quote = true;
+		quote->isquoted = true;
+		return (true);
+	}
+	else if (*line == '\'' && quote->sngl_quote && !quote->dbl_quote)
+	{
+		quote->sngl_quote = false;
+		quote->isquoted = false;
+		return (true);
+	}
+	else if (dbl_quotes(line, quote))
+		return (true);
+	return (false);
+}
+
+int	is_inquotes(char *line, t_quote *quote, int *inqoutes, int *j)
+{
+	if (dequoter(line, quote))
+		return (1);
+	if (quote->isquoted)
+		inqoutes[*j] = 1;
+	return (0);
 }
 
 t_expnd	*dequote_expand(char *read_line, t_env *envp)

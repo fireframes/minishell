@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/14 22:47:29 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/14 23:49:45 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,11 @@ char	**cmds_parse(char *read_line, int *inquotes);
 
 // dequoter.c
 t_expnd	*dequote_expand(char *read_line, t_env *envp);
-bool	dequoter(char *line, t_quote *quote);
+int		is_inquotes(char *line, t_quote *quote, int *inqoutes, int *j);
 int		*init_inquotes(int inquotes[]);
 
 // expander.c
 t_expnd	*expander(char *line, t_env *envp, t_quote *quote);
-bool	non_expandable_env(char *line, int *index, t_env *envp);
-int		is_expandable_env(char *line_ptr, t_env *envp, char *expanded, int *j);
 
 // redirections.c
 void	redir_parsing_module(t_cmd *cmds_struc, t_env *envp, int *inquotes);
@@ -138,6 +136,9 @@ int		get_env_count(char **envp);
 size_t	get_env_len(char *str);
 char	**env_exists(char *arg, char **envp);
 bool	isvalid_arg(char *arg);
+
+// util_expand.c
+int		handle_dollar(char *line, int i, char *expanded, int *j, t_env *envp);
 
 // util_export.c
 void	bubble_sort(char **arr, int count);
