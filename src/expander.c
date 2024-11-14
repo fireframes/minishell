@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:21:21 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/14 19:14:37 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/14 22:43:38 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ bool non_expandable_env(char *line, int *index, t_env *envp)
 
 // PROBLEM: line can be any size.
 //			need to allocate instead of using fixed-size?
-static t_expnd	*expander(char *line, t_env *envp, t_quote *quote)
+t_expnd	*expander(char *line, t_env *envp, t_quote *quote)
 {
 	char	expanded[PATH_MAX];
 	int		inqoutes[PATH_MAX];
@@ -139,30 +139,4 @@ static t_expnd	*expander(char *line, t_env *envp, t_quote *quote)
 	expanded[j] = '\0';
 	inqoutes[j] = -1;
 	return (alloc_expand(expanded, inqoutes));
-}
-
-t_expnd	*dequote_expand(char *read_line, t_env *envp)
-{
-	t_expnd	*expanded_line;
-	t_quote	quote;
-
-	if (!read_line || !envp)
-		return (NULL);
-	if (ft_strlen(read_line) > PATH_MAX)
-	{
-		ft_putstr_fd(": input is too long\n", 2);
-		return (NULL);
-	}
-	quote.sngl_quote = false;
-	quote.dbl_quote = false;
-	quote.isquoted = false;
-	expanded_line = expander(read_line, envp, &quote);
-	if (!expanded_line || !expanded_line->expanded ||
-		expanded_line->expanded[0] == '\0')
-	{
-		if (expanded_line)
-			free_expand(expanded_line);
-		return (NULL);
-	}
-	return (expanded_line);
 }
