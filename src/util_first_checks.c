@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util_env.c                                         :+:      :+:    :+:   */
+/*   util_first_checks.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:34:56 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/01 13:15:08 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:36:19 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 
 char	*get_curr_dir(void)
 {
-	static char	curr_dir[PATH_MAX + 1];
-	char		*full_prompt;
+	char	*pwd;
+	char	*curr_dir;
 
-	full_prompt = strjoin_v2(getcwd(curr_dir, sizeof(curr_dir)), "$ ");
-	return (full_prompt);
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (NULL);
+	curr_dir = strjoin_v2(pwd, "$ ");
+	free(pwd);
+	return (curr_dir);
 }
 
 void	check_args(int argc, char **argv)
@@ -31,7 +35,7 @@ void	check_args(int argc, char **argv)
 	}
 }
 
-int	has_only_sp_or_tab_chars(char *read_line, char *prompt)
+int	has_only_sp_or_tab_chars(char *read_line)
 {
 	int	i;
 
@@ -44,7 +48,6 @@ int	has_only_sp_or_tab_chars(char *read_line, char *prompt)
 			return (0);
 		i++;
 	}
-	free(prompt);
 	free(read_line);
 	return (1);
 }

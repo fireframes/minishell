@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/25 22:19:47 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:37:12 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	error_module(int exit_code, t_cmd *cmd)
 // TODO IMPORTANT: when you there is an error code and you exit totally
 //	minishell the exit status displayed in bash should be the error code and
 //	not the success of the exit command!
-int	ft_exit(t_cmd *cmd, t_env *envp, char *read_line, char *prompt)
+int	ft_exit(t_cmd *cmd, t_env *envp, char *read_line)
 {
 	int	exit_code;
 
@@ -86,8 +86,8 @@ int	ft_exit(t_cmd *cmd, t_env *envp, char *read_line, char *prompt)
 		exit_code = error_module(exit_code, cmd);
 	if (envp->real_shlvl == 0)
 	{
-		free_on_exit(&envp, NULL);
-		free_module(cmd, read_line, prompt);
+		free_on_exit(&envp);
+		free_module(cmd, read_line);
 		exit(exit_code);
 	}
 	else

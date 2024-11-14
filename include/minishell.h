@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/01 20:38:54 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:34:38 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,11 @@ void	isolate_redir_part(t_cmd *cmds_struc, int *inquotes);
 void	alloc_redir_arr(t_cmd *cmds_struc, int i);
 
 // freeing.c
-void	free_module(t_cmd *cmds_struc, char *read_line, char *prmpt_path);
+void	free_module(t_cmd *cmds_struc, char *read_line);
 void	free_arr_of_arr(char **split);
 void	free_structs(t_cmd *commands);
 void	free_expand(t_expnd *expand);
-void	free_on_exit(t_env **envp, char *prompt);
-
+void	free_on_exit(t_env **envp);
 // fork_and_processes.c
 void	exec_cmd(t_cmd cmd, int read_fd, int write_fd, t_env *envp);
 void	parent_process(t_cmd *commands, t_env *envp);
@@ -173,7 +172,7 @@ int		ft_export(t_cmd *cmd, t_env *envp);
 int		add_env(char *arg, t_env *envp);
 int		ft_unset(t_cmd *cmd, t_env *envp);
 int		ft_env(t_cmd *cmd, char **envp);
-int		ft_exit(t_cmd *cmd, t_env *envp, char *read_line, char *prompt);
+int		ft_exit(t_cmd *cmd, t_env *envp, char *read_line);
 
 // execution.c
 void	execution_module(t_cmd *commands, t_env *envp);
@@ -186,6 +185,6 @@ void	setup_child_signals(void);
 // util_first_checks.c
 char	*get_curr_dir(void);
 void	check_args(int argc, char **argv);
-int		has_only_sp_or_tab_chars(char *read_line, char *prompt);
+int		has_only_sp_or_tab_chars(char *read_line);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/01 20:29:04 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:04:59 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static void	duplicate_and_close(int file_descriptor, int in_or_out)
 
 void	exec_cmd(t_cmd cmd, int read_fd, int write_fd, t_env *envp)
 {
+	if (!cmd.args || !cmd.args[0])
+		exit(127);
 	if (cmd.last_fd_in > 0)
 		duplicate_and_close(cmd.last_fd_in, STDIN_FILENO);
 	else if (read_fd != STDIN_FILENO)

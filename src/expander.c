@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:21:21 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/01 15:35:11 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/14 17:09:39 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static t_expnd	*alloc_expand(char expanded[], int inquotes[])
 {
 	t_expnd		*expand;
 
+	if (!expanded || expanded[0] == '\0')
+		return (NULL);
 	expand = malloc(sizeof(t_expnd));
 	if (!expand)
 		return (NULL);
@@ -46,29 +48,36 @@ int	is_expandable_env(char *line_ptr, t_env *envp, char *expanded, int *j)
 	return (env_value - *env_exists(line_ptr, *envp->env));
 }
 
-bool	non_expandable_env(char *line, int *index, t_env *envp)
+bool non_expandable_env(char *line, int *index, t_env *envp)
 {
-	int	offset;
+	int offset;
+	size_t len;
 
 	if (!line || !index || !envp || !envp->env)
 		return (false);
-	offset = 0;
+	
+	len = ft_strlen(line);
+	if (*index < 0 || (size_t)*index >= len - 1)
+		return (false);
+
 	if (!env_exists(&line[*index + 1], *envp->env))
 	{
-		if (ft_strchr(&line[*index + 1], ' '))
-			offset = ft_strchr(&line[*index + 1], ' ') - line;
-		else if (ft_strchr(&line[*index + 1], '|'))
-			offset = ft_strchr(&line[*index + 1], '|') - line;
-		else if (ft_strchr(&line[*index + 1], '<'))
-			offset = ft_strchr(&line[*index + 1], '<') - line;
-		else if (ft_strchr(&line[*index + 1], '>'))
-			offset = ft_strchr(&line[*index + 1], '>') - line;
-		else
+		// Start from the character after '$'
+		char *start = &line[*index + 1];
+		char *end = start;
+		
+		// Find the end of the current token
+		while (*end && !ft_strchr(" |<>", *end))
 		{
-			while (line[offset])
-				offset++;
+			if ((size_t)(end - line) >= len - 1)
+				break;
+			end++;
 		}
+		
+		offset = end - start;
 		*index += offset;
+		// Return true to indicate this is an undefined variable
+		// The caller will handle adding the space
 		return (true);
 	}
 	return (false);
@@ -83,6 +92,8 @@ static t_expnd	*expander(char *line, t_env *envp, t_quote *quote)
 	int		j;
 	int		i;
 
+	if (!line || !envp || !quote)
+		return (NULL);
 	ft_memset(inqoutes, 0, PATH_MAX);
 	i = 0;
 	j = 0;
@@ -115,15 +126,19 @@ static t_expnd	*expander(char *line, t_env *envp, t_quote *quote)
 				i += is_expandable_env(&line[i + 1], envp, &expanded[j], &j);
 				continue ;
 			}
-			else if (non_expandable_env(&line[i + 1], &i, envp))
-				expanded[j] = ' ';
 			else if (ft_strchr(&line[i + 1], '$'))
 			{
 				i += ft_strchr(&line[i + 1], '$') - line;
 				continue ;
 			}
 			else
-				break ;
+			{
+				// Skip the undefined variable name without adding anything to expanded
+				i++; // Skip the '$'
+				while (line[i] && !ft_strchr(" |<>\"'$", line[i]))
+					i++;
+				continue;
+			}
 		}
 		else
 			expanded[j] = line[i];
@@ -140,7 +155,9 @@ t_expnd	*dequote_expand(char *read_line, t_env *envp)
 	t_expnd	*expanded_line;
 	t_quote	quote;
 
-	if (!read_line || ft_strlen(read_line) > PATH_MAX)
+	if (!read_line || !envp)
+		return (NULL);
+	if (ft_strlen(read_line) > PATH_MAX)
 	{
 		ft_putstr_fd(": input is too long\n", 2);
 		return (NULL);
@@ -149,7 +166,12 @@ t_expnd	*dequote_expand(char *read_line, t_env *envp)
 	quote.dbl_quote = false;
 	quote.isquoted = false;
 	expanded_line = expander(read_line, envp, &quote);
-	if (!expanded_line)
+	if (!expanded_line || !expanded_line->expanded ||
+		expanded_line->expanded[0] == '\0')
+	{
+		if (expanded_line)
+			free_expand(expanded_line);
 		return (NULL);
+	}
 	return (expanded_line);
 }

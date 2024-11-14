@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:34:56 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/01 13:15:08 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/14 17:11:40 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ size_t	get_env_len(char *str)
 	return (i);
 }
 
-// Compares envvar from arg to envvar from envp
-// QUESTION: could we use getenv() here?
 char	**env_exists(char *arg, char **envp)
 {
 	int		i;
