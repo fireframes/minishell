@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:41:10 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/14 22:47:29 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/15 13:20:05 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,17 @@ typedef struct s_quote
 	bool	dbl_quote;
 	bool	isquoted;
 }	t_quote;
+
+typedef struct s_expand_data
+{
+	char	*line;
+	t_env	*envp;
+	t_quote	*quote;
+	char	*expanded;
+	int		*inquotes;
+	int		i;
+	int		j;
+}	t_expd_data;
 
 typedef struct s_cmd
 {
@@ -107,7 +118,6 @@ int		*init_inquotes(int inquotes[]);
 
 // expander.c
 t_expnd	*expander(char *line, t_env *envp, t_quote *quote);
-bool	non_expandable_env(char *line, int *index, t_env *envp);
 int		is_expandable_env(char *line_ptr, t_env *envp, char *expanded, int *j);
 
 // redirections.c
@@ -141,6 +151,13 @@ void	handle_files_redir(t_cmd *c_struc, int i);
 void	init_cmds_struc(t_cmd *cmd_struc, int index);
 t_cmd	*create_cmds_struc(char **cmds_splits, t_cmd *cmds_struc, t_env *envp);
 t_env	*init_env_struc_and_shlvl(char **envp);
+
+//util_expand.c
+void	process_line(t_expd_data *data);
+void	handle_dollar_sign(t_expd_data *data);
+void	handle_env_var(t_expd_data *data);
+void	handle_exit_code(t_expd_data *data);
+void	init_expand(t_expd_data *data, char *line, t_env *envp, t_quote *quote);
 
 // util_env.c
 char	**copy_env(char **envp);
