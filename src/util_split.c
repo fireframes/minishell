@@ -100,3 +100,16 @@ char	**split_v1(char const *s, char c)
 	}
 	return (arr_of_str);
 }
+
+size_t	count_word_length(t_split_data *d)
+{
+	size_t	len;
+
+	len = 0;
+	while (d->str[d->i] && (d->str[d->i] != d->delimiter || d->inquotes[d->i]))
+	{
+		len++;
+		d->i++;
+	}
+	return (len);
+}

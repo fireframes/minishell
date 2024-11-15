@@ -37,39 +37,45 @@ static size_t	splits_count(char const *str, char delim, int *inquotes)
 	return (splits);
 }
 
+static void	skip_delimiter(t_split_data *data)
+{
+	while (data->str[data->i] == data->delimiter && !data->inquotes[data->i])
+		data->i++;
+}
+
+static int	allocate_and_copy(t_split_data *data, size_t len)
+{
+	data->split_array[data->words] = (char *)malloc(sizeof(char) * (len + 1));
+	if (!data->split_array[data->words])
+		return (-1);
+	ft_strlcpy(data->split_array[data->words],
+		&data->str[data->i - len], len + 1);
+	data->words++;
+	return (0);
+}
+
 static int	pop_arr(char **split, const char *s, char c, int *inquotes)
 {
-	size_t	i;
-	size_t	j;
-	size_t	word;
-	size_t	sub_len;
+	size_t			sub_len;
+	t_split_data	data;
 
-	i = 0;
-	j = 0;
-	word = 0;
-	sub_len = 0;
-	while (s[i])
+	data.str = s;
+	data.delimiter = c;
+	data.inquotes = inquotes;
+	data.i = 0;
+	data.words = 0;
+	data.split_array = split;
+	while (data.str[data.i])
 	{
-		while (s[i] == c && !inquotes[i])
-			i++;
-		while (s[i] && (s[i] != c || inquotes[i]))
+		skip_delimiter(&data);
+		sub_len = count_word_length(&data);
+		if (sub_len > 0)
 		{
-			sub_len++;
-			i++;
-			word = 1;
-		}
-		if (word)
-		{
-			split[j] = (char *)malloc(sizeof(char) * (sub_len + 1));
-			if (!split[j])
+			if (allocate_and_copy(&data, sub_len) == -1)
 				return (-1);
-			ft_strlcpy(split[j], &s[i - sub_len], sub_len + 1);
-			j++;
-			word = 0;
-			sub_len = 0;
 		}
 	}
-	split[j] = NULL;
+	data.split_array[data.words] = NULL;
 	return (0);
 }
 

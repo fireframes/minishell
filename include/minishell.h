@@ -81,6 +81,16 @@ typedef struct s_cmd
 	t_env	*env;
 }	t_cmd;
 
+typedef struct s_split_data
+{
+	const char	*str;
+	char		delimiter;
+	int			*inquotes;
+	size_t		i;
+	size_t		words;
+	char		**split_array;
+}	t_split_data;
+
 // checker.c
 bool	check_builtin(t_cmd *command);
 
@@ -146,6 +156,7 @@ int		print_sorted_env(char **envp);
 // util_split.c
 char	**split_v1(char const *s, char c);
 char	**split_v2(char const *s, char c, int *inquotes);
+size_t	count_word_length(t_split_data *d);
 
 // util_shlvl.c
 void	incr_or_decr_env_shlvl(t_env *envp, bool increase);
