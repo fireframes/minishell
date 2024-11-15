@@ -6,28 +6,11 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 16:08:11 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/30 16:07:30 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/15 13:26:56 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// if (command == NULL)
-// 	return (-1);
-
-// ALL COMMAND INPUT ARGUMENTS GO IN AS 1 STRING
-// cmd: echo $SHELL ss SD//SAD
-// ret: /bin/zsh ss SD//SAD
-
-// parse the command arg string to expand $
-// the string for echo is the whole string
-// how do we know it's just -n for args[1]
-
-// check argument count?
-
-// use printf or write? currently output is not recognized when piping
-
-// EXPANDER should expand $ in any case!
 
 int	ft_echo(t_cmd *cmd)
 {

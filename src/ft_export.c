@@ -6,15 +6,12 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 18:39:56 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/08 15:55:05 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/15 13:27:14 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// 1. update path with totally new path
-// 2. concatenate to old path
-// 3. if empty == ""
 static int	update_envp(char *arg, char **env_ptr)
 {
 	char	*new_env;
@@ -33,7 +30,6 @@ static int	update_envp(char *arg, char **env_ptr)
 	return (0);
 }
 
-// QUESTION: the function is almost the same as copy_envp. maybe do it with one?
 int	add_env(char *arg, t_env *envp)
 {
 	char	**envp_old;
@@ -61,11 +57,6 @@ int	add_env(char *arg, t_env *envp)
 	return (0);
 }
 
-// PROBLEM:	why this line is in envp list?
-// 			"_=/home/mmaksimo/42/home_minishell/./minishell"
-// TODO: 1) check args validity
-// 		 2) update envp list
-// QUESTION: split to var_name, var_value?
 int	ft_export(t_cmd *cmd, t_env *envp)
 {
 	char	**env_ptr;

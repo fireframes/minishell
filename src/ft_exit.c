@@ -6,17 +6,12 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/14 19:48:47 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/15 13:27:05 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// QUESTIONS: what is the maximum exit code number possible? What happens if
-//  you have value higher? A negative value?
-// TODO: Implement behavior to overflow (to 0) when higher or equal to 256;
-// TODO: ...and reverse "overflowing" behavior when negative value;
-// TODO: Error message if more than one parameter, if non numerical value;
 static int	get_2nd_arg(t_cmd *cmd)
 {
 	int	exit_code_if_any;
@@ -66,16 +61,6 @@ static int	error_module(int exit_code, t_cmd *cmd)
 	return (exit_code);
 }
 
-// TODO: implement the value that can be passed as parameters (exit code)
-// TODO: finish behavior when not on the lower SLVL value
-// TODO: see for the max value of SLVL and what happens when overflow
-// TODO: how to deal with exit code when SLVL higher thant 2?
-// void    ft_exit(char **envp)
-// TODO: the last line in the last else was:
-//		incr_or_decr_env_shlvl(envp->env[envp->real_shlvl], false);
-// TODO IMPORTANT: when you there is an error code and you exit totally
-//	minishell the exit status displayed in bash should be the error code and
-//	not the success of the exit command!
 int	ft_exit(t_cmd *cmd, t_env *envp, char *read_line)
 {
 	int	exit_code;

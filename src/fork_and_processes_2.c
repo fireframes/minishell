@@ -6,14 +6,12 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/19 15:21:15 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/15 13:26:33 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// QUESTION: do we have to call this function when only one command (no pipes)?
-// QUESTION: if there is no pipes, shouldn't it be null (and not malloced?)?
 void	init_pipes(t_cmd *cmds_struc)
 {
 	int	(*pipes)[2];

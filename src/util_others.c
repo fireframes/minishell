@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/09/27 17:11:50 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/15 13:28:33 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,6 @@ int	ft_isdigit_v3(int c)
 		return (0);
 }
 
-// QUESTION: what was the use of the line commented out in this function just
-//	before the last return?
-//		result = str[index+2];
 int	atoi_v2(const char *str)
 {
 	int	index;

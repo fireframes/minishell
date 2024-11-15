@@ -6,24 +6,9 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:41:40 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/15 15:24:19 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/15 13:26:51 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// TODO:
-
-// if no args go to HOME
-// parse string to check if correct path ?
-// use access to check if path exists ?
-
-// if args[2] exists, what error? "cd: string not in pwd: ./src"
-// add logic for relative and absolute
-// change shell representation of current working dir
-// autocomplete ?
-// perror or printf ?
-
-// TODO: correct the behavior in which it does not go into an existing
-//	directory, saying: "cd: no such file or directory: <name>"
 
 #include "minishell.h"
 

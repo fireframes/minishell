@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/14 16:04:59 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/15 13:26:43 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ void	child_process(t_cmd *c_struc, int i, t_env *envp)
 	exec_cmd(c_struc[i], c_struc[i].read_fd, c_struc[i].write_fd, envp);
 }
 
-// TODO: execute builtin without forking it
 void	forking(t_cmd *cmds_struc, t_env *envp)
 {
 	int	i;

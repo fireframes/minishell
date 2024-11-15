@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 11:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/10/16 23:26:04 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/15 13:28:45 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ static int	update_shlvl_int(int shell_level_integer, bool increase)
 	return (shell_level_integer);
 }
 
-// TODO: handle the case in which SHLVL has been unset (in that case, opening
-//	another level of shell should resume to SHLVL=1)
 void	incr_or_decr_env_shlvl(t_env *envp, bool increase)
 {
 	int		i;

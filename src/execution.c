@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 19:03:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2024/11/14 21:15:21 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2024/11/15 13:26:27 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ void	execute_builtin(t_cmd *cmd, t_env *envp)
 	close(original_stdin);
 }
 
-// Redirections handling (not parsing, which is already done), should be done
-//	in the following function.
 void	execution_module(t_cmd *cmds_struc, t_env *envp)
 {
 	if (envp->redir_syntax_err == true)
