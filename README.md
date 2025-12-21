@@ -4,7 +4,7 @@ A minimal shell implementation based on Bash, developed as part of the 42 Core c
 
 ## Description
 
-This project implements a command-line interpreter that manages process lifecycles, file descriptors, and system signals. It utilizes a custom lexer and parser to transform user input into an executable command tree.
+This project implements a command-line interpreter that manages process lifecycles, file descriptors, and system signals. It parses user input into arrays of commands and arguments for execution.
 
 ## Features
 
